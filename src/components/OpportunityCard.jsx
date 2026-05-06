@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle2, Bookmark, BookmarkCheck, Sparkles, ArrowUpRight, Loader2 } from "lucide-react";
@@ -16,6 +16,10 @@ export default function OpportunityCard({ opp, onChange }) {
   const [eligibilityLoading, setEligibilityLoading] = useState(false);
   const [eligibilityResult, setEligibilityResult] = useState(null);
 
+  useEffect(() => {
+    setSaved(!!opp.saved);
+  }, [opp.opportunity_id, opp.saved]);
+
   const toggleSave = async (e) => {
     e.stopPropagation();
     setBusy(true);
@@ -31,6 +35,12 @@ export default function OpportunityCard({ opp, onChange }) {
       }
       onChange?.();
     } catch (err) {
+      if (err?.response?.status === 409) {
+        setSaved(true);
+        toast.success("Already in your saved list");
+        onChange?.();
+        return;
+      }
       toast.error(errMsg(err, "Could not update saved list."));
     } finally {
       setBusy(false);

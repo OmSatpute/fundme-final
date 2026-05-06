@@ -45,8 +45,8 @@ export default function BusinessOpportunities() {
       <AnimatePresence initial={false}>
         {showFilters && (
           <motion.aside initial={{ width: 0, opacity: 0 }} animate={{ width: 256, opacity: 1 }} exit={{ width: 0, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 320, damping: 32 }} className="shrink-0 overflow-hidden" data-testid="business-filters">
-            <div className="w-64 sticky top-24 space-y-7">
+            transition={{ type: "spring", stiffness: 320, damping: 32 }} className="shrink-0 overflow-hidden self-start" data-testid="business-filters">
+            <div className="w-64 sticky top-5 space-y-7">
               <div className="flex items-center justify-between">
                 <div className="text-xs uppercase tracking-[0.18em] text-slate-500 font-bold">Filters {activeCount > 0 && <span className="ml-1 text-emerald-700">({activeCount})</span>}</div>
                 <button onClick={() => setShowFilters(false)} className="p-1 hover:bg-slate-100 rounded-md text-slate-500" data-testid="hide-filters-biz" title="Hide filters"><X size={14} /></button>
@@ -79,7 +79,7 @@ export default function BusinessOpportunities() {
             <div className="relative flex-1 max-w-md">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <Input placeholder="Search opportunities" value={q} onChange={(e) => setQ(e.target.value)}
-                className="pl-9 h-11 rounded-md border-slate-300 bg-white" data-testid="business-search" />
+                className="pl-9 h-11 rounded-md border-slate-300 bg-white shadow-sm" data-testid="business-search" />
             </div>
           </div>
           <span className="text-sm text-slate-600">Showing <span className="font-semibold text-slate-900">{filtered.length}</span> matches</span>

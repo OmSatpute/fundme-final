@@ -79,6 +79,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// Fix for common frontend misconfiguration prepending /undefined
+app.use((req, res, next) => {
+  if (req.path.startsWith('/undefined/')) {
+    const newPath = req.url.replace('/undefined/', '/');
+    logger.info(`Correcting /undefined path: ${req.url} -> ${newPath}`);
+    req.url = newPath;
+  }
+  next();
+});
+
 // Catch-all solution for JSON parse errors (avoids crashes on malformed arrivals)
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
@@ -123,12 +133,31 @@ const memoryUpload = multer({ storage: multer.memoryStorage() });
 
 // ─── DB Helpers ───────────────────────────────────────────────────────────────
 function readDB() {
-  const raw = fs.readFileSync(DB_PATH, 'utf-8');
-  return JSON.parse(raw);
+  try {
+    const raw = fs.readFileSync(DB_PATH, 'utf-8');
+    return JSON.parse(raw);
+  } catch (err) {
+    logger.error('Error reading database file', err);
+    // Return minimum viable DB structure to avoid downstream crashes
+    return { 
+      users: [], 
+      founder_profiles: [], 
+      opportunities: [], 
+      saved: [], 
+      drafts: [], 
+      applications: [] 
+    };
+  }
 }
 
 function writeDB(data) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
+  try {
+    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (err) {
+    logger.error('Error writing to database file', err);
+    // Note: In a real production app, we might want to throw here or 
+    // retry, but for stability, we just log and continue.
+  }
 }
 
 function getHostMetadata(rawUrl) {

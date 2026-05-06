@@ -22,7 +22,6 @@ export default function Landing() {
             <a href="#product" className="hover:text-slate-900">Product</a>
             <a href="#how" className="hover:text-slate-900">How it works</a>
             <a href="#stats" className="hover:text-slate-900">Numbers</a>
-            <a href="#stories" className="hover:text-slate-900">Stories</a>
           </nav>
           <div className="flex items-center gap-2">
             <Link to="/login">
@@ -175,6 +174,75 @@ export default function Landing() {
           <BentoCard className="md:col-span-2 bg-slate-900 text-white" Icon={Zap}
             title="Built for India"
             body="DPIIT, Startup India, GeM, MSME — first-class citizens." />
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section id="how" className="relative bg-[#FAF9F6] py-24 md:py-32 scroll-mt-20 overflow-hidden">
+        {/* Subtle background element */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl max-h-[600px] bg-emerald-100/30 blur-[120px] rounded-full -z-10" />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <div className="text-xs uppercase tracking-[0.24em] text-emerald-700 font-bold mb-4">The process</div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
+              From startup profile to <span className="font-serif-display text-emerald-700">accepted.</span>
+            </h2>
+            <p className="mt-6 text-slate-600 text-lg">
+              We've engineered a funding workflow that eliminates the guesswork and the grind.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { 
+                title: "Build your profile", 
+                body: "Centralize your stage, sector, traction, and key documents once. This becomes your source of truth.", 
+                step: "01",
+                icon: <Building2 className="text-emerald-700" size={20} />
+              },
+              { 
+                title: "Get ranked matches", 
+                body: "Our engine filters 1,200+ programs to show only what fits your startup's exact fit and stage.", 
+                step: "02",
+                icon: <Target className="text-emerald-700" size={20} />
+              },
+              { 
+                title: "Create the draft", 
+                body: "FundMe starts the application using your profile data, then you refine it with our AI writing assistant.", 
+                step: "03", 
+                icon: <FileText className="text-emerald-700" size={20} />
+              },
+              { 
+                title: "Manage pipeline", 
+                body: "Track every status, deadline, and follow-up in one view. Never miss a high-potential opportunity again.", 
+                step: "04",
+                icon: <Zap className="text-emerald-700" size={20} />
+              },
+            ].map((step, i) => (
+              <motion.div 
+                key={i}
+                whileHover={{ y: -5 }}
+                className="relative group bg-white border border-slate-200 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex items-center justify-between mb-8">
+                  <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                    {step.icon}
+                  </div>
+                  <div className="font-display text-4xl font-bold text-emerald-600/20 group-hover:text-emerald-600/30 transition-colors">
+                    {step.step}
+                  </div>
+                </div>
+                <h3 className="font-display text-xl font-bold tracking-tight mb-3 text-slate-900">{step.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{step.body}</p>
+                
+                {/* Stylized connecting divider for desktop */}
+                {i < 3 && (
+                  <div className="hidden lg:block absolute top-[40%] -right-3.5 w-7 border-t-2 border-dashed border-emerald-100 z-10" />
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 

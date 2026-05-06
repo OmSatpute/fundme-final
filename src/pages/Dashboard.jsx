@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { ArrowRight, Calendar, FileText, Bookmark, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { apiListOpportunities, apiListDrafts, apiGetProfile } from "@/lib/api";
+import { apiListOpportunities, apiListDrafts, apiGetProfile, apiSaveOpp, apiUnsaveOpp } from "@/lib/api";
 
 const fade = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 } };
 
@@ -26,7 +26,8 @@ export default function Dashboard() {
   const [data, setData] = useState({ opps: [], drafts: [], profile: null });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const reload = () => {
+    setLoading(true);
     Promise.all([
       apiListOpportunities().catch(() => []),
       apiListDrafts().catch(() => []),
@@ -35,7 +36,30 @@ export default function Dashboard() {
       setData({ opps, drafts, profile });
       setLoading(false);
     });
+  };
+
+  useEffect(() => {
+    reload();
   }, []);
+
+  const handleToggleSave = async (opp) => {
+    try {
+      if (opp.saved) {
+        await apiUnsaveOpp(opp.opportunity_id);
+      } else {
+        await apiSaveOpp(opp.opportunity_id);
+      }
+      // Optimistic update
+      setData((prev) => ({
+        ...prev,
+        opps: prev.opps.map((o) =>
+          o.opportunity_id === opp.opportunity_id ? { ...o, saved: !o.saved } : o
+        ),
+      }));
+    } catch (err) {
+      console.error("Failed to toggle save:", err);
+    }
+  };
 
   if (loading) return <div className="flex items-center justify-center py-32"><Loader2 className="animate-spin text-emerald-700" /></div>;
 
@@ -149,7 +173,9 @@ export default function Dashboard() {
               <div className="col-span-2 text-slate-600">{row.amount}</div>
               <div className="col-span-2 text-rose-600 font-medium">{row.deadline}</div>
               <div className="col-span-1 text-right">
-                <Bookmark size={15} className="text-slate-400 inline" />
+                <button onClick={() => handleToggleSave(row)} className="p-1 hover:bg-slate-100 rounded-full transition-colors" title={row.saved ? "Unsave" : "Save"}>
+                  <Bookmark size={15} className={`inline transition-colors ${row.saved ? "fill-emerald-600 text-emerald-600" : "text-slate-400"}`} />
+                </button>
               </div>
             </div>
           ))}

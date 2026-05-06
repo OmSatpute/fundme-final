@@ -4,7 +4,8 @@
 import axios from "axios";
 import { getUserId, clearAuth } from "./auth";
 
-const BACKEND = process.env.REACT_APP_BACKEND_URL;
+const rawBackend = process.env.REACT_APP_BACKEND_URL || "";
+const BACKEND = rawBackend === "undefined" ? "" : rawBackend;
 export const API_BASE = `${BACKEND}/api`;
 
 const http = axios.create({ baseURL: API_BASE });
@@ -71,17 +72,41 @@ export const apiGenerateProfile = ({ file, startup_overview, website }) => {
 // ---------- opportunities ----------
 export const apiListOpportunities = async (type) => {
   const raw = await unwrap(http.get(`/opportunities${type ? `?type=${encodeURIComponent(type)}` : ""}`));
-  return filterOpenDeadlines(raw).map(normalizeOpp);
+  const normalized = filterOpenDeadlines(raw).map(normalizeOpp);
+  return applySavedState(normalized);
 };
 
 // "Business" view = types that aren't pure capital grants (Contest / Fellowship / Other).
 const BUSINESS_TYPES = new Set(["Contest", "Fellowship", "Other"]);
 export const apiListBusinessOpps = async () => {
   const raw = await unwrap(http.get("/opportunities"));
-  return filterOpenDeadlines(raw).filter((o) => BUSINESS_TYPES.has(o.type)).map(normalizeOpp);
+  const normalized = filterOpenDeadlines(raw).filter((o) => BUSINESS_TYPES.has(o.type)).map(normalizeOpp);
+  return applySavedState(normalized);
 };
 
 // ---------- saved ----------
+const savedIdsForCurrentUser = async () => {
+  const uid = getUserId();
+  if (!uid) return new Set();
+
+  const list = await unwrap(http.get(`/saved?user_id=${encodeURIComponent(uid)}`));
+  return new Set(
+    list
+      .map((row) => row.opportunity_id || row.opportunity?.opportunity_id)
+      .filter(Boolean)
+  );
+};
+
+const applySavedState = async (opportunities) => {
+  try {
+    const savedIds = await savedIdsForCurrentUser();
+    if (savedIds.size === 0) return opportunities;
+    return opportunities.map((o) => ({ ...o, saved: o.saved || savedIds.has(o.opportunity_id) }));
+  } catch {
+    return opportunities;
+  }
+};
+
 export const apiListSaved = async () => {
   const uid = getUserId();
   const list = await unwrap(http.get(`/saved?user_id=${encodeURIComponent(uid)}`));
