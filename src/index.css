@@ -10,9 +10,9 @@
   --ink-3: #64748B;
   --line: #E2E8F0;
   --line-2: #CBD5E1;
-  --primary: #0EA5E9;
-  --primary-hover: #0284C7;
-  --primary-light: #E0F2FE;
+  --primary: #059669;
+  --primary-hover: #047857;
+  --primary-light: #D1FAE5;
   --accent: #F59E0B;
   --serif: 'Instrument Serif', Georgia, serif;
 }
@@ -30,7 +30,7 @@ body { margin: 0; }
 .font-display { font-family: 'Outfit', sans-serif; }
 .font-serif-display { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; }
 
-::selection { background: #0EA5E9; color: #fff; }
+::selection { background: #059669; color: #fff; }
 
 /* Subtle grain overlay utility */
 .grain::before {
@@ -72,7 +72,7 @@ body { margin: 0; }
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 199 89% 48%;
+    --primary: 161 94% 30%;
     --primary-foreground: 0 0% 100%;
     --secondary: 40 17% 94%;
     --secondary-foreground: 222 47% 11%;
@@ -84,7 +84,7 @@ body { margin: 0; }
     --destructive-foreground: 0 0% 100%;
     --border: 214 25% 91%;
     --input: 214 25% 91%;
-    --ring: 199 89% 48%;
+    --ring: 161 94% 30%;
     --radius: 0.375rem;
   }
 }

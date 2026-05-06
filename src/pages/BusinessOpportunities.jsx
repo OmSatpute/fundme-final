@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, SlidersHorizontal, X, Loader2 } from "lucide-react";
 import OpportunityCard from "@/components/OpportunityCard";
@@ -48,7 +48,7 @@ export default function BusinessOpportunities() {
             transition={{ type: "spring", stiffness: 320, damping: 32 }} className="shrink-0 overflow-hidden self-start" data-testid="business-filters">
             <div className="w-64 sticky top-5 space-y-7">
               <div className="flex items-center justify-between">
-                <div className="text-xs uppercase tracking-[0.18em] text-slate-500 font-bold">Filters {activeCount > 0 && <span className="ml-1 text-sky-600">({activeCount})</span>}</div>
+                <div className="text-xs uppercase tracking-[0.18em] text-slate-500 font-bold">Filters {activeCount > 0 && <span className="ml-1 text-emerald-600">({activeCount})</span>}</div>
                 <button onClick={() => setShowFilters(false)} className="p-1 hover:bg-slate-100 rounded-md text-slate-500" data-testid="hide-filters-biz" title="Hide filters"><X size={14} /></button>
               </div>
               <FilterGroup label="Opportunity Type" items={TYPES} active={types} onToggle={(v) => setTypes(toggle(types, v))} testid="filter-biz-type" />
@@ -64,7 +64,7 @@ export default function BusinessOpportunities() {
 
       <section className="flex-1 min-w-0">
         <div className="mb-6">
-          <div className="text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold">Beyond grants</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold">Beyond grants</div>
           <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">Business Opportunities</h1>
           <p className="mt-3 text-slate-500">Pilots, tenders, and corporate co-builds that turn your traction into revenue.</p>
         </div>
@@ -73,7 +73,7 @@ export default function BusinessOpportunities() {
           <div className="flex items-center gap-2 flex-1 min-w-[260px]">
             {!showFilters && (
               <Button variant="outline" onClick={() => setShowFilters(true)} className="rounded-md border-slate-300 h-11" data-testid="show-filters-biz">
-                <SlidersHorizontal size={14} className="mr-2" /> Filters {activeCount > 0 && <span className="ml-1 text-sky-600 font-semibold">({activeCount})</span>}
+                <SlidersHorizontal size={14} className="mr-2" /> Filters {activeCount > 0 && <span className="ml-1 text-emerald-600 font-semibold">({activeCount})</span>}
               </Button>
             )}
             <div className="relative flex-1 max-w-md">
@@ -86,7 +86,7 @@ export default function BusinessOpportunities() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-16"><Loader2 className="animate-spin text-sky-600" /></div>
+          <div className="flex justify-center py-16"><Loader2 className="animate-spin text-emerald-600" /></div>
         ) : (
           <motion.div layout className={`grid grid-cols-1 ${showFilters ? "lg:grid-cols-2" : "lg:grid-cols-3"} gap-5`}>
             {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} onChange={reload} />)}
@@ -105,7 +105,7 @@ function FilterGroup({ label, items, active, onToggle, testid }) {
         {items.map((item) => (
           <label key={item} className="flex items-center gap-2.5 cursor-pointer group">
             <Checkbox checked={active.includes(item)} onCheckedChange={() => onToggle(item)}
-              className="data-[state=checked]:bg-sky-600 data-[state=checked]:border-sky-600"
+              className="data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600"
               data-testid={`${testid}-${item}`} />
             <span className="text-sm text-slate-700 group-hover:text-slate-900">{item}</span>
           </label>
@@ -114,3 +114,4 @@ function FilterGroup({ label, items, active, onToggle, testid }) {
     </div>
   );
 }
+

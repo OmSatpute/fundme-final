@@ -1,17 +1,70 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Sparkles, FileText, Target, Building2, Briefcase, CheckCircle2, Zap } from "lucide-react";
+import {
+  ArrowUpRight,
+  Sparkles,
+  FileText,
+  Target,
+  Building2,
+  Briefcase,
+  CheckCircle2,
+  Zap,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const MARQUEE = [
-  "DPIIT Recognised", "Sequoia Surge", "Y Combinator", "NSRCEL", "NIDHI Seed", "L'Oréal Green Sciences",
-  "Tata Trusts", "Mahindra Susten", "Reliance Foundation", "AWS Activate", "Microsoft for Startups",
+  "DPIIT Recognised",
+  "Sequoia Surge",
+  "Y Combinator",
+  "NSRCEL",
+  "NIDHI Seed",
+  "L'Oreal Green Sciences",
+  "Tata Trusts",
+  "Mahindra Susten",
+  "Reliance Foundation",
+  "AWS Activate",
+  "Microsoft for Startups",
+];
+
+const PRODUCT_CARDS = [
+  {
+    id: "job-01",
+    eyebrow: "Job 01",
+    title: "Discovery that thinks like an analyst",
+    body: "Scan schemes, grants, accelerators, tenders, and contests in one search tuned to your stage, sector, and deadlines.",
+    Icon: Target,
+    tone: "dark",
+    chips: ["Smart ranking", "Verified programs", "Business opportunities"],
+    stat: "66",
+    statLabel: "matches ready",
+  },
+  {
+    id: "job-02",
+    eyebrow: "Job 02",
+    title: "Draft faster with your own context",
+    body: "Saved opportunities and startup profile fields auto-fill high-quality first drafts so your team starts from momentum, not blank pages.",
+    Icon: Sparkles,
+    tone: "light",
+    chips: ["80% first draft", "Reusable profile", "AI writing support"],
+    stat: "80%",
+    statLabel: "first draft filled",
+  },
+  {
+    id: "job-03",
+    eyebrow: "Job 03",
+    title: "Track the pipeline until it closes",
+    body: "Move from applied to accepted with status tracking, reminders, notes, and next-step signals in one operating view.",
+    Icon: FileText,
+    tone: "deep",
+    chips: ["Status tracking", "Deadline nudges", "Team visibility"],
+    stat: "1",
+    statLabel: "workspace to run it all",
+  },
 ];
 
 export default function Landing() {
   return (
     <div className="min-h-screen bg-[#FAF9F6] text-slate-900 overflow-x-hidden" data-testid="landing-page">
-      {/* Nav */}
       <header className="sticky top-0 z-50 bg-[#FAF9F6]/80 backdrop-blur-xl border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
           <Link to="/" className="inline-flex items-baseline gap-0.5">
@@ -38,11 +91,10 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 grain" />
         <div className="absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-emerald-200/40 blur-3xl -z-10" />
-        <div className="absolute top-40 -left-40 h-[420px] w-[420px] rounded-full bg-amber-200/40 blur-3xl -z-10" />
+        <div className="absolute top-40 -left-40 h-[420px] w-[420px] rounded-full bg-emerald-200/40 blur-3xl -z-10" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-24 md:pt-32 md:pb-36">
           <div className="grid lg:grid-cols-12 gap-12">
@@ -54,7 +106,7 @@ export default function Landing() {
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-800 text-xs font-medium mb-8"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
-                Funding OS for India's next 10,000 founders
+                Funding OS for India&apos;s next 10,000 founders
               </motion.div>
 
               <motion.h1
@@ -63,7 +115,8 @@ export default function Landing() {
                 transition={{ duration: 0.7, delay: 0.05 }}
                 className="font-display text-5xl sm:text-6xl lg:text-[88px] font-bold tracking-[-0.04em] leading-[0.95]"
               >
-                Stop hunting grants. <br />
+                Stop hunting grants.
+                <br />
                 Start <span className="font-serif-display text-emerald-700">winning</span> them.
               </motion.h1>
 
@@ -73,8 +126,8 @@ export default function Landing() {
                 transition={{ duration: 0.6, delay: 0.15 }}
                 className="mt-8 text-lg md:text-xl text-slate-600 max-w-2xl leading-relaxed"
               >
-                FundMe scans 1,200+ government schemes, accelerators, and corporate programs every day —
-                then drafts your application in your voice. From discovery to "Accepted" in one workspace.
+                FundMe scans 1,200+ government schemes, accelerators, and corporate programs every day, then drafts your
+                application in your voice. From discovery to accepted in one workspace.
               </motion.p>
 
               <motion.div
@@ -84,12 +137,12 @@ export default function Landing() {
                 className="mt-10 flex flex-wrap gap-3"
               >
                 <Link to="/signup">
-                  <Button size="lg" className="h-12 px-7 rounded-md bg-slate-900 hover:bg-slate-800 text-white text-base" data-testid="hero-cta-primary">
+                  <Button size="lg" className="h-12 px-7 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white text-base" data-testid="hero-cta-primary">
                     Get matched in 60 seconds <ArrowUpRight size={16} className="ml-2" />
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button variant="outline" size="lg" className="h-12 px-7 rounded-md border-slate-300 text-base" data-testid="hero-cta-secondary">
+                  <Button variant="outline" size="lg" className="h-12 px-7 rounded-md border-emerald-300 text-emerald-900 hover:bg-emerald-50 text-base" data-testid="hero-cta-secondary">
                     I already have an account
                   </Button>
                 </Link>
@@ -112,7 +165,7 @@ export default function Landing() {
                 <div className="bg-white border border-slate-200 p-6 shadow-[0_30px_60px_-30px_rgba(15,23,42,0.25)]">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-700 font-bold">Live match</div>
                   <div className="mt-2 font-display text-2xl font-semibold leading-tight">Mookerji Innovation Fund</div>
-                  <div className="mt-1 text-xs text-slate-500">Govt. India · Deep-Tech</div>
+                  <div className="mt-1 text-xs text-slate-500">Govt. India | Deep-Tech</div>
                   <div className="mt-5 flex items-baseline gap-2">
                     <div className="font-display text-5xl font-bold tracking-tighter">95</div>
                     <div className="text-sm text-slate-500">% match</div>
@@ -121,11 +174,11 @@ export default function Landing() {
                     <motion.div initial={{ width: 0 }} animate={{ width: "95%" }} transition={{ duration: 1.4, delay: 0.6 }} className="h-full bg-emerald-700" />
                   </div>
                   <div className="mt-6 grid grid-cols-2 gap-2 text-xs">
-                    <div className="bg-slate-50 px-3 py-2"><div className="text-slate-500">Grant</div><div className="font-semibold">₹1.5 Cr</div></div>
-                    <div className="bg-slate-50 px-3 py-2"><div className="text-slate-500">Deadline</div><div className="font-semibold text-rose-600">May 5</div></div>
+                    <div className="bg-slate-50 px-3 py-2"><div className="text-slate-500">Grant</div><div className="font-semibold">Rs 1.5 Cr</div></div>
+                    <div className="bg-slate-50 px-3 py-2"><div className="text-slate-500">Deadline</div><div className="font-semibold text-emerald-700">May 5</div></div>
                   </div>
                 </div>
-                <div className="absolute -bottom-6 -left-8 bg-amber-100 border border-amber-200 px-4 py-3 shadow-md text-xs font-medium text-amber-900 max-w-[180px]">
+                <div className="absolute -bottom-6 -left-8 bg-emerald-100 border border-emerald-200 px-4 py-3 shadow-md text-xs font-medium text-emerald-900 max-w-[180px]">
                   <Sparkles size={12} className="inline mr-1" /> AI drafted Section 3 in 8s
                 </div>
               </motion.div>
@@ -133,85 +186,61 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Marquee */}
         <div className="border-y border-slate-200 bg-white py-5 overflow-hidden">
           <div className="flex marquee-track whitespace-nowrap">
             {[...MARQUEE, ...MARQUEE].map((item, i) => (
               <div key={i} className="px-8 text-sm text-slate-500 font-medium tracking-wide flex items-center gap-8">
-                {item} <span className="text-slate-300">✦</span>
+                {item} <span className="text-emerald-300">•</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Bento features */}
       <section id="product" className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32">
-        <div className="max-w-3xl mb-16">
-          <div className="text-xs uppercase tracking-[0.24em] text-emerald-700 font-bold mb-4">The platform</div>
+        <div className="max-w-3xl mb-14">
+          <div className="text-xs uppercase tracking-[0.24em] text-emerald-700 font-bold mb-4">The product</div>
           <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-            One workspace, <span className="font-serif-display text-emerald-700 italic">infinite</span> leverage.
+            Three jobs, one workspace, <span className="font-serif-display text-emerald-700 italic">zero spreadsheets.</span>
           </h2>
           <p className="mt-6 text-slate-600 text-lg leading-relaxed">
-            We've replaced the chaos of tabs and spreadsheets with a unified system designed to get you funded.
+            Discovery, drafting, and application tracking run as one workflow so every opportunity moves faster with better context.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 lg:gap-6">
-          {/* Discovery - Primary Feature */}
-          <BentoCard 
-            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-zinc-900 to-black text-white border-0 shadow-2xl" 
-            Icon={Target}
-            title="Discovery that thinks like an analyst"
-            body="55+ relevant matches today. Filter by stage, sector, and funding type. We track 1,200+ programs so you don't have to."
-            big 
-          />
-          
-          {/* AI Drafting */}
-          <BentoCard 
-            className="md:col-span-5 bg-white shadow-sm hover:shadow-xl hover:shadow-zinc-200/50 transition-all border-zinc-200" 
-            Icon={Sparkles}
-            title="AI-powered drafting"
-            body="Pull instantly from your startup profile to fill 80% of any grant or accelerator form in your own voice."
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-5 bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950 text-white rounded-2xl border border-emerald-800/80 p-8 lg:p-10 shadow-[0_35px_70px_-30px_rgba(6,78,59,0.7)]">
+            <div className="text-xs uppercase tracking-[0.24em] text-emerald-300 font-semibold">Workflow engine</div>
+            <h3 className="mt-4 font-display text-4xl lg:text-5xl font-bold leading-tight">One command center for funding teams.</h3>
+            <p className="mt-5 text-emerald-100/90 leading-relaxed">
+              FundMe unifies search, drafting, and pipeline tracking so founders never lose context across tools.
+            </p>
+            <div className="mt-8 grid grid-cols-2 gap-3">
+              <MetricTile number="1,200+" label="Programs watched" />
+              <MetricTile number="3" label="Jobs unified" />
+              <MetricTile number="66" label="Daily matches" />
+              <MetricTile number="1" label="Source of truth" />
+            </div>
+          </div>
 
-          {/* Smart Profile */}
-          <BentoCard 
-            className="md:col-span-5 bg-zinc-50 border-zinc-200" 
-            Icon={Building2}
-            title="Your Source of Truth"
-            body="Keep your stage, traction, and problem statements updated in one place. It powers every other module in the OS."
-          />
+          <div className="lg:col-span-7 space-y-4">
+            {PRODUCT_CARDS.map((card) => (
+              <WorkflowCard key={card.id} {...card} />
+            ))}
+          </div>
+        </div>
 
-          {/* Pipeline */}
-          <BentoCard 
-            className="md:col-span-4 bg-white" 
-            Icon={Zap}
-            title="Pipeline Management"
-            body="Track every status from 'Draft' to 'Accepted' in a unified kanban-style view with smart deadline alerts."
-          />
-
-          {/* Business Opps */}
-          <BentoCard 
-            className="md:col-span-4 bg-black text-white border-0" 
-            Icon={Briefcase}
-            title="Beyond Grants"
-            body="Access pilots, corporate tenders, and co-build opportunities that turn your traction into revenue."
-          />
-
-          {/* India First */}
-          <BentoCard 
-            className="md:col-span-4 bg-white" 
-            Icon={Target}
-            title="Built for India"
-            body="Native support for DPIIT, Startup India, GeM, and MSME schemes. We speak the language of the Indian ecosystem."
-          />
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <ConnectCard Icon={Building2} title="Profile" body="Reusable founder context" />
+          <ConnectCard Icon={Target} title="Explorer" body="Ranked opportunity feed" />
+          <ConnectCard Icon={Briefcase} title="Business" body="Pilots and tenders" />
+          <ConnectCard Icon={Sparkles} title="Drafts" body="AI-assisted writing" />
+          <ConnectCard Icon={FileText} title="Applications" body="Pipeline visibility" />
+          <ConnectCard Icon={Zap} title="Insights" body="What is moving faster" />
         </div>
       </section>
 
-      {/* How it works */}
       <section id="how" className="relative bg-[#FAF9F6] py-24 md:py-32 scroll-mt-20 overflow-hidden">
-        {/* Subtle background element */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl max-h-[600px] bg-emerald-50/20 blur-[120px] rounded-full -z-10" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-10">
@@ -221,70 +250,63 @@ export default function Landing() {
               From startup profile to <span className="font-serif-display text-emerald-700">accepted.</span>
             </h2>
             <p className="mt-6 text-zinc-600 text-lg">
-              We've engineered a funding workflow that eliminates the guesswork and the grind.
+              We engineered a funding workflow that removes guesswork and cuts the admin overhead.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { 
-                title: "Build your profile", 
-                body: "Centralize your stage, sector, traction, and key documents once. This becomes your source of truth.", 
+              {
+                title: "Build your profile",
+                body: "Centralize your stage, sector, traction, and key documents once. This becomes your source of truth.",
                 step: "01",
-                icon: <Building2 className="text-emerald-700" size={20} />
+                icon: <Building2 className="text-emerald-700" size={20} />,
               },
-              { 
-                title: "Get ranked matches", 
-                body: "Our engine filters 1,200+ programs to show only what fits your startup's exact fit and stage.", 
+              {
+                title: "Get ranked matches",
+                body: "Our engine filters 1,200+ programs to show only what fits your startup stage and sector.",
                 step: "02",
-                icon: <Target className="text-emerald-700" size={20} />
+                icon: <Target className="text-emerald-700" size={20} />,
               },
-              { 
-                title: "Create the draft", 
-                body: "FundMe starts the application using your profile data, then you refine it with our AI writing assistant.", 
-                step: "03", 
-                icon: <FileText className="text-emerald-700" size={20} />
+              {
+                title: "Create the draft",
+                body: "FundMe starts the application using your profile data, then you refine it with AI writing support.",
+                step: "03",
+                icon: <FileText className="text-emerald-700" size={20} />,
               },
-              { 
-                title: "Manage pipeline", 
-                body: "Track every status, deadline, and follow-up in one view. Never miss a high-potential opportunity again.", 
+              {
+                title: "Manage pipeline",
+                body: "Track every status, deadline, and follow-up in one view so no high-fit opportunity slips away.",
                 step: "04",
-                icon: <Zap className="text-emerald-700" size={20} />
+                icon: <Zap className="text-emerald-700" size={20} />,
               },
             ].map((step, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 whileHover={{ y: -5 }}
                 className="relative group bg-white border border-zinc-200 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-center justify-between mb-8">
-                  <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                    {step.icon}
-                  </div>
+                  <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center">{step.icon}</div>
                   <div className="font-display text-4xl font-bold text-emerald-600/20 group-hover:text-emerald-600/30 transition-colors">
                     {step.step}
                   </div>
                 </div>
                 <h3 className="font-display text-xl font-bold tracking-tight mb-3 text-black">{step.title}</h3>
                 <p className="text-zinc-600 text-sm leading-relaxed">{step.body}</p>
-                
-                {/* Stylized connecting divider for desktop */}
-                {i < 3 && (
-                  <div className="hidden lg:block absolute top-[40%] -right-3.5 w-7 border-t-2 border-dashed border-emerald-100 z-10" />
-                )}
+                {i < 3 && <div className="hidden lg:block absolute top-[40%] -right-3.5 w-7 border-t-2 border-dashed border-emerald-100 z-10" />}
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Stats */}
       <section id="stats" className="bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-20 grid grid-cols-2 md:grid-cols-4 gap-10">
           {[
             ["1,247", "Active programs"],
-            ["₹420Cr", "Funding mapped"],
-            ["3.4×", "Faster drafting"],
+            ["Rs 420Cr", "Funding mapped"],
+            ["3.4x", "Faster drafting"],
             ["92%", "Match accuracy"],
           ].map(([n, l]) => (
             <div key={l}>
@@ -295,7 +317,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="max-w-7xl mx-auto px-6 md:px-10 py-28 md:py-36 text-center">
         <h3 className="font-display text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95] max-w-4xl mx-auto">
           Your next grant is <span className="font-serif-display text-emerald-700">already</span> on FundMe.
@@ -304,8 +325,8 @@ export default function Landing() {
           Plug your startup profile in, get a ranked list, and draft your first application in under 8 minutes.
         </p>
         <Link to="/signup">
-          <Button size="lg" className="mt-10 h-14 px-9 rounded-md bg-slate-900 hover:bg-slate-800 text-white text-base" data-testid="cta-final">
-            Get started — it's free <ArrowUpRight size={16} className="ml-2" />
+          <Button size="lg" className="mt-10 h-14 px-9 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white text-base" data-testid="cta-final">
+            Get started - it&apos;s free <ArrowUpRight size={16} className="ml-2" />
           </Button>
         </Link>
       </section>
@@ -317,28 +338,66 @@ export default function Landing() {
   );
 }
 
-function BentoCard({ className = "", Icon, title, body, big }) {
-  const isDark = className.includes("bg-zinc-900") || className.includes("bg-black") || className.includes("bg-slate-900");
+function MetricTile({ number, label }) {
+  return (
+    <div className="border border-emerald-700/70 bg-emerald-900/45 rounded-xl px-3 py-3">
+      <div className="font-display text-2xl font-bold">{number}</div>
+      <div className="text-[11px] uppercase tracking-wider text-emerald-200/85">{label}</div>
+    </div>
+  );
+}
+
+function WorkflowCard({ eyebrow, title, body, Icon, chips, stat, statLabel, tone }) {
+  const toneMap = {
+    dark: "bg-emerald-700 text-white border-emerald-600",
+    light: "bg-white text-slate-900 border-emerald-100",
+    deep: "bg-emerald-950 text-white border-emerald-900",
+  };
+  const isDark = tone !== "light";
   return (
     <motion.div
-      whileHover={{ y: -6, shadow: "0 20px 40px -15px rgba(0,0,0,0.1)" }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className={`relative p-8 rounded-2xl border border-zinc-200 overflow-hidden ${className}`}
+      whileHover={{ y: -4 }}
+      transition={{ type: "spring", stiffness: 320, damping: 28 }}
+      className={`rounded-2xl border p-6 md:p-7 ${toneMap[tone]}`}
     >
-      <div className={`h-12 w-12 rounded-xl flex items-center justify-center mb-10 ${isDark ? "bg-white/10" : "bg-emerald-50"}`}>
-        <Icon size={big ? 28 : 22} strokeWidth={2} className="text-emerald-500" />
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1">
+          <div className={`inline-flex h-11 w-11 rounded-xl items-center justify-center ${isDark ? "bg-white/10" : "bg-emerald-50"}`}>
+            <Icon size={20} className={isDark ? "text-emerald-200" : "text-emerald-700"} />
+          </div>
+          <div className={`mt-4 text-[11px] uppercase tracking-[0.2em] font-semibold ${isDark ? "text-emerald-200/85" : "text-emerald-700"}`}>
+            {eyebrow}
+          </div>
+          <h3 className="mt-2 font-display text-3xl md:text-[40px] leading-[1.05] font-bold">{title}</h3>
+          <p className={`mt-4 leading-relaxed ${isDark ? "text-emerald-50/90" : "text-slate-600"}`}>{body}</p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {chips.map((chip) => (
+              <span
+                key={chip}
+                className={`text-xs px-2.5 py-1 rounded-full border ${isDark ? "bg-white/10 border-white/15 text-emerald-100" : "bg-emerald-50 border-emerald-200 text-emerald-800"}`}
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className={`min-w-16 text-right border-l pl-4 ${isDark ? "border-white/20" : "border-emerald-200"}`}>
+          <div className={`font-display text-5xl font-bold tracking-tighter ${isDark ? "text-white" : "text-emerald-700"}`}>{stat}</div>
+          <div className={`text-sm leading-tight mt-1 ${isDark ? "text-emerald-100/80" : "text-slate-500"}`}>{statLabel}</div>
+        </div>
       </div>
-      <div className={`font-display ${big ? "text-3xl md:text-4xl" : "text-xl"} font-bold tracking-tight leading-tight`}>
-        {title}
-      </div>
-      <p className={`mt-4 text-sm leading-relaxed ${isDark ? "text-white opacity-100 font-medium" : "text-zinc-600"}`}>
-        55+ high-relevance matches today. We track and verify across 1,200+ programs so you don't have to.
-      </p>
-      
-      {/* Subtle light effect for dark cards */}
-      {isDark && (
-        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-[60px] rounded-full -mr-16 -mt-16" />
-      )}
     </motion.div>
+  );
+}
+
+function ConnectCard({ Icon, title, body }) {
+  return (
+    <div className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4">
+      <div className="h-9 w-9 rounded-lg bg-white border border-emerald-200 flex items-center justify-center">
+        <Icon size={16} className="text-emerald-700" />
+      </div>
+      <div className="mt-3 font-semibold text-slate-900">{title}</div>
+      <div className="mt-1 text-sm text-slate-600 leading-relaxed">{body}</div>
+    </div>
   );
 }

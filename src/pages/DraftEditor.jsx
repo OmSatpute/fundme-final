@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, FileText, Loader2, Save, Sparkles } from "lucide-react";
@@ -92,7 +92,7 @@ export default function DraftEditor() {
   };
 
   if (loading) {
-    return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-sky-600" /></div>;
+    return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-emerald-600" /></div>;
   }
 
   if (!draft) {
@@ -100,7 +100,7 @@ export default function DraftEditor() {
       <div className="max-w-4xl border border-dashed border-slate-300 bg-white p-12 text-center" data-testid="draft-editor-error">
         <FileText size={28} className="mx-auto text-slate-400" />
         <div className="mt-4 font-semibold">Draft not found</div>
-        <Link to="/drafts" className="mt-4 inline-flex text-sm font-medium text-sky-600">Back to drafts</Link>
+        <Link to="/drafts" className="mt-4 inline-flex text-sm font-medium text-emerald-600">Back to drafts</Link>
       </div>
     );
   }
@@ -112,7 +112,7 @@ export default function DraftEditor() {
           <Link to="/drafts" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-900">
             <ArrowLeft size={14} className="mr-2" /> Back to drafts
           </Link>
-          <div className="mt-5 text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold">{isReview ? "Reviewing draft" : "Application draft"}</div>
+          <div className="mt-5 text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold">{isReview ? "Reviewing draft" : "Application draft"}</div>
           <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">{draft.opportunity_title}</h1>
           <p className="mt-3 text-slate-500">{isReview ? "Previewing your application answers. Go back to edit." : (draft.form_schema?.subtitle || "Review and refine your application answers.")}</p>
         </div>
@@ -121,7 +121,7 @@ export default function DraftEditor() {
             <Button variant="outline" className="h-11 rounded-md border-slate-300" onClick={generateAnswers} disabled={generating || saving || fields.length === 0}>
               {generating ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Sparkles size={14} className="mr-2" />} Generate
             </Button>
-            <Button className="h-11 rounded-md bg-slate-900 hover:bg-slate-800 text-white" onClick={() => saveDraft()} disabled={saving}>
+            <Button className="h-11 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white" onClick={() => saveDraft()} disabled={saving}>
               {saving ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Save size={14} className="mr-2" />} Save
             </Button>
           </div>
@@ -191,3 +191,4 @@ function DraftField({ field, value, onChange, readOnly }) {
     </div>
   );
 }
+

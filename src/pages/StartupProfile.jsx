@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Building2, MapPin, Users, Globe, Sparkles, Save, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -51,31 +51,31 @@ export default function StartupProfile() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-sky-600" /></div>;
+  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-emerald-600" /></div>;
 
   return (
     <div className="grid grid-cols-12 gap-10" data-testid="profile-page">
       <aside className="col-span-12 lg:col-span-3 lg:sticky lg:top-24 lg:self-start">
-        <div className="text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold mb-4">Startup profile</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold mb-4">Startup profile</div>
         <div className="space-y-1">
           {SECTIONS.map(({ id, label, Icon }) => (
             <button key={id} onClick={() => setActive(id)} data-testid={`profile-section-${id}`}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all ${active === id ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"}`}>
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all ${active === id ? "bg-emerald-700 text-white" : "text-slate-700 hover:bg-emerald-50/70"}`}>
               <Icon size={15} strokeWidth={1.75} />
               {label}
             </button>
           ))}
         </div>
-        <div className="mt-8 p-5 bg-sky-50 border border-sky-200">
-          <div className="text-xs text-sky-900 font-semibold">Why this matters</div>
-          <p className="mt-2 text-xs text-sky-900/80">Every field you fill increases match accuracy. AI uses your profile to draft applications.</p>
+        <div className="mt-8 p-5 bg-emerald-50 border border-emerald-200">
+          <div className="text-xs text-emerald-900 font-semibold">Why this matters</div>
+          <p className="mt-2 text-xs text-emerald-900/80">Every field you fill increases match accuracy. AI uses your profile to draft applications.</p>
         </div>
       </aside>
 
       <section className="col-span-12 lg:col-span-9">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div className="flex items-center gap-5">
-            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-sky-600 to-sky-800 text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
+            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
               {user?.avatar ? (
                 <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
@@ -90,7 +90,7 @@ export default function StartupProfile() {
               </div>
             </div>
           </div>
-          <Button className="rounded-md bg-slate-900 hover:bg-slate-800 text-white h-11 px-5 btn-press" onClick={save} disabled={busy} data-testid="profile-save">
+          <Button className="rounded-md bg-emerald-700 hover:bg-emerald-800 text-white h-11 px-5 btn-press" onClick={save} disabled={busy} data-testid="profile-save">
             {busy ? <><Loader2 size={14} className="mr-2 animate-spin" /> Saving</> : <><Save size={14} className="mr-2" /> Save changes</>}
           </Button>
         </div>
@@ -160,3 +160,4 @@ function Field({ label, children }) {
     </div>
   );
 }
+

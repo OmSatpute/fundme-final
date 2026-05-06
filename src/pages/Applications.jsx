@@ -11,20 +11,20 @@ const APP_STAGES = ["Applied", "Under Review", "Shortlisted", "Interview / Pitch
 
 const STAGE_COLORS = {
   Applied: { ring: "border-slate-300", chip: "bg-slate-100 text-slate-800", dot: "bg-slate-400" },
-  "Under Review": { ring: "border-amber-300", chip: "bg-amber-100 text-amber-800", dot: "bg-amber-500" },
-  Shortlisted: { ring: "border-blue-300", chip: "bg-blue-100 text-blue-800", dot: "bg-blue-500" },
-  "Interview / Pitch Round": { ring: "border-fuchsia-300", chip: "bg-fuchsia-100 text-fuchsia-800", dot: "bg-fuchsia-500" },
-  Accepted: { ring: "border-sky-300", chip: "bg-sky-100 text-sky-800", dot: "bg-sky-600" },
-  Rejected: { ring: "border-rose-300", chip: "bg-rose-100 text-rose-800", dot: "bg-rose-500" },
-  Waitlisted: { ring: "border-indigo-300", chip: "bg-indigo-100 text-indigo-800", dot: "bg-indigo-500" },
+  "Under Review": { ring: "border-emerald-300", chip: "bg-emerald-100 text-emerald-800", dot: "bg-emerald-400" },
+  Shortlisted: { ring: "border-emerald-300", chip: "bg-emerald-100 text-emerald-800", dot: "bg-emerald-500" },
+  "Interview / Pitch Round": { ring: "border-emerald-400", chip: "bg-emerald-50 text-emerald-800", dot: "bg-emerald-500" },
+  Accepted: { ring: "border-emerald-300", chip: "bg-emerald-100 text-emerald-800", dot: "bg-emerald-600" },
+  Rejected: { ring: "border-slate-300", chip: "bg-slate-100 text-slate-700", dot: "bg-slate-400" },
+  Waitlisted: { ring: "border-emerald-200", chip: "bg-emerald-50 text-emerald-700", dot: "bg-emerald-300" },
   Withdrawn: { ring: "border-slate-300", chip: "bg-slate-100 text-slate-700", dot: "bg-slate-400" },
 };
 
 const ICON = { positive: TrendingUp, warning: AlertTriangle, info: Info };
 const TONE = {
-  positive: "bg-sky-50 border-sky-200 text-sky-900",
-  warning: "bg-amber-50 border-amber-200 text-amber-900",
-  info: "bg-blue-50 border-blue-200 text-blue-900",
+  positive: "bg-emerald-50 border-emerald-200 text-emerald-900",
+  warning: "bg-emerald-50 border-emerald-200 text-emerald-900",
+  info: "bg-emerald-50 border-emerald-200 text-emerald-900",
 };
 
 const latestTimelineNote = (app) => {
@@ -40,8 +40,8 @@ function buildInsights(apps) {
   const rejected = apps.filter((a) => a.status === "Rejected").length;
   const review = apps.filter((a) => a.status === "Under Review");
   if (accepted > 0) out.push({ id: "i1", tone: "positive", text: `Acceptance rate ${Math.round((accepted / total) * 100)}% (${accepted}/${total}). Patterns from your wins are powering your next match score.` });
-  if (rejected > 0) out.push({ id: "i2", tone: "warning", text: `${rejected} rejection(s) detected. Review the social-impact and traction sections — these are often the differentiators.` });
-  if (review.length >= 2) out.push({ id: "i3", tone: "info", text: `${review.length} applications stuck in Under Review. A polite nudge email shifts status for ~22% of FundMe users.` });
+  if (rejected > 0) out.push({ id: "i2", tone: "warning", text: `${rejected} rejection(s) detected. Review the social-impact and traction sections - these are often the differentiators.` });
+  if (review.length >= 2) out.push({ id: "i3", tone: "info", text: `${review.length} applications stuck in Under Review. A polite nudge email shifts status for around 22% of FundMe users.` });
   if (out.length === 0) out.push({ id: "i0", tone: "info", text: "Track every application here and AI will start surfacing patterns once you have 3+ applications." });
   return out;
 }
@@ -75,7 +75,7 @@ export default function Applications() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-sky-600" /></div>;
+  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-emerald-600" /></div>;
 
   const counts = APP_STAGES.reduce((acc, s) => { acc[s] = apps.filter((a) => a.status === s).length; return acc; }, {});
   const insights = buildInsights(apps);
@@ -83,16 +83,16 @@ export default function Applications() {
   return (
     <div className="space-y-10" data-testid="applications-page">
       <header>
-        <div className="text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold">Pipeline</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold">Pipeline</div>
         <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">Applications Tracker</h1>
-        <p className="mt-3 text-slate-500">Every application, every stage. AI watches the patterns so you don't have to.</p>
+        <p className="mt-3 text-slate-500">Every application, every stage. AI watches the patterns so you do not have to.</p>
       </header>
 
       <section className="grid grid-cols-2 md:grid-cols-5 gap-3" data-testid="stage-stats">
         <Stat big label="Total Applied" value={apps.length} />
         <Stat label="Under Review" value={counts["Under Review"] || 0} accent="amber" />
-        <Stat label="Shortlisted" value={(counts.Shortlisted || 0) + (counts["Interview / Pitch Round"] || 0) + (counts.Waitlisted || 0)} accent="blue" />
-        <Stat label="Accepted" value={counts.Accepted || 0} accent="sky" />
+        <Stat label="Shortlisted" value={(counts.Shortlisted || 0) + (counts["Interview / Pitch Round"] || 0) + (counts.Waitlisted || 0)} accent="emerald" />
+        <Stat label="Accepted" value={counts.Accepted || 0} accent="emerald" />
         <Stat label="Rejected" value={counts.Rejected || 0} accent="rose" />
       </section>
 
@@ -113,11 +113,16 @@ export default function Applications() {
                   </div>
                   <div className="p-3 space-y-3 flex-1">
                     {items.map((a, i) => (
-                      <motion.div key={a.application_id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: i * 0.05 }} whileHover={{ y: -2 }}
+                      <motion.div
+                        key={a.application_id}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: i * 0.05 }}
+                        whileHover={{ y: -2 }}
                         onClick={() => setSelected(a)}
                         className={`p-3 bg-white border ${c.ring} hover:shadow-md transition-all cursor-pointer`}
-                        data-testid={`app-card-${a.application_id}`}>
+                        data-testid={`app-card-${a.application_id}`}
+                      >
                         <div className="text-[13px] font-semibold text-slate-900 leading-tight line-clamp-2">{a.opportunity_title}</div>
                         <div className="mt-1 text-[11px] text-slate-500 line-clamp-1">{a.org || "Provider unavailable"}</div>
                         <div className="mt-3 flex items-center justify-between">
@@ -125,8 +130,8 @@ export default function Applications() {
                           <div className="text-[10px] text-slate-500">{(a.applied_on || "").split("T")[0]}</div>
                         </div>
                         {a.deadline ? <div className="mt-2 text-[10px] text-slate-500">Deadline: {a.deadline}</div> : null}
-                        <div className="mt-3 border-l-2 border-sky-600 bg-slate-50 px-2.5 py-2">
-                          <div className="text-[10px] uppercase tracking-wider font-bold text-sky-600">Next step</div>
+                        <div className="mt-3 border-l-2 border-emerald-600 bg-slate-50 px-2.5 py-2">
+                          <div className="text-[10px] uppercase tracking-wider font-bold text-emerald-600">Next step</div>
                           <div className="mt-1 text-[11px] leading-snug text-slate-700 line-clamp-3">{latestTimelineNote(a)}</div>
                         </div>
                         {a.match ? <div className="mt-2"><span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${c.chip}`}>{a.match}% match</span></div> : null}
@@ -142,14 +147,19 @@ export default function Applications() {
 
         <aside className="xl:col-span-1 space-y-3 xl:sticky xl:top-24 xl:self-start" data-testid="ai-insights">
           <div className="flex items-center gap-2">
-            <Sparkles size={16} className="text-sky-600" />
+            <Sparkles size={16} className="text-emerald-600" />
             <h3 className="font-display text-lg font-semibold">AI Insights</h3>
           </div>
           {insights.map((ins) => {
             const Ic = ICON[ins.tone];
             return (
-              <motion.div key={ins.id} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }} className={`border p-4 ${TONE[ins.tone]}`}>
+              <motion.div
+                key={ins.id}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4 }}
+                className={`border p-4 ${TONE[ins.tone]}`}
+              >
                 <Ic size={16} />
                 <p className="mt-2 text-[13px] leading-relaxed">{ins.text}</p>
               </motion.div>
@@ -171,13 +181,13 @@ export default function Applications() {
 }
 
 function Stat({ label, value, big, accent }) {
-  const map = { amber: "text-amber-700", blue: "text-blue-700", sky: "text-sky-600", rose: "text-rose-600" };
+  const map = { amber: "text-emerald-700", emerald: "text-emerald-700", rose: "text-slate-700" };
   return (
-    <div className={`p-5 border border-slate-200 ${big ? "bg-slate-900 text-white" : "bg-white"}`}>
+    <div className={`p-5 border border-slate-200 ${big ? "bg-emerald-700 text-white" : "bg-white"}`}>
       <div className={`font-display text-4xl font-bold tracking-tighter ${big ? "text-white" : map[accent] || "text-slate-900"}`}>
         <CountUp end={value} duration={1.2} />
       </div>
-      <div className={`mt-2 text-[11px] uppercase tracking-wider font-semibold ${big ? "text-sky-300" : "text-slate-500"}`}>{label}</div>
+      <div className={`mt-2 text-[11px] uppercase tracking-wider font-semibold ${big ? "text-emerald-200" : "text-slate-500"}`}>{label}</div>
     </div>
   );
 }
@@ -198,7 +208,7 @@ function ApplicationPanel({ app, saving, onClose, onUpdate }) {
       <div className="absolute right-0 top-0 h-full w-full max-w-xl bg-white shadow-2xl overflow-y-auto">
         <div className="sticky top-0 z-10 border-b border-slate-200 bg-white px-6 py-4 flex items-center justify-between">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-sky-600 font-bold">Application</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-600 font-bold">Application</div>
             <h2 className="mt-1 font-display text-2xl font-bold leading-tight">{app.opportunity_title}</h2>
           </div>
           <button onClick={onClose} className="h-9 w-9 inline-flex items-center justify-center rounded-md hover:bg-slate-100" aria-label="Close application details">
@@ -232,7 +242,7 @@ function ApplicationPanel({ app, saving, onClose, onUpdate }) {
                     timeline: [...(app.timeline || []), { stage: newStatus, note, date: new Date().toISOString().slice(0, 10) }],
                   });
                 }}
-                className="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium outline-none focus:border-sky-500"
+                className="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium outline-none focus:border-emerald-500"
                 data-testid="application-status-select"
               >
                 {APP_STAGES.map((stage) => <option key={stage} value={stage}>{stage}</option>)}
@@ -242,7 +252,7 @@ function ApplicationPanel({ app, saving, onClose, onUpdate }) {
 
           <section className="border border-slate-200 p-4">
             <div className="flex items-center gap-2 mb-4">
-              <Calendar size={16} className="text-sky-600" />
+              <Calendar size={16} className="text-emerald-600" />
               <h3 className="font-display text-lg font-semibold">Timeline</h3>
             </div>
             <div className="space-y-3">
@@ -250,7 +260,7 @@ function ApplicationPanel({ app, saving, onClose, onUpdate }) {
                 <div className="text-sm text-slate-500">No timeline events yet.</div>
               ) : app.timeline.map((item, index) => (
                 <div key={`${item.stage}-${item.date}-${index}`} className="flex gap-3">
-                  <span className="mt-1.5 h-2 w-2 rounded-full bg-sky-600 shrink-0" />
+                  <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-600 shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-slate-900">{item.stage || item.status}</div>
                     {item.note ? <div className="mt-0.5 text-xs text-slate-600">{item.note}</div> : null}
@@ -272,7 +282,7 @@ function ApplicationPanel({ app, saving, onClose, onUpdate }) {
           </section>
 
           <div className="flex flex-col sm:flex-row gap-2">
-            <Button onClick={() => onUpdate({ next_step: nextStep, feedback: notes })} disabled={saving} className="h-11 rounded-md bg-slate-900 hover:bg-slate-800 text-white">
+            <Button onClick={() => onUpdate({ next_step: nextStep, feedback: notes })} disabled={saving} className="h-11 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white">
               {saving ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Save size={14} className="mr-2" />} Save details
             </Button>
             {applyLink ? (

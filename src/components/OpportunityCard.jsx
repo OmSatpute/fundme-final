@@ -51,7 +51,7 @@ export default function OpportunityCard({ opp, onChange }) {
     setDraftBusy(true);
     try {
       await apiCreateDraft(opp.opportunity_id);
-      toast.success("Draft created — open it from Drafts");
+      toast.success("Draft created - open it from Drafts");
     } catch (err) {
       toast.error(errMsg(err, "Could not create draft."));
     } finally {
@@ -93,7 +93,7 @@ export default function OpportunityCard({ opp, onChange }) {
       data-testid={`opportunity-card-${opp.opportunity_id}`}
     >
       {opp.match ? (
-        <div className="absolute top-4 right-4 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-bold tracking-wide">
+        <div className="absolute top-4 right-4 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold tracking-wide">
           <Sparkles size={10} />
           {opp.match}% match
         </div>
@@ -104,7 +104,7 @@ export default function OpportunityCard({ opp, onChange }) {
         <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
           <span className="line-clamp-1">{opp.org}</span>
           {opp.verified && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-sky-50 border border-sky-200 text-sky-800 font-semibold whitespace-nowrap">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold whitespace-nowrap">
               <CheckCircle2 size={10} /> Verified
             </span>
           )}
@@ -113,25 +113,25 @@ export default function OpportunityCard({ opp, onChange }) {
 
       <div className="flex flex-wrap gap-1.5">
         {opp.sectors?.map((s) => (
-          <span key={s} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-100">{s}</span>
+          <span key={s} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-100">{s}</span>
         ))}
-        {opp.stage && <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-100">{opp.stage}</span>}
-        {opp.amount && <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-100">{opp.amount}</span>}
+        {opp.stage && <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-100">{opp.stage}</span>}
+        {opp.amount && <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-200">{opp.amount}</span>}
       </div>
 
       <div className="text-xs">
         <span className="text-slate-500">Deadline:</span>{" "}
-        <span className="text-rose-600 font-semibold">{opp.deadline}</span>
+        <span className="text-emerald-700 font-semibold">{opp.deadline}</span>
       </div>
 
       {(opp.eligibility || eligibilityResult) && (
-        <div className={`transition-all duration-500 border rounded-sm p-3 ${eligibilityResult ? "bg-sky-50 border-sky-100" : "bg-slate-50 border-slate-100"}`}>
+        <div className={`transition-all duration-500 border rounded-sm p-3 ${eligibilityResult ? "bg-emerald-50 border-emerald-100" : "bg-slate-50 border-slate-100"}`}>
           <div className="flex items-center justify-between mb-1">
-            <div className={`text-[10px] uppercase tracking-wider font-bold ${eligibilityResult ? "text-sky-600" : "text-slate-500"}`}>
+            <div className={`text-[10px] uppercase tracking-wider font-bold ${eligibilityResult ? "text-emerald-600" : "text-slate-500"}`}>
               {eligibilityResult ? "AI Eligibility Analysis" : "Eligibility"}
             </div>
             {eligibilityResult && (
-              <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${eligibilityResult.includes("INELIGIBLE") ? "bg-rose-100 text-rose-700" : "bg-sky-100 text-sky-700"}`}>
+              <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${eligibilityResult.includes("INELIGIBLE") ? "bg-rose-100 text-rose-700" : "bg-emerald-100 text-emerald-700"}`}>
                 {eligibilityResult.split("\n")[0].replace("STATUS: ", "")}
               </div>
             )}
@@ -151,7 +151,7 @@ export default function OpportunityCard({ opp, onChange }) {
       {!eligibilityResult && (
         <Button variant="outline"
           disabled={eligibilityLoading}
-          className="w-full bg-sky-50/50 border-sky-200 hover:bg-sky-50 text-sky-900 font-medium rounded-md"
+          className="w-full bg-emerald-50/50 border-emerald-200 hover:bg-emerald-50 text-emerald-900 font-medium rounded-md"
           data-testid={`check-eligibility-${opp.opportunity_id}`}
           onClick={checkEligibility}>
           {eligibilityLoading ? (
@@ -164,13 +164,13 @@ export default function OpportunityCard({ opp, onChange }) {
 
       <div className="grid grid-cols-3 gap-2 pt-1">
         <Button onClick={toggleSave} disabled={busy}
-          className="btn-press rounded-md font-medium bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-60"
+          className="btn-press rounded-md font-medium bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-60"
           data-testid={`save-toggle-${opp.opportunity_id}`}>
           {busy ? <Loader2 size={14} className="animate-spin" /> :
             saved ? <><BookmarkCheck size={14} className="mr-1" />Unsave</> : <><Bookmark size={14} className="mr-1" />Save</>}
         </Button>
         <Button onClick={prepareDraft} disabled={draftBusy}
-          className="btn-press rounded-md bg-slate-900 hover:bg-slate-800 text-white font-medium disabled:opacity-60"
+          className="btn-press rounded-md bg-emerald-700 hover:bg-emerald-800 text-white font-medium disabled:opacity-60"
           data-testid={`prepare-draft-${opp.opportunity_id}`}>
           {draftBusy ? <Loader2 size={14} className="animate-spin" /> : "Prepare Draft"}
         </Button>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, FileText, CheckCircle2, Eye, Loader2 } from "lucide-react";
@@ -7,8 +7,8 @@ import { toast } from "sonner";
 import { apiListDrafts, apiTrackApplication, errMsg } from "@/lib/api";
 
 const STATUS_STYLES = {
-  "IN PROGRESS": "bg-sky-50 text-sky-800 border-sky-200",
-  REVIEW: "bg-amber-50 text-amber-800 border-amber-200",
+  "IN PROGRESS": "bg-emerald-50 text-emerald-800 border-emerald-200",
+  REVIEW: "bg-emerald-50 text-emerald-800 border-emerald-200",
   APPLIED: "bg-slate-100 text-slate-800 border-slate-300",
 };
 
@@ -41,13 +41,13 @@ export default function Drafts() {
   return (
     <div className="max-w-5xl" data-testid="drafts-page">
       <div className="mb-10">
-        <div className="text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold">AI-assisted writing</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold">AI-assisted writing</div>
         <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">Application Drafts</h1>
         <p className="mt-3 text-slate-500">Pick up where you left off. Review AI-generated sections, then mark applied.</p>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-16"><Loader2 className="animate-spin text-sky-600" /></div>
+        <div className="flex justify-center py-16"><Loader2 className="animate-spin text-emerald-600" /></div>
       ) : drafts.length === 0 ? (
         <div className="border border-dashed border-slate-300 p-16 text-center bg-white">
           <FileText size={28} className="mx-auto text-slate-400" />
@@ -61,7 +61,7 @@ export default function Drafts() {
               transition={{ duration: 0.35, delay: i * 0.06 }}
               className="bg-white border border-slate-200 hover:border-slate-300 transition-colors overflow-hidden"
               data-testid={`draft-${d.draft_id}`}>
-              <div className="h-1 bg-sky-600" />
+              <div className="h-1 bg-emerald-600" />
               <div className="p-6">
                 <div className="flex items-start justify-between gap-6 flex-wrap">
                   <div className="flex-1 min-w-[260px]">
@@ -77,12 +77,12 @@ export default function Drafts() {
                       <span>AI completion</span><span className="font-semibold text-slate-900" data-testid={`draft-progress-${d.draft_id}`}>{d.progress}%</span>
                     </div>
                     <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                      <motion.div initial={{ width: 0 }} animate={{ width: `${d.progress}%` }} transition={{ duration: 1, delay: 0.2 }} className="h-full bg-sky-600" />
+                      <motion.div initial={{ width: 0 }} animate={{ width: `${d.progress}%` }} transition={{ duration: 1, delay: 0.2 }} className="h-full bg-emerald-600" />
                     </div>
                   </div>
                 </div>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <Button className="h-11 rounded-md bg-slate-900 hover:bg-slate-800 text-white font-medium btn-press" data-testid={`continue-${d.draft_id}`}
+                  <Button className="h-11 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white font-medium btn-press" data-testid={`continue-${d.draft_id}`}
                     onClick={() => nav(`/drafts/${d.draft_id}`)}>
                     Continue Draft <ArrowRight size={14} className="ml-2" />
                   </Button>
@@ -91,7 +91,7 @@ export default function Drafts() {
                     <Eye size={14} className="mr-2" /> Review
                   </Button>
                   <Button variant="outline" disabled={busyId === d.draft_id}
-                    className="h-11 rounded-md border-sky-300 bg-sky-50/50 hover:bg-sky-50 text-sky-900 btn-press disabled:opacity-60"
+                    className="h-11 rounded-md border-emerald-300 bg-emerald-50/50 hover:bg-emerald-50 text-emerald-900 btn-press disabled:opacity-60"
                     data-testid={`mark-applied-${d.draft_id}`}
                     onClick={() => markApplied(d)}>
                     {busyId === d.draft_id ? <Loader2 size={14} className="mr-2 animate-spin" /> : <CheckCircle2 size={14} className="mr-2" />} Mark Applied
@@ -105,3 +105,4 @@ export default function Drafts() {
     </div>
   );
 }
+

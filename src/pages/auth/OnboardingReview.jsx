@@ -54,7 +54,7 @@ export default function OnboardingReview() {
   return (
     <AuthShell
       eyebrow="Step 2 of 2 · Review profile"
-      title={<>Review your AI-built <span className="font-serif-display text-sky-600">profile</span>.</>}
+      title={<>Review your AI-built <span className="font-serif-display text-emerald-600">profile</span>.</>}
       sub="Edit anything that doesn't sound like you. This profile powers every match and AI draft."
     >
       <motion.div
@@ -62,11 +62,11 @@ export default function OnboardingReview() {
         data-testid="onboarding-review-page"
       >
         <div className="flex items-center justify-between mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
             <Sparkles size={12} /> AI generated · ready to review
           </div>
           <Button variant={editing ? "default" : "outline"} onClick={() => setEditing(!editing)}
-            className={`rounded-md h-10 ${editing ? "bg-sky-600 hover:bg-sky-800 text-white" : "border-slate-300"}`}
+            className={`rounded-md h-10 ${editing ? "bg-emerald-600 hover:bg-emerald-800 text-white" : "border-slate-300"}`}
             data-testid="toggle-edit">
             {editing ? <><Check size={14} className="mr-2" /> Done editing</> : <><Edit3 size={14} className="mr-2" /> Edit fields</>}
           </Button>
@@ -88,7 +88,7 @@ export default function OnboardingReview() {
         </div>
 
         <Button onClick={finish} disabled={busy}
-          className="mt-7 w-full h-12 rounded-md bg-slate-900 hover:bg-slate-800 text-white font-medium btn-press disabled:opacity-60"
+          className="mt-7 w-full h-12 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white font-medium btn-press disabled:opacity-60"
           data-testid="finish-onboarding">
           {busy ? <><Loader2 size={14} className="mr-2 animate-spin" /> Saving…</> : <>Save and go to dashboard <ArrowRight size={14} className="ml-2" /></>}
         </Button>

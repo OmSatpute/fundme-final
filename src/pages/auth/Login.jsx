@@ -40,9 +40,9 @@ export default function Login() {
     <AuthShell
       narrow
       eyebrow="Welcome back"
-      title={<>Pick up where you <span className="font-serif-display text-sky-600">left off</span>.</>}
+      title={<>Pick up where you <span className="font-serif-display text-emerald-600">left off</span>.</>}
       sub="Your pipeline is waiting."
-      footer={<>New to FundMe? <Link to="/signup" className="text-sky-600 font-semibold hover:underline" data-testid="signup-redirect">Get started →</Link></>}
+      footer={<>New to FundMe? <Link to="/signup" className="text-emerald-600 font-semibold hover:underline" data-testid="signup-redirect">Get started →</Link></>}
     >
       <motion.form
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
@@ -70,13 +70,13 @@ export default function Login() {
         {err && <div className="text-sm text-rose-700 bg-rose-50 border border-rose-200 px-3 py-2 rounded-md" data-testid="login-error">{err}</div>}
 
         <Button type="submit" disabled={busy}
-          className="w-full h-12 rounded-md bg-slate-900 hover:bg-slate-800 text-white font-medium btn-press disabled:opacity-60"
+          className="w-full h-12 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white font-medium btn-press disabled:opacity-60"
           data-testid="login-submit">
           {busy ? <><Loader2 size={14} className="mr-2 animate-spin" /> Signing in…</> : <>Sign in <ArrowRight size={14} className="ml-2" /></>}
         </Button>
 
         <div className="text-center pt-1">
-          <Link to="/forgot-password" className="text-sm text-slate-500 hover:text-sky-600" data-testid="forgot-link">
+          <Link to="/forgot-password" className="text-sm text-slate-500 hover:text-emerald-600" data-testid="forgot-link">
             Forgot your password?
           </Link>
         </div>
