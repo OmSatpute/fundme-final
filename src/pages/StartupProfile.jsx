@@ -75,8 +75,12 @@ export default function StartupProfile() {
       <section className="col-span-12 lg:col-span-9">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div className="flex items-center gap-5">
-            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow">
-              {(user?.avatar) || (form.startup_name?.[0] || "F").toUpperCase()}
+            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
+              {user?.avatar ? (
+                <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                (form.startup_name?.[0] || user?.name?.[0] || "F").toUpperCase()
+              )}
             </div>
             <div>
               <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight">{form.startup_name || user?.name || "Your startup"}</h1>
