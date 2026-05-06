@@ -118,7 +118,7 @@ export default function OpportunityDetails() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <Loader2 className="animate-spin text-emerald-700 mb-4" size={32} />
+        <Loader2 className="animate-spin text-sky-600 mb-4" size={32} />
         <p className="text-slate-500 font-medium">Loading opportunity details...</p>
       </div>
     );
@@ -128,9 +128,9 @@ export default function OpportunityDetails() {
     <div className="max-w-6xl mx-auto" data-testid="opportunity-details-page">
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-xs text-slate-500 mb-8 overflow-x-auto whitespace-nowrap pb-2">
-        <Link to="/dashboard" className="hover:text-emerald-700 transition-colors">Home</Link>
+        <Link to="/dashboard" className="hover:text-sky-600 transition-colors">Home</Link>
         <ChevronRight size={12} />
-        <Link to="/explorer" className="hover:text-emerald-700 transition-colors">Explorer</Link>
+        <Link to="/explorer" className="hover:text-sky-600 transition-colors">Explorer</Link>
         <ChevronRight size={12} />
         <span className="text-slate-900 font-medium truncate">{opp.title}</span>
       </div>
@@ -152,7 +152,7 @@ export default function OpportunityDetails() {
           <Button variant="outline" onClick={() => nav(-1)} className="h-11 border-slate-300">
             <ArrowLeft size={16} className="mr-2" /> Back
           </Button>
-          <Button onClick={toggleSave} disabled={busy} variant={isSaved ? "default" : "outline"} className={`h-11 ${isSaved ? "bg-emerald-700 hover:bg-emerald-800" : "border-slate-300"}`}>
+          <Button onClick={toggleSave} disabled={busy} variant={isSaved ? "default" : "outline"} className={`h-11 ${isSaved ? "bg-sky-600 hover:bg-sky-800" : "border-slate-300"}`}>
             <Bookmark size={16} className={`mr-2 ${isSaved ? "fill-current" : ""}`} />
             {isSaved ? "Saved" : "Save"}
           </Button>
@@ -177,7 +177,7 @@ export default function OpportunityDetails() {
                 <ul className="space-y-3">
                   {opp.eligibility.split(/(?<=[.!?])\s+/).filter(Boolean).map((sentence, i) => (
                     <li key={i} className="flex items-start gap-3 text-slate-600">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-2 shrink-0" />
                       <span>{sentence}</span>
                     </li>
                   ))}
@@ -185,9 +185,9 @@ export default function OpportunityDetails() {
               ) : (
                 <p className="text-slate-500 italic">Standard eligibility rules apply. Please check official guidelines.</p>
               )}
-              <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-lg flex gap-3 items-start mt-2">
-                <Sparkles size={16} className="text-emerald-700 mt-0.5 shrink-0" />
-                <p className="text-xs text-emerald-800 leading-relaxed">
+              <div className="p-4 bg-sky-50 border border-sky-100 rounded-lg flex gap-3 items-start mt-2">
+                <Sparkles size={16} className="text-sky-600 mt-0.5 shrink-0" />
+                <p className="text-xs text-sky-800 leading-relaxed">
                   <strong>AI Insight:</strong> Based on your sector ({opp.sectors?.join(", ")}), you appear to be a strong candidate for this program.
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function OpportunityDetails() {
               <ul className="space-y-3">
                 {opp.benefits.map((b, i) => (
                   <li key={i} className="flex items-start gap-3 text-slate-600">
-                    <CheckCircle2 size={16} className="text-emerald-600 mt-1 shrink-0" />
+                    <CheckCircle2 size={16} className="text-sky-600 mt-1 shrink-0" />
                     <span>{b}</span>
                   </li>
                 ))}
@@ -230,7 +230,7 @@ export default function OpportunityDetails() {
               <Sparkles size={120} />
             </div>
             <div className="relative z-10">
-              <div className="text-xs uppercase tracking-[0.2em] text-emerald-400 font-bold mb-2">Match Score</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-sky-400 font-bold mb-2">Match Score</div>
               <div className="text-6xl font-display font-bold mb-2">{opp.match || 0}%</div>
               <p className="text-slate-400 text-sm leading-relaxed px-4">
                 High alignment with your tech stack and stage.
@@ -245,7 +245,7 @@ export default function OpportunityDetails() {
             </div>
             <div className="p-6 space-y-4">
               <SnapshotItem icon={Calendar} label="Deadline" value={opp.deadline || "Rolling"} color="text-amber-600" />
-              <SnapshotItem icon={DollarSign} label="Funding" value={opp.amount || "Variable"} color="text-emerald-600" />
+              <SnapshotItem icon={DollarSign} label="Funding" value={opp.amount || "Variable"} color="text-sky-600" />
               <SnapshotItem icon={MapPin} label="Location" value={opp.location || "Global / Remote"} />
               <SnapshotItem icon={Info} label="Type" value={opp.type || "Grant"} />
             </div>
@@ -282,13 +282,13 @@ function Section({ icon: Icon, title, children, aiAction }) {
     <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm group hover:border-slate-300 transition-colors">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-700">
+          <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center text-sky-600">
             <Icon size={20} />
           </div>
           <h2 className="font-display text-xl font-bold text-slate-900">{title}</h2>
         </div>
         {aiAction && (
-          <Button variant="ghost" size="sm" className="text-xs font-bold text-emerald-700 hover:bg-emerald-50 rounded-lg">
+          <Button variant="ghost" size="sm" className="text-xs font-bold text-sky-600 hover:bg-sky-50 rounded-lg">
             <Sparkles size={14} className="mr-1.5" /> {aiAction}
           </Button>
         )}

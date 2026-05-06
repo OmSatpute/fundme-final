@@ -43,16 +43,16 @@ export default function Signup() {
     <AuthShell
       narrow
       eyebrow="Create your account"
-      title={<>Personalised funding starts with your <span className="font-serif-display text-emerald-700">profile</span>.</>}
+      title={<>Personalised funding starts with your <span className="font-serif-display text-sky-600">profile</span>.</>}
       sub="Built for founders. Free to start."
-      footer={<>Already have an account? <Link to="/login" className="text-emerald-700 font-semibold hover:underline">Sign in</Link></>}
+      footer={<>Already have an account? <Link to="/login" className="text-sky-600 font-semibold hover:underline">Sign in</Link></>}
     >
       <motion.form
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
         onSubmit={submit} className="bg-white border border-slate-200 p-7 space-y-5" data-testid="signup-page"
       >
-        <div className="px-3 py-2.5 bg-emerald-50 border border-emerald-200 rounded-md flex items-center gap-2 text-sm text-emerald-900">
-          <CheckCircle2 size={15} className="text-emerald-700" /> Signing up as a <span className="font-semibold">Founder</span>
+        <div className="px-3 py-2.5 bg-sky-50 border border-sky-200 rounded-md flex items-center gap-2 text-sm text-sky-900">
+          <CheckCircle2 size={15} className="text-sky-600" /> Signing up as a <span className="font-semibold">Founder</span>
         </div>
 
         <div>
@@ -81,7 +81,7 @@ export default function Signup() {
               {passwordRules.map((r) => {
                 const ok = r.test(form.password);
                 return (
-                  <li key={r.label} className={`text-xs flex items-center gap-2 ${ok ? "text-emerald-700" : "text-slate-500"}`}>
+                  <li key={r.label} className={`text-xs flex items-center gap-2 ${ok ? "text-sky-600" : "text-slate-500"}`}>
                     {ok ? <Check size={12} /> : <X size={12} />}
                     {r.label}
                   </li>

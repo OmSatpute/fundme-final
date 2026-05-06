@@ -6,14 +6,14 @@
   --bg: #FAF9F6;
   --bg-2: #F3F2ED;
   --ink: #0F172A;
-  --ink-2: #475569;
-  --ink-3: #94A3B8;
+  --ink-2: #334155;
+  --ink-3: #64748B;
   --line: #E2E8F0;
   --line-2: #CBD5E1;
-  --primary: #047857;
-  --primary-hover: #065F46;
-  --primary-light: #D1FAE5;
-  --accent: #B45309;
+  --primary: #0EA5E9;
+  --primary-hover: #0284C7;
+  --primary-light: #E0F2FE;
+  --accent: #F59E0B;
   --serif: 'Instrument Serif', Georgia, serif;
 }
 
@@ -30,7 +30,7 @@ body { margin: 0; }
 .font-display { font-family: 'Outfit', sans-serif; }
 .font-serif-display { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; }
 
-::selection { background: #047857; color: #fff; }
+::selection { background: #0EA5E9; color: #fff; }
 
 /* Subtle grain overlay utility */
 .grain::before {
@@ -72,7 +72,7 @@ body { margin: 0; }
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 162 94% 24%;
+    --primary: 199 89% 48%;
     --primary-foreground: 0 0% 100%;
     --secondary: 40 17% 94%;
     --secondary-foreground: 222 47% 11%;
@@ -84,7 +84,7 @@ body { margin: 0; }
     --destructive-foreground: 0 0% 100%;
     --border: 214 25% 91%;
     --input: 214 25% 91%;
-    --ring: 162 94% 24%;
+    --ring: 199 89% 48%;
     --radius: 0.375rem;
   }
 }

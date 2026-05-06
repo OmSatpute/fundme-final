@@ -16,7 +16,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
           <Link to="/" className="inline-flex items-baseline gap-0.5">
             <span className="font-display text-2xl font-bold tracking-tighter">FundMe</span>
-            <span className="text-emerald-700 text-2xl font-bold">.</span>
+            <span className="text-sky-600 text-2xl font-bold">.</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm text-slate-600">
             <a href="#product" className="hover:text-slate-900">Product</a>
@@ -30,7 +30,7 @@ export default function Landing() {
               </Button>
             </Link>
             <Link to="/signup">
-              <Button className="rounded-md bg-emerald-700 hover:bg-emerald-800 text-white" data-testid="cta-launch">
+              <Button className="rounded-md bg-sky-600 hover:bg-sky-800 text-white" data-testid="cta-launch">
                 Get started <ArrowUpRight size={14} className="ml-1" />
               </Button>
             </Link>
@@ -41,7 +41,7 @@ export default function Landing() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 grain" />
-        <div className="absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-emerald-200/40 blur-3xl -z-10" />
+        <div className="absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-sky-200/40 blur-3xl -z-10" />
         <div className="absolute top-40 -left-40 h-[420px] w-[420px] rounded-full bg-amber-200/40 blur-3xl -z-10" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-24 md:pt-32 md:pb-36">
@@ -51,9 +51,9 @@ export default function Landing() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-800 text-xs font-medium mb-8"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-200 bg-sky-50 text-sky-800 text-xs font-medium mb-8"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                <span className="h-1.5 w-1.5 rounded-full bg-sky-600 animate-pulse" />
                 Funding OS for India's next 10,000 founders
               </motion.div>
 
@@ -64,7 +64,7 @@ export default function Landing() {
                 className="font-display text-5xl sm:text-6xl lg:text-[88px] font-bold tracking-[-0.04em] leading-[0.95]"
               >
                 Stop hunting grants. <br />
-                Start <span className="font-serif-display text-emerald-700">winning</span> them.
+                Start <span className="font-serif-display text-sky-600">winning</span> them.
               </motion.h1>
 
               <motion.p
@@ -96,9 +96,9 @@ export default function Landing() {
               </motion.div>
 
               <div className="mt-10 flex items-center gap-6 text-xs text-slate-500">
-                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> No card required</div>
-                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> Free for early-stage</div>
-                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> ISO-grade privacy</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-sky-600" /> No card required</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-sky-600" /> Free for early-stage</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-sky-600" /> ISO-grade privacy</div>
               </div>
             </div>
 
@@ -110,7 +110,7 @@ export default function Landing() {
                 className="relative"
               >
                 <div className="bg-white border border-slate-200 p-6 shadow-[0_30px_60px_-30px_rgba(15,23,42,0.25)]">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-700 font-bold">Live match</div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-sky-600 font-bold">Live match</div>
                   <div className="mt-2 font-display text-2xl font-semibold leading-tight">Mookerji Innovation Fund</div>
                   <div className="mt-1 text-xs text-slate-500">Govt. India · Deep-Tech</div>
                   <div className="mt-5 flex items-baseline gap-2">
@@ -118,7 +118,7 @@ export default function Landing() {
                     <div className="text-sm text-slate-500">% match</div>
                   </div>
                   <div className="mt-3 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <motion.div initial={{ width: 0 }} animate={{ width: "95%" }} transition={{ duration: 1.4, delay: 0.6 }} className="h-full bg-emerald-700" />
+                    <motion.div initial={{ width: 0 }} animate={{ width: "95%" }} transition={{ duration: 1.4, delay: 0.6 }} className="h-full bg-sky-600" />
                   </div>
                   <div className="mt-6 grid grid-cols-2 gap-2 text-xs">
                     <div className="bg-slate-50 px-3 py-2"><div className="text-slate-500">Grant</div><div className="font-semibold">₹1.5 Cr</div></div>
@@ -148,19 +148,19 @@ export default function Landing() {
       {/* Bento features */}
       <section id="product" className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32">
         <div className="max-w-3xl mb-16">
-          <div className="text-xs uppercase tracking-[0.24em] text-emerald-700 font-bold mb-4">The platform</div>
+          <div className="text-xs uppercase tracking-[0.24em] text-sky-600 font-bold mb-4">The platform</div>
           <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-            One workspace, <span className="font-serif-display text-emerald-700 italic">infinite</span> leverage.
+            One workspace, <span className="font-serif-display text-sky-600 italic">infinite</span> leverage.
           </h2>
           <p className="mt-6 text-slate-600 text-lg leading-relaxed">
             We've replaced the chaos of tabs and spreadsheets with a unified system designed to get you funded.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 md:row-rows-2 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 lg:gap-6">
           {/* Discovery - Primary Feature */}
           <BentoCard 
-            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 text-white border-0 shadow-2xl shadow-blue-900/20" 
+            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-sky-800 to-sky-950 text-white border-0 shadow-2xl shadow-sky-900/20" 
             Icon={Target}
             title="Discovery that thinks like an analyst"
             body="55+ relevant matches today. Filter by stage, sector, and funding type. We track 1,200+ programs so you don't have to."
@@ -177,7 +177,7 @@ export default function Landing() {
 
           {/* Smart Profile */}
           <BentoCard 
-            className="md:col-span-5 bg-emerald-50/50 border-emerald-100/50" 
+            className="md:col-span-5 bg-[#F0F7FF] border-blue-100/50" 
             Icon={Building2}
             title="Your Source of Truth"
             body="Keep your stage, traction, and problem statements updated in one place. It powers every other module in the OS."
@@ -193,7 +193,7 @@ export default function Landing() {
 
           {/* Business Opps */}
           <BentoCard 
-            className="md:col-span-4 bg-emerald-900 text-white border-0" 
+            className="md:col-span-4 bg-slate-900 text-white border-0" 
             Icon={Briefcase}
             title="Beyond Grants"
             body="Access pilots, corporate tenders, and co-build opportunities that turn your traction into revenue."
@@ -212,13 +212,13 @@ export default function Landing() {
       {/* How it works */}
       <section id="how" className="relative bg-[#FAF9F6] py-24 md:py-32 scroll-mt-20 overflow-hidden">
         {/* Subtle background element */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl max-h-[600px] bg-emerald-100/30 blur-[120px] rounded-full -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl max-h-[600px] bg-sky-100/30 blur-[120px] rounded-full -z-10" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <div className="text-xs uppercase tracking-[0.24em] text-emerald-700 font-bold mb-4">The process</div>
+            <div className="text-xs uppercase tracking-[0.24em] text-sky-600 font-bold mb-4">The process</div>
             <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-              From startup profile to <span className="font-serif-display text-emerald-700">accepted.</span>
+              From startup profile to <span className="font-serif-display text-sky-600">accepted.</span>
             </h2>
             <p className="mt-6 text-slate-600 text-lg">
               We've engineered a funding workflow that eliminates the guesswork and the grind.
@@ -231,25 +231,25 @@ export default function Landing() {
                 title: "Build your profile", 
                 body: "Centralize your stage, sector, traction, and key documents once. This becomes your source of truth.", 
                 step: "01",
-                icon: <Building2 className="text-emerald-700" size={20} />
+                icon: <Building2 className="text-sky-600" size={20} />
               },
               { 
                 title: "Get ranked matches", 
                 body: "Our engine filters 1,200+ programs to show only what fits your startup's exact fit and stage.", 
                 step: "02",
-                icon: <Target className="text-emerald-700" size={20} />
+                icon: <Target className="text-sky-600" size={20} />
               },
               { 
                 title: "Create the draft", 
                 body: "FundMe starts the application using your profile data, then you refine it with our AI writing assistant.", 
                 step: "03", 
-                icon: <FileText className="text-emerald-700" size={20} />
+                icon: <FileText className="text-sky-600" size={20} />
               },
               { 
                 title: "Manage pipeline", 
                 body: "Track every status, deadline, and follow-up in one view. Never miss a high-potential opportunity again.", 
-                step: "04",
-                icon: <Zap className="text-emerald-700" size={20} />
+                step: "04", 
+                icon: <Zap className="text-sky-600" size={20} />
               },
             ].map((step, i) => (
               <motion.div 
@@ -258,10 +258,10 @@ export default function Landing() {
                 className="relative group bg-white border border-slate-200 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-center justify-between mb-8">
-                  <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-xl bg-sky-50 flex items-center justify-center">
                     {step.icon}
                   </div>
-                  <div className="font-display text-4xl font-bold text-emerald-600/20 group-hover:text-emerald-600/30 transition-colors">
+                  <div className="font-display text-4xl font-bold text-sky-600/20 group-hover:text-sky-600/30 transition-colors">
                     {step.step}
                   </div>
                 </div>
@@ -270,7 +270,7 @@ export default function Landing() {
                 
                 {/* Stylized connecting divider for desktop */}
                 {i < 3 && (
-                  <div className="hidden lg:block absolute top-[40%] -right-3.5 w-7 border-t-2 border-dashed border-emerald-100 z-10" />
+                  <div className="hidden lg:block absolute top-[40%] -right-3.5 w-7 border-t-2 border-dashed border-sky-100 z-10" />
                 )}
               </motion.div>
             ))}
@@ -288,7 +288,7 @@ export default function Landing() {
             ["92%", "Match accuracy"],
           ].map(([n, l]) => (
             <div key={l}>
-              <div className="font-display text-5xl md:text-6xl font-bold tracking-tighter text-emerald-700">{n}</div>
+              <div className="font-display text-5xl md:text-6xl font-bold tracking-tighter text-sky-600">{n}</div>
               <div className="mt-2 text-sm text-slate-500 uppercase tracking-wider">{l}</div>
             </div>
           ))}
@@ -298,7 +298,7 @@ export default function Landing() {
       {/* CTA */}
       <section className="max-w-7xl mx-auto px-6 md:px-10 py-28 md:py-36 text-center">
         <h3 className="font-display text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95] max-w-4xl mx-auto">
-          Your next grant is <span className="font-serif-display text-emerald-700">already</span> on FundMe.
+          Your next grant is <span className="font-serif-display text-sky-600">already</span> on FundMe.
         </h3>
         <p className="mt-6 text-lg text-slate-600 max-w-xl mx-auto">
           Plug your startup profile in, get a ranked list, and draft your first application in under 8 minutes.
@@ -318,15 +318,15 @@ export default function Landing() {
 }
 
 function BentoCard({ className = "", Icon, title, body, big }) {
-  const isDark = className.includes("bg-emerald-800") || className.includes("bg-slate-900");
+  const isDark = className.includes("bg-sky-800") || className.includes("bg-slate-900");
   return (
     <motion.div
       whileHover={{ y: -6, shadow: "0 20px 40px -15px rgba(15,23,42,0.1)" }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
       className={`relative p-8 rounded-2xl border border-slate-200/60 overflow-hidden ${className}`}
     >
-      <div className={`h-12 w-12 rounded-xl flex items-center justify-center mb-10 ${isDark ? "bg-white/10" : "bg-emerald-50"}`}>
-        <Icon size={big ? 28 : 22} strokeWidth={2} className={isDark ? "text-emerald-400" : "text-emerald-700"} />
+      <div className={`h-12 w-12 rounded-xl flex items-center justify-center mb-10 ${isDark ? "bg-white/10" : "bg-sky-50"}`}>
+        <Icon size={big ? 28 : 22} strokeWidth={2} className={isDark ? "text-sky-400" : "text-sky-600"} />
       </div>
       <div className={`font-display ${big ? "text-3xl md:text-4xl" : "text-xl"} font-bold tracking-tight leading-tight`}>
         {title}
@@ -337,7 +337,7 @@ function BentoCard({ className = "", Icon, title, body, big }) {
       
       {/* Subtle light effect for dark cards */}
       {isDark && (
-        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 blur-[60px] rounded-full -mr-16 -mt-16" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-sky-400/10 blur-[60px] rounded-full -mr-16 -mt-16" />
       )}
     </motion.div>
   );

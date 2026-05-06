@@ -40,9 +40,9 @@ export default function Login() {
     <AuthShell
       narrow
       eyebrow="Welcome back"
-      title={<>Pick up where you <span className="font-serif-display text-emerald-700">left off</span>.</>}
+      title={<>Pick up where you <span className="font-serif-display text-sky-600">left off</span>.</>}
       sub="Your pipeline is waiting."
-      footer={<>New to FundMe? <Link to="/signup" className="text-emerald-700 font-semibold hover:underline" data-testid="signup-redirect">Get started →</Link></>}
+      footer={<>New to FundMe? <Link to="/signup" className="text-sky-600 font-semibold hover:underline" data-testid="signup-redirect">Get started →</Link></>}
     >
       <motion.form
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
@@ -76,7 +76,7 @@ export default function Login() {
         </Button>
 
         <div className="text-center pt-1">
-          <Link to="/forgot-password" className="text-sm text-slate-500 hover:text-emerald-700" data-testid="forgot-link">
+          <Link to="/forgot-password" className="text-sm text-slate-500 hover:text-sky-600" data-testid="forgot-link">
             Forgot your password?
           </Link>
         </div>

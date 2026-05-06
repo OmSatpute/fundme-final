@@ -58,9 +58,9 @@ export default function AppLayout() {
         <div className={`${collapsed ? "px-3" : "px-6"} pt-7 pb-2 flex items-center justify-between`}>
           <NavLink to="/" className="inline-flex items-baseline gap-0.5" data-testid="sidebar-logo">
             {collapsed ? (
-              <span className="font-display text-2xl font-bold tracking-tighter">F<span className="text-emerald-700">.</span></span>
+              <span className="font-display text-2xl font-bold tracking-tighter">F<span className="text-sky-600">.</span></span>
             ) : (
-              <><span className="font-display text-2xl font-bold tracking-tighter">FundMe</span><span className="text-emerald-700 text-2xl font-bold">.</span></>
+              <><span className="font-display text-2xl font-bold tracking-tighter">FundMe</span><span className="text-sky-600 text-2xl font-bold">.</span></>
             )}
           </NavLink>
         </div>
@@ -71,12 +71,12 @@ export default function AppLayout() {
           {NAV.map(({ to, label, Icon }) => (
             <NavLink key={to} to={to} data-testid={`nav-${to.replace("/", "")}`} title={collapsed ? label : undefined}
               className={({ isActive }) => `group relative flex items-center gap-3 ${collapsed ? "justify-center px-2" : "px-3"} py-2.5 rounded-md text-sm transition-all ${
-                isActive ? "bg-emerald-50 text-emerald-800 font-semibold" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                isActive ? "bg-sky-50 text-sky-800 font-semibold" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               }`}>
               {({ isActive }) => (
                 <>
                   {isActive && <motion.span layoutId="active-bar"
-                    className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full bg-emerald-700"
+                    className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full bg-sky-600"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }} />}
                   <Icon size={17} strokeWidth={1.75} className="shrink-0" />
                   <AnimatePresence>
@@ -102,7 +102,7 @@ export default function AppLayout() {
             <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">Profile completion</div>
             <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
               <motion.div initial={{ width: 0 }} animate={{ width: `${completion}%` }} transition={{ duration: 1.2, ease: "easeOut" }}
-                className="h-full bg-emerald-700" />
+                className="h-full bg-sky-600" />
             </div>
             <div className="mt-2 text-xs text-slate-500">{completion}% — {completion >= 80 ? "almost there" : "keep going"}</div>
           </div>
@@ -123,7 +123,7 @@ export default function AppLayout() {
                   <div className="text-sm font-semibold leading-tight">{startupName}</div>
                   <div className="text-[11px] text-slate-500 leading-tight">{[stage, sector].filter(Boolean).join(" • ") || (user?.email || "")}</div>
                 </div>
-                <div className="h-9 w-9 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 text-white flex items-center justify-center text-xs font-bold tracking-wide ring-2 ring-white shadow-sm">
+                <div className="h-9 w-9 rounded-full bg-gradient-to-br from-sky-600 to-sky-800 text-white flex items-center justify-center text-xs font-bold tracking-wide ring-2 ring-white shadow-sm">
                   {initials}
                 </div>
               </DropdownMenuTrigger>

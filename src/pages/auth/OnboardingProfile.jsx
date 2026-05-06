@@ -32,7 +32,7 @@ export default function OnboardingProfile() {
   return (
     <AuthShell
       eyebrow="Step 1 of 2 · Build profile"
-      title={<>Let AI turn your materials into <span className="font-serif-display text-emerald-700">momentum</span>.</>}
+      title={<>Let AI turn your materials into <span className="font-serif-display text-sky-600">momentum</span>.</>}
       sub="Pick one input — paste a URL, write a summary, or upload your deck. We'll extract sector, stage, problem, and solution for your review."
     >
       <AnimatePresence>
@@ -43,8 +43,8 @@ export default function OnboardingProfile() {
             data-testid="ai-loading"
           >
             <div className="relative">
-              <Loader2 size={42} className="animate-spin text-emerald-700" />
-              <div className="absolute inset-0 rounded-full bg-emerald-400/30 blur-xl animate-pulse" />
+              <Loader2 size={42} className="animate-spin text-sky-600" />
+              <div className="absolute inset-0 rounded-full bg-sky-400/30 blur-xl animate-pulse" />
             </div>
             <div className="mt-7 font-display text-2xl font-semibold tracking-tight">Analyzing materials…</div>
             <div className="mt-1 text-sm text-slate-500">Connecting to AI analysis engine</div>
@@ -59,7 +59,7 @@ export default function OnboardingProfile() {
       >
         <div className="bg-white border border-slate-200 p-6">
           <div className="flex items-center gap-2 mb-3">
-            <Globe size={14} className="text-emerald-700" />
+            <Globe size={14} className="text-sky-600" />
             <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">Option A · Website URL</span>
           </div>
           <Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://yourstartup.com"
@@ -73,7 +73,7 @@ export default function OnboardingProfile() {
 
         <div className="bg-white border border-slate-200 p-6">
           <div className="flex items-center gap-2 mb-3">
-            <FileIcon size={14} className="text-emerald-700" />
+            <FileIcon size={14} className="text-sky-600" />
             <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">Option B · Summary</span>
           </div>
           <Textarea rows={5} value={summary} onChange={(e) => setSummary(e.target.value)}
@@ -89,23 +89,23 @@ export default function OnboardingProfile() {
         <div className="bg-white border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Upload size={14} className="text-emerald-700" />
+              <Upload size={14} className="text-sky-600" />
               <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">Option C · Pitch Deck</span>
             </div>
             <span className="text-[10px] uppercase tracking-wider text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">Richest extraction</span>
           </div>
-          <label className="block border-2 border-dashed border-slate-300 hover:border-emerald-400 hover:bg-emerald-50/30 rounded-md p-8 text-center cursor-pointer transition-colors" data-testid="onboarding-pdf-zone">
+          <label className="block border-2 border-dashed border-slate-300 hover:border-sky-400 hover:bg-sky-50/30 rounded-md p-8 text-center cursor-pointer transition-colors" data-testid="onboarding-pdf-zone">
             <input type="file" accept=".pdf" hidden onChange={(e) => setPdf(e.target.files?.[0] || null)} />
-            <Upload size={22} className={`mx-auto ${pdf ? "text-emerald-700" : "text-slate-400"}`} />
-            <div className={`mt-2 text-sm font-semibold ${pdf ? "text-emerald-800" : "text-slate-700"}`}>{pdf ? pdf.name : "Click or drag to upload PDF"}</div>
+            <Upload size={22} className={`mx-auto ${pdf ? "text-sky-600" : "text-slate-400"}`} />
+            <div className={`mt-2 text-sm font-semibold ${pdf ? "text-sky-800" : "text-slate-700"}`}>{pdf ? pdf.name : "Click or drag to upload PDF"}</div>
             <div className="text-xs text-slate-500 mt-1">Add a pitch deck or supporting document.</div>
           </label>
         </div>
 
         <div className="mt-6 p-5 bg-slate-900 text-white">
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={14} className="text-emerald-400" />
-            <span className="text-xs uppercase tracking-[0.18em] text-emerald-400 font-bold">What AI will generate</span>
+            <Sparkles size={14} className="text-sky-400" />
+            <span className="text-xs uppercase tracking-[0.18em] text-sky-400 font-bold">What AI will generate</span>
           </div>
           <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-sm text-white/85">
             <div>· Startup name & sector</div><div>· Target users & problem</div>

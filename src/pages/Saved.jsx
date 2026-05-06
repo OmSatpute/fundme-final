@@ -17,13 +17,13 @@ export default function Saved() {
   return (
     <div className="max-w-5xl" data-testid="saved-page">
       <div className="mb-8">
-        <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-700 font-bold">Your shortlist</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold">Your shortlist</div>
         <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">Saved Opportunities</h1>
         <p className="mt-3 text-slate-500">Curated programs you marked for later. Open one to draft an application.</p>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-16"><Loader2 className="animate-spin text-emerald-700" /></div>
+        <div className="flex justify-center py-16"><Loader2 className="animate-spin text-sky-600" /></div>
       ) : items.length === 0 ? (
         <div className="border border-dashed border-slate-300 p-16 text-center bg-white">
           <Bookmark size={28} className="mx-auto text-slate-400" />

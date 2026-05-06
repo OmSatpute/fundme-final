@@ -51,12 +51,12 @@ export default function StartupProfile() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-emerald-700" /></div>;
+  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-sky-600" /></div>;
 
   return (
     <div className="grid grid-cols-12 gap-10" data-testid="profile-page">
       <aside className="col-span-12 lg:col-span-3 lg:sticky lg:top-24 lg:self-start">
-        <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-700 font-bold mb-4">Startup profile</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold mb-4">Startup profile</div>
         <div className="space-y-1">
           {SECTIONS.map(({ id, label, Icon }) => (
             <button key={id} onClick={() => setActive(id)} data-testid={`profile-section-${id}`}
@@ -66,16 +66,16 @@ export default function StartupProfile() {
             </button>
           ))}
         </div>
-        <div className="mt-8 p-5 bg-emerald-50 border border-emerald-200">
-          <div className="text-xs text-emerald-900 font-semibold">Why this matters</div>
-          <p className="mt-2 text-xs text-emerald-900/80">Every field you fill increases match accuracy. AI uses your profile to draft applications.</p>
+        <div className="mt-8 p-5 bg-sky-50 border border-sky-200">
+          <div className="text-xs text-sky-900 font-semibold">Why this matters</div>
+          <p className="mt-2 text-xs text-sky-900/80">Every field you fill increases match accuracy. AI uses your profile to draft applications.</p>
         </div>
       </aside>
 
       <section className="col-span-12 lg:col-span-9">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div className="flex items-center gap-5">
-            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
+            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-sky-600 to-sky-800 text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
               {user?.avatar ? (
                 <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
               ) : (

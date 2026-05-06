@@ -15,7 +15,7 @@ export default function ForgotPassword() {
     <AuthShell
       narrow
       eyebrow="Reset password"
-      title={<>Reset and <span className="font-serif-display text-emerald-700">resume</span>.</>}
+      title={<>Reset and <span className="font-serif-display text-sky-600">resume</span>.</>}
       sub="Enter your email and we'll send a link to set a new password."
     >
       <Link to="/login" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 mb-6">
@@ -25,14 +25,14 @@ export default function ForgotPassword() {
       {sent ? (
         <motion.div
           initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-          className="bg-emerald-50 border border-emerald-200 p-6 flex gap-3 rounded-md"
+          className="bg-sky-50 border border-sky-200 p-6 flex gap-3 rounded-md"
           data-testid="forgot-sent"
         >
-          <CheckCircle2 size={22} className="text-emerald-700 mt-0.5 shrink-0" />
+          <CheckCircle2 size={22} className="text-sky-600 mt-0.5 shrink-0" />
           <div>
-            <div className="font-display text-lg font-semibold text-emerald-900">Check your inbox</div>
-            <div className="mt-1 text-sm text-emerald-900/80">We sent a reset link to <span className="font-medium">{email}</span>.</div>
-            <div className="mt-3 text-xs text-emerald-900/70">Didn't get it? Check spam, or <button onClick={() => setSent(false)} className="underline">try another email</button>.</div>
+            <div className="font-display text-lg font-semibold text-sky-900">Check your inbox</div>
+            <div className="mt-1 text-sm text-sky-900/80">We sent a reset link to <span className="font-medium">{email}</span>.</div>
+            <div className="mt-3 text-xs text-sky-900/70">Didn't get it? Check spam, or <button onClick={() => setSent(false)} className="underline">try another email</button>.</div>
           </div>
         </motion.div>
       ) : (

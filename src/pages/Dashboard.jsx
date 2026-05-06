@@ -61,7 +61,7 @@ export default function Dashboard() {
     }
   };
 
-  if (loading) return <div className="flex items-center justify-center py-32"><Loader2 className="animate-spin text-emerald-700" /></div>;
+  if (loading) return <div className="flex items-center justify-center py-32"><Loader2 className="animate-spin text-sky-600" /></div>;
 
   const { opps, drafts, profile } = data;
 
@@ -83,9 +83,9 @@ export default function Dashboard() {
     <div className="space-y-12 max-w-7xl" data-testid="dashboard-page">
       <header className="flex items-end justify-between flex-wrap gap-4">
         <div>
-          <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-700 font-bold">Overview</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-sky-600 font-bold">Overview</div>
           <h1 className="mt-2 font-display text-5xl font-bold tracking-tight leading-none">
-            Good morning, <span className="font-serif-display text-emerald-700">{(profile?.startup_name || "founder").split(" ")[0].toLowerCase()}.</span>
+            Good morning, <span className="font-serif-display text-sky-600">{(profile?.startup_name || "founder").split(" ")[0].toLowerCase()}.</span>
           </h1>
           <p className="mt-3 text-slate-500">Your pipeline, refreshed in real time.</p>
         </div>
@@ -100,7 +100,7 @@ export default function Dashboard() {
 
       <section data-testid="deadlines-section">
         <div className="flex items-center gap-2 mb-5">
-          <Calendar size={16} className="text-emerald-700" />
+          <Calendar size={16} className="text-sky-600" />
           <h2 className="font-display text-xl font-semibold">Upcoming deadlines</h2>
         </div>
         {upcoming.length === 0 ? (
@@ -122,10 +122,10 @@ export default function Dashboard() {
       <section data-testid="drafts-section">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
-            <FileText size={16} className="text-emerald-700" />
+            <FileText size={16} className="text-sky-600" />
             <h2 className="font-display text-xl font-semibold">Drafts in Progress</h2>
           </div>
-          <Link to="/drafts" className="text-sm text-emerald-700 hover:text-emerald-900 font-medium" data-testid="view-all-drafts">View All Drafts →</Link>
+          <Link to="/drafts" className="text-sm text-sky-600 hover:text-sky-900 font-medium" data-testid="view-all-drafts">View All Drafts →</Link>
         </div>
         {drafts.length === 0 ? (
           <div className="bg-white border border-dashed border-slate-200 p-10 text-center text-sm text-slate-500">
@@ -133,7 +133,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="bg-white border border-slate-200 overflow-hidden">
-            <div className="h-1 bg-emerald-600" />
+            <div className="h-1 bg-sky-600" />
             <div className="p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -141,7 +141,7 @@ export default function Dashboard() {
                   <div className="text-sm text-slate-600 mt-1">{drafts[0].opportunity_title}</div>
                   <div className="text-xs text-slate-500 mt-1">Last edited: {drafts[0].last_edited}</div>
                 </div>
-                <span className="text-[11px] font-bold px-2 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 tracking-wide">{drafts[0].status}</span>
+                <span className="text-[11px] font-bold px-2 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200 tracking-wide">{drafts[0].status}</span>
               </div>
               <Link to="/drafts">
                 <Button className="mt-6 w-full h-12 rounded-md bg-slate-900 hover:bg-slate-800 text-white" data-testid="continue-draft-btn">
@@ -155,7 +155,7 @@ export default function Dashboard() {
 
       <section data-testid="matches-section">
         <div className="flex items-center gap-2 mb-5">
-          <Sparkles size={16} className="text-emerald-700" />
+          <Sparkles size={16} className="text-sky-600" />
           <h2 className="font-display text-xl font-semibold">High Relevance Matches</h2>
         </div>
         <div className="bg-white border border-slate-200 overflow-hidden">
@@ -174,7 +174,7 @@ export default function Dashboard() {
               <div className="col-span-2 text-rose-600 font-medium">{row.deadline}</div>
               <div className="col-span-1 text-right">
                 <button onClick={() => handleToggleSave(row)} className="p-1 hover:bg-slate-100 rounded-full transition-colors" title={row.saved ? "Unsave" : "Save"}>
-                  <Bookmark size={15} className={`inline transition-colors ${row.saved ? "fill-emerald-600 text-emerald-600" : "text-slate-400"}`} />
+                  <Bookmark size={15} className={`inline transition-colors ${row.saved ? "fill-sky-600 text-sky-600" : "text-slate-400"}`} />
                 </button>
               </div>
             </div>
@@ -192,7 +192,7 @@ function KpiCard({ value, label, suffix = "", featured }) {
       <div className={`font-display text-5xl font-bold tracking-tighter leading-none ${featured ? "text-white" : "text-slate-900"}`}>
         <CountUp end={value} duration={1.4} />{suffix}
       </div>
-      <div className={`mt-4 text-xs uppercase tracking-wider font-semibold ${featured ? "text-emerald-300" : "text-slate-500"}`}>{label}</div>
+      <div className={`mt-4 text-xs uppercase tracking-wider font-semibold ${featured ? "text-sky-300" : "text-slate-500"}`}>{label}</div>
     </motion.div>
   );
 }
