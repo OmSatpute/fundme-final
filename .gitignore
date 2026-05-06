@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Build artifacts
+build/
+
+# Local secrets and config
+.env
+backend/key.txt
+
+# Temporary and Development folders
+scratch/
+backend/scratch/
+backend/logs/
+backend/uploads/
+
+# Misc leftovers
+yarn.lock

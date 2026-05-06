@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "data/*",
+    "evals/*",
+    "logs/*",
+    "node_modules/*"
+  ],
+  "delay": "1000"
+}
