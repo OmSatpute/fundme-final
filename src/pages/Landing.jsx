@@ -147,33 +147,65 @@ export default function Landing() {
 
       {/* Bento features */}
       <section id="product" className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32">
-        <div className="max-w-2xl mb-14">
-          <div className="text-xs uppercase tracking-[0.2em] text-emerald-700 font-bold">The product</div>
-          <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold tracking-tight leading-[1.05]">
-            Three jobs, one workspace, <span className="font-serif-display text-emerald-700">zero spreadsheets.</span>
+        <div className="max-w-3xl mb-16">
+          <div className="text-xs uppercase tracking-[0.24em] text-emerald-700 font-bold mb-4">The platform</div>
+          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
+            One workspace, <span className="font-serif-display text-emerald-700 italic">infinite</span> leverage.
           </h2>
+          <p className="mt-6 text-slate-600 text-lg leading-relaxed">
+            We've replaced the chaos of tabs and spreadsheets with a unified system designed to get you funded.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
-          <BentoCard className="md:col-span-3 md:row-span-2 bg-emerald-700 text-white" Icon={Target}
+        <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 lg:gap-6">
+          {/* Discovery - Primary Feature */}
+          <BentoCard 
+            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-emerald-800 to-emerald-950 text-white border-0 shadow-2xl shadow-emerald-900/20" 
+            Icon={Target}
             title="Discovery that thinks like an analyst"
-            body="55+ relevant matches today. Filter by stage, sector, funding type. Verified ✓ across 1,200+ programs."
-            big />
-          <BentoCard className="md:col-span-3 bg-white" Icon={FileText}
-            title="AI-drafted applications"
-            body="Pull from your profile, fill 80% of any form, edit in your voice." />
-          <BentoCard className="md:col-span-3 bg-amber-50 border-amber-200" Icon={Briefcase}
-            title="Pipeline that closes"
-            body="Track Applied → Under Review → Shortlisted → Accepted. With nudges." />
-          <BentoCard className="md:col-span-2 bg-white" Icon={Building2}
-            title="Business opportunities"
-            body="Pilots, tenders, corporate co-builds — beyond grants." />
-          <BentoCard className="md:col-span-2 bg-white" Icon={Sparkles}
-            title="AI insights"
-            body="See what's working in your applications and what isn't." />
-          <BentoCard className="md:col-span-2 bg-slate-900 text-white" Icon={Zap}
+            body="55+ relevant matches today. Filter by stage, sector, and funding type. We track 1,200+ programs so you don't have to."
+            big 
+          />
+          
+          {/* AI Drafting */}
+          <BentoCard 
+            className="md:col-span-5 bg-white shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all border-slate-200/60" 
+            Icon={Sparkles}
+            title="AI-powered drafting"
+            body="Pull instantly from your startup profile to fill 80% of any grant or accelerator form in your own voice."
+          />
+
+          {/* Smart Profile */}
+          <BentoCard 
+            className="md:col-span-5 bg-[#F0F7FF] border-blue-100/50" 
+            Icon={Building2}
+            title="Your Source of Truth"
+            body="Keep your stage, traction, and problem statements updated in one place. It powers every other module in the OS."
+          />
+
+          {/* Pipeline */}
+          <BentoCard 
+            className="md:col-span-4 bg-white" 
+            Icon={Zap}
+            title="Pipeline Management"
+            body="Track every status from 'Draft' to 'Accepted' in a unified kanban-style view with smart deadline alerts."
+          />
+
+          {/* Business Opps */}
+          <BentoCard 
+            className="md:col-span-4 bg-slate-900 text-white border-0" 
+            Icon={Briefcase}
+            title="Beyond Grants"
+            body="Access pilots, corporate tenders, and co-build opportunities that turn your traction into revenue."
+          />
+
+          {/* India First */}
+          <BentoCard 
+            className="md:col-span-4 bg-white" 
+            Icon={Target}
             title="Built for India"
-            body="DPIIT, Startup India, GeM, MSME — first-class citizens." />
+            body="Native support for DPIIT, Startup India, GeM, and MSME schemes. We speak the language of the Indian ecosystem."
+          />
         </div>
       </section>
 
@@ -286,17 +318,27 @@ export default function Landing() {
 }
 
 function BentoCard({ className = "", Icon, title, body, big }) {
+  const isDark = className.includes("bg-emerald-800") || className.includes("bg-slate-900");
   return (
     <motion.div
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -6, shadow: "0 20px 40px -15px rgba(15,23,42,0.1)" }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className={`p-6 md:p-8 border border-slate-200 ${className}`}
+      className={`relative p-8 rounded-2xl border border-slate-200/60 overflow-hidden ${className}`}
     >
-      <Icon size={big ? 32 : 22} strokeWidth={1.5} />
-      <div className={`mt-${big ? "10" : "6"} font-display ${big ? "text-3xl md:text-4xl" : "text-xl"} font-semibold tracking-tight leading-tight`}>
+      <div className={`h-12 w-12 rounded-xl flex items-center justify-center mb-10 ${isDark ? "bg-white/10" : "bg-emerald-50"}`}>
+        <Icon size={big ? 28 : 22} strokeWidth={2} className={isDark ? "text-emerald-400" : "text-emerald-700"} />
+      </div>
+      <div className={`font-display ${big ? "text-3xl md:text-4xl" : "text-xl"} font-bold tracking-tight leading-tight`}>
         {title}
       </div>
-      <p className={`mt-3 text-sm ${className.includes("text-white") ? "text-white/80" : "text-slate-600"}`}>{body}</p>
+      <p className={`mt-4 text-sm leading-relaxed ${isDark ? "text-slate-300" : "text-slate-600"}`}>
+        {body}
+      </p>
+      
+      {/* Subtle light effect for dark cards */}
+      {isDark && (
+        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 blur-[60px] rounded-full -mr-16 -mt-16" />
+      )}
     </motion.div>
   );
 }
