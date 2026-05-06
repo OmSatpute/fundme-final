@@ -157,10 +157,10 @@ export default function Landing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 md:row-rows-2 gap-4 lg:gap-6">
           {/* Discovery - Primary Feature */}
           <BentoCard 
-            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-emerald-800 to-emerald-950 text-white border-0 shadow-2xl shadow-emerald-900/20" 
+            className="md:col-span-7 md:row-span-2 bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 text-white border-0 shadow-2xl shadow-blue-900/20" 
             Icon={Target}
             title="Discovery that thinks like an analyst"
             body="55+ relevant matches today. Filter by stage, sector, and funding type. We track 1,200+ programs so you don't have to."
@@ -177,7 +177,7 @@ export default function Landing() {
 
           {/* Smart Profile */}
           <BentoCard 
-            className="md:col-span-5 bg-[#F0F7FF] border-blue-100/50" 
+            className="md:col-span-5 bg-emerald-50/50 border-emerald-100/50" 
             Icon={Building2}
             title="Your Source of Truth"
             body="Keep your stage, traction, and problem statements updated in one place. It powers every other module in the OS."
@@ -193,7 +193,7 @@ export default function Landing() {
 
           {/* Business Opps */}
           <BentoCard 
-            className="md:col-span-4 bg-slate-900 text-white border-0" 
+            className="md:col-span-4 bg-emerald-900 text-white border-0" 
             Icon={Briefcase}
             title="Beyond Grants"
             body="Access pilots, corporate tenders, and co-build opportunities that turn your traction into revenue."
