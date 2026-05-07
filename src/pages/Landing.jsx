@@ -78,7 +78,7 @@ export default function Landing() {
           </nav>
           <div className="flex items-center gap-2">
             <Link to="/login">
-              <Button variant="ghost" className="rounded-md text-slate-700 hover:bg-slate-100" data-testid="nav-login">
+              <Button variant="outline" className="rounded-md border-slate-300 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition-all" data-testid="nav-login">
                 Log in
               </Button>
             </Link>
@@ -142,7 +142,7 @@ export default function Landing() {
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button variant="outline" size="lg" className="h-12 px-7 rounded-md border-emerald-300 text-emerald-900 hover:bg-emerald-50 text-base" data-testid="hero-cta-secondary">
+                  <Button variant="outline" size="lg" className="h-12 px-7 rounded-md border-emerald-300 text-emerald-900 hover:bg-emerald-50 hover:text-emerald-700" data-testid="hero-cta-secondary">
                     I already have an account
                   </Button>
                 </Link>
