@@ -15,6 +15,19 @@ const STATUS_STYLES = {
   APPLIED: "bg-slate-100 text-slate-800 border-slate-300",
 };
 
+const formatEditedAt = (value) => {
+  if (!value) return "Updated recently";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return `Updated ${new Intl.DateTimeFormat("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date)}`;
+};
+
 export default function Drafts() {
   const nav = useNavigate();
   const [drafts, setDrafts] = useState([]);
@@ -124,11 +137,11 @@ export default function Drafts() {
                 <div className="flex items-start justify-between gap-6 flex-wrap">
                   <div className="flex-1 min-w-[260px]">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="font-display text-xl font-semibold">Draft: {d.draft_id}</h3>
+                      <h3 className="font-display text-xl font-semibold">{d.opportunity_title}</h3>
                       <span className={`text-[11px] font-bold px-2 py-1 rounded-full border tracking-wide ${STATUS_STYLES[d.status] || STATUS_STYLES["IN PROGRESS"]}`}>{d.status}</span>
                     </div>
-                    <div className="mt-1 text-sm text-slate-600">{d.opportunity_title}</div>
-                    <div className="mt-1 text-xs text-slate-500">Last edited: {d.last_edited}</div>
+                    <div className="mt-1 text-sm text-slate-500">Draft ID: {d.draft_id}</div>
+                    <div className="mt-1 text-xs text-slate-500">{formatEditedAt(d.last_edited)}</div>
                   </div>
                   <div className="w-full md:w-72">
                     <div className="flex justify-between text-xs text-slate-500 mb-1.5">

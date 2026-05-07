@@ -75,7 +75,7 @@ export default function StartupProfile() {
       <section className="col-span-12 lg:col-span-9">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div className="flex items-center gap-5">
-            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[var(--primary)] to-[#1E293B] text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
+            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--primary)] text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
               {user?.avatar ? (
                 <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
