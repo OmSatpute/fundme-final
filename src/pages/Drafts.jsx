@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ExternalLink, FileText, CheckCircle2, Eye, Loader2, PencilLine, FileEdit } from "lucide-react";
+import { ExternalLink, FileText, CheckCircle2, Eye, Loader2, PencilLine, FileEdit, ClipboardList } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
-import { apiListDrafts, apiTrackApplication, errMsg } from "@/lib/api";
+import { apiListApplications, apiListDrafts, apiTrackApplication, errMsg } from "@/lib/api";
 import { getApplyLink, stageExtensionContext } from "@/lib/applyFlow";
 import { checkExtensionInstalled } from "@/lib/utils";
 
@@ -31,6 +31,7 @@ const formatEditedAt = (value) => {
 export default function Drafts() {
   const nav = useNavigate();
   const [drafts, setDrafts] = useState([]);
+  const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState(null);
   const [portalBusyId, setPortalBusyId] = useState(null);
@@ -39,8 +40,12 @@ export default function Drafts() {
 
   const reload = () => {
     setLoading(true);
-    apiListDrafts().then((data) => {
-      setDrafts(data);
+    Promise.all([
+      apiListDrafts().catch(() => []),
+      apiListApplications().catch(() => []),
+    ]).then(([draftData, appData]) => {
+      setDrafts(draftData);
+      setApplications(appData);
 
       const pendingDraftId = sessionStorage.getItem("FUNDME_EXT_PENDING_DRAFT");
       if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname && pendingDraftId) {
@@ -51,7 +56,7 @@ export default function Drafts() {
           if (btn) btn.click();
         }, 800);
       }
-    }).catch(() => setDrafts([])).finally(() => setLoading(false));
+    }).finally(() => setLoading(false));
   };
 
   useEffect(reload, []);
@@ -60,9 +65,14 @@ export default function Drafts() {
     setBusyId(d.draft_id);
     try {
       await apiTrackApplication({ opportunity_id: d.opportunity_id, deadline: d.deadline, status: "applied" });
-      toast.success("Marked as Applied - moved to Applications");
+      toast.success("Tracked in Applications");
       reload();
     } catch (e) {
+      if (e?.response?.status === 409) {
+        toast.success("Already tracked in Applications");
+        reload();
+        return;
+      }
       toast.error(errMsg(e, "Could not mark applied."));
     } finally {
       setBusyId(null);
@@ -105,6 +115,8 @@ export default function Drafts() {
     toast.info("Opening portal without extension.");
   };
 
+  const applicationByOpportunity = new Map(applications.map((app) => [app.opportunity_id, app]));
+
   return (
     <div className="max-w-5xl" data-testid="drafts-page">
       <div className="mb-10">
@@ -123,81 +135,106 @@ export default function Drafts() {
         </div>
       ) : (
         <div className="space-y-5">
-          {drafts.map((d, i) => (
-            <motion.div
-              key={d.draft_id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: i * 0.06 }}
-              className="bg-white border border-slate-200 hover:border-slate-300 transition-colors overflow-hidden"
-              data-testid={`draft-${d.draft_id}`}
-            >
-              <div className="h-1 bg-[var(--accent)]" />
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-6 flex-wrap">
-                  <div className="flex-1 min-w-[260px]">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="font-display text-xl font-semibold">{d.opportunity_title}</h3>
-                      <span className={`text-[11px] font-bold px-2 py-1 rounded-full border tracking-wide ${STATUS_STYLES[d.status] || STATUS_STYLES["IN PROGRESS"]}`}>{d.status}</span>
-                    </div>
-                    <div className="mt-1 text-sm text-slate-500">Draft ID: {d.draft_id}</div>
-                    <div className="mt-1 text-xs text-slate-500">{formatEditedAt(d.last_edited)}</div>
-                  </div>
-                  <div className="w-full md:w-72">
-                    <div className="flex justify-between text-xs text-slate-500 mb-1.5">
-                      <span>AI completion</span><span className="font-semibold text-slate-900" data-testid={`draft-progress-${d.draft_id}`}>{d.progress}%</span>
-                    </div>
-                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                      <motion.div initial={{ width: 0 }} animate={{ width: `${d.progress}%` }} transition={{ duration: 1, delay: 0.2 }} className="h-full bg-[var(--accent)]" />
-                    </div>
-                  </div>
-                </div>
+          {drafts.map((d, i) => {
+            const trackedApplication = applicationByOpportunity.get(d.opportunity_id);
 
-                <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-slate-600">
-                  <WorkflowStep icon={FileEdit} title="Draft started" text="Answers live here." />
-                  <WorkflowStep icon={ExternalLink} title="Fill portal" text="Extension reads this draft." />
-                  <WorkflowStep icon={CheckCircle2} title="Review and submit" text="Submit manually, then track it." />
-                </div>
+            return (
+              <motion.div
+                key={d.draft_id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.06 }}
+                className="bg-white border border-slate-200 hover:border-slate-300 transition-colors overflow-hidden"
+                data-testid={`draft-${d.draft_id}`}
+              >
+                <div className="h-1 bg-[var(--accent)]" />
+                <div className="p-6">
+                  <div className="flex items-start justify-between gap-6 flex-wrap">
+                    <div className="flex-1 min-w-[260px]">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <h3 className="font-display text-xl font-semibold">{d.opportunity_title}</h3>
+                        <span className={`text-[11px] font-bold px-2 py-1 rounded-full border tracking-wide ${STATUS_STYLES[d.status] || STATUS_STYLES["IN PROGRESS"]}`}>{d.status}</span>
+                        {trackedApplication ? (
+                          <span className="text-[11px] font-bold px-2 py-1 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 tracking-wide">
+                            TRACKED
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="mt-1 text-sm text-slate-500">Draft ID: {d.draft_id}</div>
+                      <div className="mt-1 text-xs text-slate-500">{formatEditedAt(d.last_edited)}</div>
+                    </div>
+                    <div className="w-full md:w-72">
+                      <div className="flex justify-between text-xs text-slate-500 mb-1.5">
+                        <span>AI completion</span><span className="font-semibold text-slate-900" data-testid={`draft-progress-${d.draft_id}`}>{d.progress}%</span>
+                      </div>
+                      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div initial={{ width: 0 }} animate={{ width: `${d.progress}%` }} transition={{ duration: 1, delay: 0.2 }} className="h-full bg-[var(--accent)]" />
+                      </div>
+                    </div>
+                  </div>
 
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-2">
-                  <Button
-                    className="h-11 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium btn-press disabled:opacity-60"
-                    data-testid={`apply-portal-${d.draft_id}`}
-                    disabled={portalBusyId === d.draft_id || !getApplyLink(d)}
-                    onClick={() => applyToPortal(d)}
-                  >
-                    {portalBusyId === d.draft_id ? <Loader2 size={14} className="mr-2 animate-spin" /> : <ExternalLink size={14} className="mr-2" />}
-                    Apply to Portal
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-11 rounded-md border-slate-300 hover:bg-slate-50 text-slate-900 hover:text-slate-900 btn-press"
-                    data-testid={`edit-${d.draft_id}`}
-                    onClick={() => nav(`/drafts/${d.draft_id}`)}
-                  >
-                    <PencilLine size={14} className="mr-2" /> Edit Draft
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-11 rounded-md border-slate-300 hover:bg-slate-50 text-slate-900 hover:text-slate-900 btn-press"
-                    data-testid={`review-${d.draft_id}`}
-                    onClick={() => nav(`/drafts/${d.draft_id}?review=true`)}
-                  >
-                    <Eye size={14} className="mr-2" /> Review Draft
-                  </Button>
-                  <Button
-                    variant="outline"
-                    disabled={busyId === d.draft_id}
-                    className="h-11 rounded-md border-[var(--accent)]/30 bg-[var(--primary-light)]/50 hover:bg-[var(--primary-light)] text-[var(--accent)] hover:text-[var(--accent)] btn-press disabled:opacity-60"
-                    data-testid={`mark-applied-${d.draft_id}`}
-                    onClick={() => markApplied(d)}
-                  >
-                    {busyId === d.draft_id ? <Loader2 size={14} className="mr-2 animate-spin" /> : <CheckCircle2 size={14} className="mr-2" />} Mark Applied
-                  </Button>
+                  <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-slate-600">
+                    <WorkflowStep icon={FileEdit} title="Draft started" text="Answers live here." />
+                    <WorkflowStep icon={ExternalLink} title="Fill portal" text="Extension reads this draft." />
+                    <WorkflowStep icon={CheckCircle2} title="Review and submit" text="Submit manually, then track it." />
+                  </div>
+
+                  {trackedApplication ? (
+                    <div className="mt-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+                      This application is now being tracked in Applications as <span className="font-semibold">{trackedApplication.status}</span>.
+                    </div>
+                  ) : null}
+
+                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-2">
+                    <Button
+                      className="h-11 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium btn-press disabled:opacity-60"
+                      data-testid={`apply-portal-${d.draft_id}`}
+                      disabled={portalBusyId === d.draft_id || !getApplyLink(d)}
+                      onClick={() => applyToPortal(d)}
+                    >
+                      {portalBusyId === d.draft_id ? <Loader2 size={14} className="mr-2 animate-spin" /> : <ExternalLink size={14} className="mr-2" />}
+                      Apply to Portal
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-11 rounded-md border-slate-300 hover:bg-slate-50 text-slate-900 hover:text-slate-900 btn-press"
+                      data-testid={`edit-${d.draft_id}`}
+                      onClick={() => nav(`/drafts/${d.draft_id}`)}
+                    >
+                      <PencilLine size={14} className="mr-2" /> Edit Draft
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-11 rounded-md border-slate-300 hover:bg-slate-50 text-slate-900 hover:text-slate-900 btn-press"
+                      data-testid={`review-${d.draft_id}`}
+                      onClick={() => nav(`/drafts/${d.draft_id}?review=true`)}
+                    >
+                      <Eye size={14} className="mr-2" /> Review Draft
+                    </Button>
+                    {trackedApplication ? (
+                      <Button
+                        className="h-11 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white btn-press"
+                        data-testid={`tracked-${d.draft_id}`}
+                        onClick={() => nav("/applications")}
+                      >
+                        <ClipboardList size={14} className="mr-2" /> Track in Applications
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        disabled={busyId === d.draft_id}
+                        className="h-11 rounded-md border-[var(--accent)]/30 bg-[var(--primary-light)]/50 hover:bg-[var(--primary-light)] text-[var(--accent)] hover:text-[var(--accent)] btn-press disabled:opacity-60"
+                        data-testid={`mark-applied-${d.draft_id}`}
+                        onClick={() => markApplied(d)}
+                      >
+                        {busyId === d.draft_id ? <Loader2 size={14} className="mr-2 animate-spin" /> : <CheckCircle2 size={14} className="mr-2" />} Mark Applied
+                      </Button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       )}
 

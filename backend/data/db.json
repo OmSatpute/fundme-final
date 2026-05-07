@@ -5173,6 +5173,40 @@
       "ai_insights": [],
       "submitted_at": "2026-05-07",
       "deadline": "14 May 2026"
+    },
+    {
+      "application_id": "a5c40f0",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_1866e6",
+      "status": "Applied",
+      "timeline": [
+        {
+          "stage": "Applied",
+          "date": "2026-05-07"
+        }
+      ],
+      "next_step": null,
+      "feedback": null,
+      "ai_insights": [],
+      "submitted_at": "2026-05-07",
+      "deadline": "14 May 2026"
+    },
+    {
+      "application_id": "a1d4000",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_b01f80",
+      "status": "Applied",
+      "timeline": [
+        {
+          "stage": "Applied",
+          "date": "2026-05-07"
+        }
+      ],
+      "next_step": null,
+      "feedback": null,
+      "ai_insights": [],
+      "submitted_at": "2026-05-07",
+      "deadline": "28 May 2026"
     }
   ],
   "drafts": [
