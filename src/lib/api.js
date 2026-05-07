@@ -76,10 +76,11 @@ export const apiListOpportunities = async (type) => {
   return applySavedState(normalized);
 };
 
-// "Business" view = types that aren't pure capital grants (Contest / Fellowship / Other).
-const BUSINESS_TYPES = new Set(["Contest", "Fellowship", "Other"]);
+// "Business" view = revenue-oriented opportunities, including live GeM tenders.
+const BUSINESS_TYPES = new Set(["Contest", "Fellowship", "Other", "Tender", "Reverse Auction"]);
 export const apiListBusinessOpps = async () => {
-  const raw = await unwrap(http.get("/opportunities"));
+  const response = await unwrap(http.get("/business-opportunities"));
+  const raw = Array.isArray(response) ? response : (response.opportunities || []);
   const normalized = filterOpenDeadlines(raw).filter((o) => BUSINESS_TYPES.has(o.type)).map(normalizeOpp);
   return applySavedState(normalized);
 };

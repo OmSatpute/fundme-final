@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { User, Bell, Shield, CreditCard, Trash2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -21,7 +21,7 @@ export default function Settings() {
   return (
     <div className="grid grid-cols-12 gap-10 max-w-6xl" data-testid="settings-page">
       <aside className="col-span-12 lg:col-span-3 lg:sticky lg:top-24 lg:self-start">
-        <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold mb-4">Settings</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-[var(--accent)] font-bold mb-4">Settings</div>
         <div className="space-y-1">
           {TABS.map(({ id, label, Icon }) => (
             <button
@@ -29,7 +29,7 @@ export default function Settings() {
               onClick={() => setTab(id)}
               data-testid={`settings-tab-${id}`}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all ${
-                tab === id ? "bg-emerald-700 text-white" : "text-slate-700 hover:bg-emerald-50"
+                tab === id ? "bg-[var(--primary)] text-white" : "text-slate-700 hover:bg-[var(--primary-light)]"
               }`}
             >
               <Icon size={15} strokeWidth={1.75} />
@@ -57,7 +57,7 @@ export default function Settings() {
               <Field label="Phone"><Input defaultValue="+91 98xxxx1234" className="h-11 rounded-md" /></Field>
               <Field label="Designation"><Input defaultValue="Founder & CEO" className="h-11 rounded-md" /></Field>
               <div className="md:col-span-2 flex justify-end">
-                <Button onClick={() => toast.success("Account updated")} className="rounded-md bg-emerald-700 hover:bg-emerald-800 text-white h-11 px-5 btn-press" data-testid="save-account">
+                <Button onClick={() => toast.success("Account updated")} className="rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white h-11 px-5 btn-press" data-testid="save-account">
                   Save changes
                 </Button>
               </div>
@@ -93,11 +93,11 @@ export default function Settings() {
 
           {tab === "billing" && (
             <div className="space-y-6">
-              <div className="bg-emerald-50 border border-emerald-200 p-6">
-                <div className="text-xs uppercase tracking-wider text-emerald-600 font-bold">Current plan</div>
+              <div className="bg-[var(--primary-light)] border border-[var(--primary-light)] p-6">
+                <div className="text-xs uppercase tracking-wider text-[var(--accent)] font-bold">Current plan</div>
                 <div className="mt-2 font-display text-3xl font-bold">Founder · Free</div>
-                <p className="mt-2 text-sm text-emerald-900/80">Unlock unlimited AI drafts, Kanban automations, and priority support.</p>
-                <Button className="mt-4 rounded-md bg-emerald-600 hover:bg-emerald-800 text-white" data-testid="upgrade-plan">
+                <p className="mt-2 text-sm text-[var(--accent)]/80">Unlock unlimited AI drafts, Kanban automations, and priority support.</p>
+                <Button className="mt-4 rounded-md bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white" data-testid="upgrade-plan">
                   Upgrade to Growth
                 </Button>
               </div>
@@ -127,7 +127,7 @@ function ToggleRow({ label, desc, checked, onChange, testid }) {
         <div className="font-medium text-slate-900">{label}</div>
         <div className="text-sm text-slate-500 mt-0.5">{desc}</div>
       </div>
-      <Switch checked={checked} onCheckedChange={onChange} data-testid={testid} className="data-[state=checked]:bg-emerald-600" />
+      <Switch checked={checked} onCheckedChange={onChange} data-testid={testid} className="data-[state=checked]:bg-[var(--accent)]" />
     </div>
   );
 }

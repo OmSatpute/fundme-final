@@ -4,6 +4,8 @@ const cheerio = require('cheerio');
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
 const BASE_URL = 'https://www.startupgrantsindia.com';
+const GEM_BIDS_URL = 'https://bidplus.gem.gov.in/all-bids';
+const GEM_BIDS_DATA_URL = 'https://bidplus.gem.gov.in/all-bids-data';
 const MAX_PAGES = 8;
 const PER_PAGE_DELAY_MS = 800;
 const REQUEST_TIMEOUT_MS = 15000;
@@ -13,6 +15,138 @@ const RETRY_DELAY_MS = 2000;
 const USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
   '(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
+
+const getFirst = (value, fallback = '') => Array.isArray(value) ? (value[0] ?? fallback) : (value ?? fallback);
+
+function formatGemDate(value) {
+  const raw = getFirst(value);
+  if (!raw) return '';
+  const date = new Date(raw);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'UTC'
+  });
+}
+
+function buildGemPayload(page = 1) {
+  const payload = {
+    param: {
+      searchBid: '',
+      searchType: 'fullText'
+    },
+    filter: {
+      bidStatusType: 'ongoing_bids',
+      byType: 'all',
+      highBidValue: '',
+      byEndDate: {
+        from: '',
+        to: ''
+      },
+      sort: 'Bid-End-Date-Oldest'
+    }
+  };
+
+  if (page > 1) payload.page = page;
+  return payload;
+}
+
+function mapGemBidToOpportunity(bid) {
+  const bidId = String(getFirst(bid.b_id, bid.id));
+  const bidType = Number(getFirst(bid.b_bid_type, 1));
+  const isRa = bidType === 2 || bidType === 5;
+  const documentPath = bidType === 5 ? 'showdirectradocumentPdf' : (bidType === 2 ? 'showradocumentPdf' : 'showbidDocument');
+  const category = getFirst(bid.b_category_name, 'GeM bid opportunity');
+  const department = getFirst(bid.ba_official_details_deptName, 'Government e-Marketplace');
+  const ministry = getFirst(bid.ba_official_details_minName, '');
+  const quantity = getFirst(bid.b_total_quantity, '');
+  const bidNumber = getFirst(bid.b_bid_number, `GeM/${bidId}`);
+  const link = `https://bidplus.gem.gov.in/${documentPath}/${bidId}`;
+
+  return {
+    opportunity_id: `gem_${bidId}`,
+    title: category,
+    provider: ministry ? `${ministry} - ${department}` : department,
+    description: [
+      `${isRa ? 'Reverse auction' : 'Tender'} ${bidNumber} on GeM.`,
+      quantity ? `Quantity: ${quantity}.` : '',
+      getFirst(bid.bd_category_name, '') && getFirst(bid.bd_category_name, '') !== category
+        ? `Items: ${getFirst(bid.bd_category_name, '')}.`
+        : ''
+    ].filter(Boolean).join(' '),
+    eligibility: 'Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.',
+    benefits: ['Government procurement opportunity', 'Official GeM bid document', 'Open tender participation'],
+    timeline: `Bid start: ${formatGemDate(bid.final_start_date_sort) || 'Not specified'}. Bid end: ${formatGemDate(bid.final_end_date_sort) || 'Not specified'}.`,
+    type: isRa ? 'Reverse Auction' : 'Tender',
+    amount: Number(getFirst(bid.is_high_value, 0)) ? 'High value bid' : 'As per bid document',
+    deadline: formatGemDate(bid.final_end_date_sort) || 'Not specified',
+    location: 'India',
+    sector: 'Government Procurement',
+    stage: 'Open Tender',
+    link,
+    external_apply_url: link,
+    slug: `gem-${bidId}`,
+    raw_scraped_text: JSON.stringify(bid).slice(0, 8000),
+    credibility_source: 'Verified via GeM bidplus.gem.gov.in',
+    match_score: 0,
+    source: 'gem',
+  };
+}
+
+async function scrapeGemBids({ pages = 2, limit = 20 } = {}) {
+  const landing = await axios.get(GEM_BIDS_URL, {
+    headers: {
+      'User-Agent': USER_AGENT,
+      Accept: 'text/html,application/xhtml+xml',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Cache-Control': 'no-cache'
+    },
+    timeout: REQUEST_TIMEOUT_MS,
+  });
+
+  const csrf = landing.data.match(/csrf_bd_gem_nk['"]?\s*:\s*['"]([^'"]+)['"]/)?.[1] ||
+    landing.data.match(/csrf_bd_gem_nk=([a-f0-9]+)/i)?.[1];
+  if (!csrf) throw new Error('Could not find GeM CSRF token');
+
+  const cookie = (landing.headers['set-cookie'] || []).map(item => item.split(';')[0]).join('; ');
+  const results = [];
+
+  for (let page = 1; page <= pages && results.length < limit; page++) {
+    const body = new URLSearchParams({
+      payload: JSON.stringify(buildGemPayload(page)),
+      csrf_bd_gem_nk: csrf
+    });
+
+    const response = await axios.post(GEM_BIDS_DATA_URL, body.toString(), {
+      headers: {
+        'User-Agent': USER_AGENT,
+        Accept: 'application/json, text/javascript, */*; q=0.01',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+        Origin: 'https://bidplus.gem.gov.in',
+        Referer: GEM_BIDS_URL,
+        Cookie: cookie
+      },
+      timeout: REQUEST_TIMEOUT_MS,
+    });
+
+    const docs = response.data?.response?.response?.docs || [];
+    results.push(...docs.map(mapGemBidToOpportunity));
+  }
+
+  const seen = new Set();
+  return results.filter(item => {
+    if (!item.opportunity_id || seen.has(item.opportunity_id)) return false;
+    seen.add(item.opportunity_id);
+    return true;
+  }).slice(0, limit);
+}
 
 // Hrefs that are never opportunity detail pages
 const NOISE_HREF_PATTERNS = [
@@ -768,6 +902,7 @@ module.exports = {
   scrapeDetails,
   scrapeApplyLink,
   scrapeOpportunityDetailData,
+  scrapeGemBids,
   extractApplyLinkFromHtml,
   extractOpportunityDetailDataFromHtml
 };

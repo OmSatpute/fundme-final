@@ -5,26 +5,29 @@ import { AlertTriangle, Calendar, ExternalLink, Info, Loader2, Save, Sparkles, T
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { apiListApplications, apiUpdateApplicationStatus, errMsg } from "@/lib/api";
+import { apiListApplications, apiUpdateApplicationStatus, apiStageExtensionSession, errMsg } from "@/lib/api";
+import { getUserId } from "@/lib/auth";
+import { checkExtensionInstalled } from "@/lib/utils";
+import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
 
 const APP_STAGES = ["Applied", "Under Review", "Shortlisted", "Interview / Pitch Round", "Accepted", "Rejected", "Waitlisted", "Withdrawn"];
 
 const STAGE_COLORS = {
-  Applied: { ring: "border-slate-300", chip: "bg-slate-100 text-slate-800", dot: "bg-slate-400" },
-  "Under Review": { ring: "border-emerald-300", chip: "bg-emerald-100 text-emerald-800", dot: "bg-emerald-400" },
-  Shortlisted: { ring: "border-emerald-300", chip: "bg-emerald-100 text-emerald-800", dot: "bg-emerald-500" },
-  "Interview / Pitch Round": { ring: "border-emerald-400", chip: "bg-emerald-50 text-emerald-800", dot: "bg-emerald-500" },
-  Accepted: { ring: "border-emerald-300", chip: "bg-emerald-100 text-emerald-800", dot: "bg-emerald-600" },
-  Rejected: { ring: "border-slate-300", chip: "bg-slate-100 text-slate-700", dot: "bg-slate-400" },
-  Waitlisted: { ring: "border-emerald-200", chip: "bg-emerald-50 text-emerald-700", dot: "bg-emerald-300" },
-  Withdrawn: { ring: "border-slate-300", chip: "bg-slate-100 text-slate-700", dot: "bg-slate-400" },
+  Applied: { ring: "border-t-slate-400", chip: "bg-slate-100 text-slate-800", dot: "bg-slate-400" },
+  "Under Review": { ring: "border-t-amber-400", chip: "bg-amber-100 text-amber-800", dot: "bg-amber-400" },
+  Shortlisted: { ring: "border-t-blue-400", chip: "bg-blue-100 text-blue-800", dot: "bg-blue-500" },
+  "Interview / Pitch Round": { ring: "border-t-purple-500", chip: "bg-purple-100 text-purple-800", dot: "bg-purple-500" },
+  Accepted: { ring: "border-t-emerald-500", chip: "bg-emerald-100 text-emerald-800", dot: "bg-emerald-600" },
+  Rejected: { ring: "border-t-rose-500", chip: "bg-rose-100 text-rose-700", dot: "bg-rose-400" },
+  Waitlisted: { ring: "border-t-amber-300", chip: "bg-amber-50 text-amber-700", dot: "bg-amber-300" },
+  Withdrawn: { ring: "border-t-slate-300", chip: "bg-slate-100 text-slate-700", dot: "bg-slate-400" },
 };
 
 const ICON = { positive: TrendingUp, warning: AlertTriangle, info: Info };
 const TONE = {
-  positive: "bg-emerald-50 border-emerald-200 text-emerald-900",
-  warning: "bg-emerald-50 border-emerald-200 text-emerald-900",
-  info: "bg-emerald-50 border-emerald-200 text-emerald-900",
+  positive: "bg-emerald-50 border-emerald-100 text-emerald-900",
+  warning: "bg-amber-50 border-amber-100 text-amber-900",
+  info: "bg-blue-50 border-blue-100 text-blue-900",
 };
 
 const latestTimelineNote = (app) => {
@@ -51,13 +54,32 @@ export default function Applications() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [showExtensionModal, setShowExtensionModal] = useState(false);
+  const [pendingApp, setPendingApp] = useState(null);
 
   const reload = () => {
     setLoading(true);
-    apiListApplications().then(setApps).catch(() => setApps([])).finally(() => setLoading(false));
+    apiListApplications().then((data) => {
+      setApps(data);
+      
+      // Auto-trigger portal if we just reloaded for extension on this page
+      if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname) {
+        sessionStorage.removeItem("FUNDME_EXT_RELOAD");
+        toast.success("Extension activated! Opening portal...");
+        // In Applications, we don't know which one was selected, but usually the user 
+        // was looking at one. We'll just let them click it once more for safety 
+        // or we could store the app ID. For now, just clearing the flag is good.
+      }
+    }).catch(() => setApps([])).finally(() => setLoading(false));
   };
 
   useEffect(reload, []);
+
+  // Expose modal trigger to child component
+  useEffect(() => {
+    // This was a temporary hack, now using props
+    return () => {};
+  }, []);
 
   const updateSelected = async (patch) => {
     if (!selected) return;
@@ -75,7 +97,7 @@ export default function Applications() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-emerald-600" /></div>;
+  if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-[var(--accent)]" /></div>;
 
   const counts = APP_STAGES.reduce((acc, s) => { acc[s] = apps.filter((a) => a.status === s).length; return acc; }, {});
   const insights = buildInsights(apps);
@@ -83,7 +105,7 @@ export default function Applications() {
   return (
     <div className="space-y-10" data-testid="applications-page">
       <header>
-        <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold">Pipeline</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-[var(--accent)] font-bold">Pipeline</div>
         <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">Applications Tracker</h1>
         <p className="mt-3 text-slate-500">Every application, every stage. AI watches the patterns so you do not have to.</p>
       </header>
@@ -120,7 +142,7 @@ export default function Applications() {
                         transition={{ duration: 0.3, delay: i * 0.05 }}
                         whileHover={{ y: -2 }}
                         onClick={() => setSelected(a)}
-                        className={`p-3 bg-white border ${c.ring} hover:shadow-md transition-all cursor-pointer`}
+                        className={`p-3 bg-white border-x border-b border-t-2 ${c.ring} hover:shadow-md transition-all cursor-pointer`}
                         data-testid={`app-card-${a.application_id}`}
                       >
                         <div className="text-[13px] font-semibold text-slate-900 leading-tight line-clamp-2">{a.opportunity_title}</div>
@@ -131,7 +153,7 @@ export default function Applications() {
                         </div>
                         {a.deadline ? <div className="mt-2 text-[10px] text-slate-500">Deadline: {a.deadline}</div> : null}
                         <div className="mt-3 border-l-2 border-emerald-600 bg-slate-50 px-2.5 py-2">
-                          <div className="text-[10px] uppercase tracking-wider font-bold text-emerald-600">Next step</div>
+                          <div className="text-[10px] uppercase tracking-wider font-bold text-[var(--accent)]">Next step</div>
                           <div className="mt-1 text-[11px] leading-snug text-slate-700 line-clamp-3">{latestTimelineNote(a)}</div>
                         </div>
                         {a.match ? <div className="mt-2"><span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${c.chip}`}>{a.match}% match</span></div> : null}
@@ -147,7 +169,7 @@ export default function Applications() {
 
         <aside className="xl:col-span-1 space-y-3 xl:sticky xl:top-24 xl:self-start" data-testid="ai-insights">
           <div className="flex items-center gap-2">
-            <Sparkles size={16} className="text-emerald-600" />
+            <Sparkles size={16} className="text-[var(--accent)]" />
             <h3 className="font-display text-lg font-semibold">AI Insights</h3>
           </div>
           {insights.map((ins) => {
@@ -174,29 +196,78 @@ export default function Applications() {
           saving={saving}
           onClose={() => setSelected(null)}
           onUpdate={updateSelected}
+          onShowModal={(app) => {
+            setPendingApp(app);
+            setShowExtensionModal(true);
+          }}
         />
       ) : null}
+      <ExtensionInstallModal 
+        open={showExtensionModal} 
+        onOpenChange={setShowExtensionModal} 
+        onVerified={() => {
+          if (pendingApp) {
+            const link = pendingApp.opportunity?.external_apply_url || pendingApp.opportunity?.link || "";
+            if (link) {
+              apiStageExtensionSession({ opportunity_id: pendingApp.opportunity_id, external_url: link });
+              window.open(link, "_blank", "noopener,noreferrer");
+              toast.success("Extension context prepared.");
+            }
+          }
+        }}
+        onIgnore={() => {
+          if (pendingApp) {
+            const link = pendingApp.opportunity?.external_apply_url || pendingApp.opportunity?.link || "";
+            if (link) {
+              window.open(link, "_blank", "noopener,noreferrer");
+              toast.info("Opening portal without extension.");
+            }
+          }
+        }}
+      />
     </div>
   );
 }
 
 function Stat({ label, value, big, accent }) {
-  const map = { amber: "text-emerald-700", emerald: "text-emerald-700", rose: "text-slate-700" };
+  const map = { amber: "text-amber-600", emerald: "text-emerald-600", rose: "text-rose-600", blue: "text-blue-600" };
   return (
-    <div className={`p-5 border border-slate-200 ${big ? "bg-emerald-700 text-white" : "bg-white"}`}>
+    <div className={`p-5 border border-slate-200 ${big ? "bg-[var(--primary)] text-white" : "bg-white"}`}>
       <div className={`font-display text-4xl font-bold tracking-tighter ${big ? "text-white" : map[accent] || "text-slate-900"}`}>
         <CountUp end={value} duration={1.2} />
       </div>
-      <div className={`mt-2 text-[11px] uppercase tracking-wider font-semibold ${big ? "text-emerald-200" : "text-slate-500"}`}>{label}</div>
+      <div className={`mt-2 text-[10px] uppercase tracking-wider font-bold ${big ? "text-emerald-400" : "text-slate-400"}`}>{label}</div>
     </div>
   );
 }
 
-function ApplicationPanel({ app, saving, onClose, onUpdate }) {
+function ApplicationPanel({ app, saving, onClose, onUpdate, onShowModal }) {
   const [notes, setNotes] = useState(app.feedback || "");
   const [nextStep, setNextStep] = useState(app.next_step || "");
   const color = STAGE_COLORS[app.status] || STAGE_COLORS.Applied;
   const applyLink = app.opportunity?.external_apply_url || app.opportunity?.link || "";
+  const [applyBusy, setApplyBusy] = useState(false);
+
+  const handleOpenPortal = async () => {
+    if (!applyLink) return;
+    setApplyBusy(true);
+    const isInstalled = await checkExtensionInstalled();
+    if (!isInstalled) {
+      setApplyBusy(false);
+      onShowModal(app);
+      return;
+    }
+    
+    try {
+      await apiStageExtensionSession({ opportunity_id: app.opportunity_id, external_url: applyLink });
+      window.open(applyLink, "_blank", "noopener,noreferrer");
+      toast.success("Extension context prepared.");
+    } catch (e) {
+      toast.error(errMsg(e, "Could not prepare extension."));
+    } finally {
+      setApplyBusy(false);
+    }
+  };
 
   useEffect(() => {
     setNotes(app.feedback || "");
@@ -282,15 +353,19 @@ function ApplicationPanel({ app, saving, onClose, onUpdate }) {
           </section>
 
           <div className="flex flex-col sm:flex-row gap-2">
-            <Button onClick={() => onUpdate({ next_step: nextStep, feedback: notes })} disabled={saving} className="h-11 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white">
+            <Button onClick={() => onUpdate({ next_step: nextStep, feedback: notes })} disabled={saving} className="h-11 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white">
               {saving ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Save size={14} className="mr-2" />} Save details
             </Button>
             {applyLink ? (
-              <a href={applyLink} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="h-11 rounded-md border-slate-300">
-                  Open portal <ExternalLink size={14} className="ml-2" />
-                </Button>
-              </a>
+              <Button 
+                variant="outline" 
+                className="h-11 rounded-md border-slate-300"
+                onClick={handleOpenPortal}
+                disabled={applyBusy}
+              >
+                {applyBusy ? <Loader2 size={14} className="mr-2 animate-spin" /> : null}
+                Open portal <ExternalLink size={14} className="ml-2" />
+              </Button>
             ) : null}
           </div>
         </div>

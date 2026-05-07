@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
@@ -8,16 +8,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { 
-  apiListOpportunities, 
-  apiSaveOpp, 
-  apiUnsaveOpp, 
-  apiListSaved,
-  apiCreateDraft,
-  apiStageExtensionSession,
-  errMsg 
-} from "@/lib/api";
+import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
+import { apiListOpportunities, apiSaveOpp, apiUnsaveOpp, apiListSaved, apiCreateDraft, apiStageExtensionSession, errMsg } from "@/lib/api";
 import { getUserId } from "@/lib/auth";
+import { checkExtensionInstalled } from "@/lib/utils";
 
 export default function OpportunityDetails() {
   const { id } = useParams();
@@ -28,6 +22,7 @@ export default function OpportunityDetails() {
   const [busy, setBusy] = useState(false);
   const [draftBusy, setDraftBusy] = useState(false);
   const [applyBusy, setApplyBusy] = useState(false);
+  const [showExtensionModal, setShowExtensionModal] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -40,6 +35,17 @@ export default function OpportunityDetails() {
           // Check if saved
           const saved = await apiListSaved();
           setIsSaved(saved.some(s => s.opportunity_id === id));
+          
+          // Auto-trigger portal if we just reloaded for extension on THIS page
+          if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname) {
+            sessionStorage.removeItem("FUNDME_EXT_RELOAD");
+            // Give it a tiny moment to ensure extension is ready
+            setTimeout(() => {
+              const btn = document.querySelector('[data-testid="apply-portal-btn"]');
+              if (btn) btn.click();
+              else openPortal();
+            }, 800);
+          }
         } else {
           toast.error("Opportunity not found");
           nav("/explorer");
@@ -102,7 +108,16 @@ export default function OpportunityDetails() {
 
   const openPortal = async () => {
     if (!opp.link) return;
+    
     setApplyBusy(true);
+    const isInstalled = await checkExtensionInstalled();
+    
+    if (!isInstalled) {
+      setApplyBusy(false);
+      setShowExtensionModal(true);
+      return;
+    }
+
     try {
       await apiCreateDraft(id);
       await stashExtensionContext(opp.link);
@@ -115,10 +130,16 @@ export default function OpportunityDetails() {
     }
   };
 
+  const openPortalBypass = () => {
+    if (!opp.link) return;
+    window.open(opp.link, "_blank", "noopener,noreferrer");
+    toast.info("Opening portal without extension.");
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <Loader2 className="animate-spin text-emerald-600 mb-4" size={32} />
+        <Loader2 className="animate-spin text-[var(--accent)] mb-4" size={32} />
         <p className="text-slate-500 font-medium">Loading opportunity details...</p>
       </div>
     );
@@ -128,9 +149,9 @@ export default function OpportunityDetails() {
     <div className="max-w-6xl mx-auto" data-testid="opportunity-details-page">
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-xs text-slate-500 mb-8 overflow-x-auto whitespace-nowrap pb-2">
-        <Link to="/dashboard" className="hover:text-emerald-600 transition-colors">Home</Link>
+        <Link to="/dashboard" className="hover:text-[var(--accent)] transition-colors">Home</Link>
         <ChevronRight size={12} />
-        <Link to="/explorer" className="hover:text-emerald-600 transition-colors">Explorer</Link>
+        <Link to="/explorer" className="hover:text-[var(--accent)] transition-colors">Explorer</Link>
         <ChevronRight size={12} />
         <span className="text-slate-900 font-medium truncate">{opp.title}</span>
       </div>
@@ -152,7 +173,7 @@ export default function OpportunityDetails() {
           <Button variant="outline" onClick={() => nav(-1)} className="h-11 border-slate-300">
             <ArrowLeft size={16} className="mr-2" /> Back
           </Button>
-          <Button onClick={toggleSave} disabled={busy} variant={isSaved ? "default" : "outline"} className={`h-11 ${isSaved ? "bg-emerald-600 hover:bg-emerald-800" : "border-slate-300"}`}>
+          <Button onClick={toggleSave} disabled={busy} variant={isSaved ? "default" : "outline"} className={`h-11 ${isSaved ? "bg-[var(--primary)] hover:bg-[var(--primary-hover)]" : "border-slate-300"}`}>
             <Bookmark size={16} className={`mr-2 ${isSaved ? "fill-current" : ""}`} />
             {isSaved ? "Saved" : "Save"}
           </Button>
@@ -186,8 +207,8 @@ export default function OpportunityDetails() {
                 <p className="text-slate-500 italic">Standard eligibility rules apply. Please check official guidelines.</p>
               )}
               <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-lg flex gap-3 items-start mt-2">
-                <Sparkles size={16} className="text-emerald-600 mt-0.5 shrink-0" />
-                <p className="text-xs text-emerald-800 leading-relaxed">
+                <Sparkles size={16} className="text-[var(--accent)] mt-0.5 shrink-0" />
+                <p className="text-xs text-[var(--accent)] leading-relaxed">
                   <strong>AI Insight:</strong> Based on your sector ({opp.sectors?.join(", ")}), you appear to be a strong candidate for this program.
                 </p>
               </div>
@@ -201,7 +222,7 @@ export default function OpportunityDetails() {
               <ul className="space-y-3">
                 {opp.benefits.map((b, i) => (
                   <li key={i} className="flex items-start gap-3 text-slate-600">
-                    <CheckCircle2 size={16} className="text-emerald-600 mt-1 shrink-0" />
+                    <CheckCircle2 size={16} className="text-[var(--accent)] mt-1 shrink-0" />
                     <span>{b}</span>
                   </li>
                 ))}
@@ -224,7 +245,7 @@ export default function OpportunityDetails() {
           {/* Match Score Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="bg-emerald-700 text-white rounded-2xl p-8 text-center shadow-xl relative overflow-hidden"
+            className="bg-[var(--primary)] text-white rounded-2xl p-8 text-center shadow-xl relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <Sparkles size={120} />
@@ -244,8 +265,8 @@ export default function OpportunityDetails() {
               <h3 className="font-bold text-sm text-slate-900">Program Snapshot</h3>
             </div>
             <div className="p-6 space-y-4">
-              <SnapshotItem icon={Calendar} label="Deadline" value={opp.deadline || "Rolling"} color="text-emerald-600" />
-              <SnapshotItem icon={DollarSign} label="Funding" value={opp.amount || "Variable"} color="text-emerald-600" />
+              <SnapshotItem icon={Calendar} label="Deadline" value={opp.deadline || "Rolling"} color="text-[var(--accent)]" />
+              <SnapshotItem icon={DollarSign} label="Funding" value={opp.amount || "Variable"} color="text-[var(--accent)]" />
               <SnapshotItem icon={MapPin} label="Location" value={opp.location || "Global / Remote"} />
               <SnapshotItem icon={Info} label="Type" value={opp.type || "Grant"} />
             </div>
@@ -253,7 +274,7 @@ export default function OpportunityDetails() {
               <Button
                 onClick={prepareDraft}
                 disabled={draftBusy}
-                className="w-full h-12 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-xl btn-press shadow-lg shadow-emerald-200/40 disabled:opacity-60"
+                className="w-full h-12 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold rounded-xl btn-press shadow-lg shadow-emerald-200/40 disabled:opacity-60"
               >
                 {draftBusy ? <Loader2 size={16} className="mr-2 animate-spin" /> : <FileEdit size={16} className="mr-2" />} Prepare Draft
               </Button>
@@ -263,7 +284,8 @@ export default function OpportunityDetails() {
                   variant="outline"
                   onClick={openPortal}
                   disabled={applyBusy}
-                  className="w-full h-12 border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold rounded-xl disabled:opacity-60"
+                  className="w-full h-12 border-slate-200 hover:bg-slate-50 text-slate-700 hover:text-slate-700 font-semibold rounded-xl disabled:opacity-60"
+                  data-testid="apply-portal-btn"
                 >
                   {applyBusy ? <Loader2 size={16} className="mr-2 animate-spin" /> : null}
                   Apply on Portal <ExternalLink size={16} className="ml-2" />
@@ -273,6 +295,12 @@ export default function OpportunityDetails() {
           </div>
         </div>
       </div>
+      <ExtensionInstallModal 
+        open={showExtensionModal} 
+        onOpenChange={setShowExtensionModal}
+        onVerified={openPortal}
+        onIgnore={openPortalBypass}
+      />
     </div>
   );
 }
@@ -282,13 +310,13 @@ function Section({ icon: Icon, title, children, aiAction }) {
     <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm group hover:border-slate-300 transition-colors">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+          <div className="w-10 h-10 rounded-xl bg-[var(--primary-light)] text-[var(--accent)]">
             <Icon size={20} />
           </div>
           <h2 className="font-display text-xl font-bold text-slate-900">{title}</h2>
         </div>
         {aiAction && (
-          <Button variant="ghost" size="sm" className="text-xs font-bold text-emerald-600 hover:bg-emerald-50 rounded-lg">
+          <Button variant="ghost" size="sm" className="text-xs font-bold text-[var(--accent)] hover:bg-[var(--primary-light)] rounded-lg">
             <Sparkles size={14} className="mr-1.5" /> {aiAction}
           </Button>
         )}

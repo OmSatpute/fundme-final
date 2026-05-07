@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LayoutGrid, List, Search, SlidersHorizontal, X, Loader2 } from "lucide-react";
 import OpportunityCard from "@/components/OpportunityCard";
@@ -49,7 +49,7 @@ export default function Explorer() {
             transition={{ type: "spring", stiffness: 320, damping: 32 }} className="shrink-0 overflow-hidden self-start" data-testid="explorer-filters">
             <div className="w-64 sticky top-5 space-y-7">
               <div className="flex items-center justify-between">
-                <div className="text-xs uppercase tracking-[0.18em] text-slate-500 font-bold">Filters {activeCount > 0 && <span className="ml-1 text-emerald-600">({activeCount})</span>}</div>
+                <div className="text-xs uppercase tracking-[0.18em] text-slate-500 font-bold">Filters {activeCount > 0 && <span className="ml-1 text-[var(--accent)]">({activeCount})</span>}</div>
                 <button onClick={() => setShowFilters(false)} className="p-1 hover:bg-slate-100 rounded-md text-slate-500" data-testid="hide-filters" title="Hide filters"><X size={14} /></button>
               </div>
               <FilterGroup label="Startup Stage" items={STAGES} active={stages} onToggle={(v) => setStages(toggle(stages, v))} testid="filter-stage" />
@@ -65,7 +65,7 @@ export default function Explorer() {
 
       <section className="flex-1 min-w-0">
         <div className="mb-6">
-          <div className="text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold">Discover</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-[var(--accent)] font-bold">Discover</div>
           <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">Opportunities Explorer</h1>
         </div>
 
@@ -73,7 +73,7 @@ export default function Explorer() {
           <div className="flex items-center gap-2 flex-1 min-w-[260px]">
             {!showFilters && (
               <Button variant="outline" onClick={() => setShowFilters(true)} className="rounded-md border-slate-300 h-11" data-testid="show-filters">
-                <SlidersHorizontal size={14} className="mr-2" /> Filters {activeCount > 0 && <span className="ml-1 text-emerald-600 font-semibold">({activeCount})</span>}
+                <SlidersHorizontal size={14} className="mr-2" /> Filters {activeCount > 0 && <span className="ml-1 text-[var(--accent)] font-semibold">({activeCount})</span>}
               </Button>
             )}
             <div className="relative flex-1 max-w-md">
@@ -85,14 +85,14 @@ export default function Explorer() {
           <div className="flex items-center gap-3">
             <span className="text-sm text-slate-600">Showing <span className="font-semibold text-slate-900">{filtered.length}</span> matches</span>
             <div className="flex border border-slate-300 rounded-md overflow-hidden">
-              <button onClick={() => setView("grid")} data-testid="view-grid" className={`p-2 ${view === "grid" ? "bg-emerald-700 text-white" : "bg-white text-slate-600"}`}><LayoutGrid size={15} /></button>
-              <button onClick={() => setView("list")} data-testid="view-list" className={`p-2 ${view === "list" ? "bg-emerald-700 text-white" : "bg-white text-slate-600"}`}><List size={15} /></button>
+              <button onClick={() => setView("grid")} data-testid="view-grid" className={`p-2 ${view === "grid" ? "bg-[var(--primary)] text-white" : "bg-white text-slate-600"}`}><LayoutGrid size={15} /></button>
+              <button onClick={() => setView("list")} data-testid="view-list" className={`p-2 ${view === "list" ? "bg-[var(--primary)] text-white" : "bg-white text-slate-600"}`}><List size={15} /></button>
             </div>
           </div>
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-16"><Loader2 className="animate-spin text-emerald-600" /></div>
+          <div className="flex justify-center py-16"><Loader2 className="animate-spin text-[var(--accent)]" /></div>
         ) : (
           <motion.div layout className={view === "grid" ? `grid grid-cols-1 ${showFilters ? "lg:grid-cols-2" : "lg:grid-cols-3"} gap-5` : "flex flex-col gap-5"}>
             {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} onChange={reload} />)}
@@ -111,7 +111,7 @@ function FilterGroup({ label, items, active, onToggle, testid }) {
         {items.map((item) => (
           <label key={item} className="flex items-center gap-2.5 cursor-pointer group">
             <Checkbox checked={active.includes(item)} onCheckedChange={() => onToggle(item)}
-              className="data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600"
+              className="data-[state=checked]:bg-[var(--accent)] data-[state=checked]:border-[var(--accent)]"
               data-testid={`${testid}-${item}`} />
             <span className="text-sm text-slate-700 group-hover:text-slate-900">{item}</span>
           </label>

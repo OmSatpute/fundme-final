@@ -6,14 +6,14 @@
   --bg: #FAF9F6;
   --bg-2: #F3F2ED;
   --ink: #0F172A;
-  --ink-2: #334155;
-  --ink-3: #64748B;
+  --ink-2: #475569;
+  --ink-3: #94A3B8;
   --line: #E2E8F0;
   --line-2: #CBD5E1;
-  --primary: #059669;
-  --primary-hover: #047857;
-  --primary-light: #D1FAE5;
-  --accent: #F59E0B;
+  --primary: #0F172A;
+  --primary-hover: #1E293B;
+  --primary-light: #ECFDF5;
+  --accent: #059669;
   --serif: 'Instrument Serif', Georgia, serif;
 }
 
@@ -30,7 +30,7 @@ body { margin: 0; }
 .font-display { font-family: 'Outfit', sans-serif; }
 .font-serif-display { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; }
 
-::selection { background: #059669; color: #fff; }
+::selection { background: #047857; color: #fff; }
 
 /* Subtle grain overlay utility */
 .grain::before {
@@ -72,14 +72,14 @@ body { margin: 0; }
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 161 94% 30%;
+    --primary: 222 47% 11%; /* #0F172A - Navy */
     --primary-foreground: 0 0% 100%;
     --secondary: 40 17% 94%;
     --secondary-foreground: 222 47% 11%;
     --muted: 40 17% 94%;
     --muted-foreground: 215 16% 47%;
-    --accent: 40 17% 94%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 161 94% 30%; /* #059669 - Emerald */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 214 25% 91%;

@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const cron = require('node-cron');
 const logger = require('./utils/logger');
-const { scrapeStartupGrants, scrapeDetails, scrapeApplyLink, scrapeOpportunityDetailData } = require('./services/scraper');
+const { scrapeStartupGrants, scrapeDetails, scrapeApplyLink, scrapeOpportunityDetailData, scrapeGemBids } = require('./services/scraper');
 const { cleanWithAI, formatDetailedContent } = require('./services/aiCleaner');
 const { callOpenRouter, callLLM, callLLMForDraft } = require('./utils/ai');
 const { extractTextFromPDF } = require('./utils/pdf');
@@ -523,6 +523,79 @@ app.put('/api/founder/profile', (req, res) => {
 });
 
 // ─── OPPORTUNITIES ────────────────────────────────────────────────────────────
+
+let _gemBidsCache = { fetchedAt: 0, items: [] };
+
+function mergeGemBidsIntoDB(db, items) {
+  const now = new Date().toISOString();
+  let added = 0;
+  let updated = 0;
+
+  items.forEach(item => {
+    const existing = db.opportunities.find(o => o.opportunity_id === item.opportunity_id || o.slug === item.slug);
+    if (existing) {
+      Object.assign(existing, {
+        ...item,
+        saved: existing.saved,
+        match_score: existing.match_score || item.match_score || 0,
+        first_seen_at: existing.first_seen_at || existing.scraped_at || now,
+        last_seen_at: now,
+        scraped_at: existing.scraped_at || now,
+      });
+      updated++;
+    } else {
+      db.opportunities.push({
+        ...item,
+        scraped_at: now,
+        first_seen_at: now,
+        last_seen_at: now,
+      });
+      added++;
+    }
+  });
+
+  return { added, updated };
+}
+
+function getStoredBusinessOpportunities(db) {
+  const businessTypes = new Set(['Contest', 'Fellowship', 'Other', 'Tender', 'Reverse Auction']);
+  return db.opportunities.filter(o => businessTypes.has(o.type) || o.source === 'gem');
+}
+
+// GET /api/business-opportunities - live GeM bids with stored fallback
+app.get('/api/business-opportunities', async (req, res) => {
+  const refresh = req.query.refresh === '1';
+  const cacheMs = 15 * 60 * 1000;
+  const cacheFresh = !refresh && _gemBidsCache.items.length > 0 && Date.now() - _gemBidsCache.fetchedAt < cacheMs;
+
+  try {
+    let gemItems = _gemBidsCache.items;
+    if (!cacheFresh) {
+      gemItems = await scrapeGemBids({ pages: 2, limit: 20 });
+      _gemBidsCache = { fetchedAt: Date.now(), items: gemItems };
+    }
+
+    const db = readDB();
+    const mergeResult = mergeGemBidsIntoDB(db, gemItems);
+    cleanExpiredOpportunities(db);
+    writeDB(db);
+
+    res.json({
+      source: 'gem',
+      refreshed_at: new Date(_gemBidsCache.fetchedAt).toISOString(),
+      ...mergeResult,
+      opportunities: getStoredBusinessOpportunities(db),
+    });
+  } catch (err) {
+    console.warn(`GeM business-opportunities refresh failed: ${err.message}`);
+    const db = readDB();
+    res.json({
+      source: 'stored',
+      error: err.message,
+      opportunities: getStoredBusinessOpportunities(db),
+    });
+  }
+});
 
 // GET /api/opportunities?type=
 app.get('/api/opportunities', (req, res) => {
