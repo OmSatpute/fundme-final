@@ -463,6 +463,66 @@ function fillFormFields(schema, values) {
     return { filledCount, unmatched };
 }
 
+// ─── SMART FILL LOGIC (PROFILE MAPPING) ───────────────────────────────────────
+const PROFILE_FIELD_KEYWORDS = {
+    startup_name: ['startup name', 'company name', 'organization name', 'name of startup'],
+    founder_name: ['founder name', 'your name', 'applicant name', 'full name', 'founder', 'contact person'],
+    email: ['email', 'email address', 'contact email', 'official email'],
+    website: ['website', 'url', 'startup website', 'company website', 'landing page'],
+    sector: ['sector', 'industry', 'vertical', 'startup domain'],
+    stage: ['stage', 'current stage', 'startup stage'],
+    startup_overview: ['startup overview', 'describe your startup', 'executive summary', 'elevator pitch', 'summary of startup'],
+    problem_statement: ['problem statement', 'what problem are you solving', 'problem solved', 'problem addressed'],
+    solution_summary: ['solution summary', 'describe your solution', 'how it works', 'product summary'],
+    target_customers: ['target customers', 'target market', 'customer segment'],
+    business_model: ['business model', 'revenue model', 'how do you make money'],
+    location: ['location', 'city', 'headquarters', 'state', 'country']
+};
+
+function getValuesFromProfile(profile) {
+    if (!profile) return {};
+    const values = {};
+    // Extract direct fields
+    Object.keys(PROFILE_FIELD_KEYWORDS).forEach(key => {
+        if (profile[key]) values[key] = profile[key];
+    });
+    return values;
+}
+
+function fillFromProfile(profile) {
+    if (!profile) return { filledCount: 0 };
+    const candidates = getVisibleFields();
+    let filledCount = 0;
+    
+    candidates.forEach(node => {
+        const label = getFieldLabel(node).toLowerCase();
+        const placeholder = (node.placeholder || '').toLowerCase();
+        const name = (node.name || '').toLowerCase();
+        
+        // Try to match field to profile keyword
+        for (const [key, keywords] of Object.entries(PROFILE_FIELD_KEYWORDS)) {
+            const val = profile[key];
+            if (!val) continue;
+            
+            const match = keywords.some(kw => 
+                label.includes(kw) || placeholder.includes(kw) || name.includes(kw)
+            );
+            
+            if (match) {
+                // Don't overwrite if already filled (manual input usually wins)
+                if (node.value && node.value.length > 1) return;
+                
+                node.focus();
+                setNativeValue(node, String(val));
+                dispatchValueEvents(node);
+                filledCount += 1;
+                break;
+            }
+        }
+    });
+    return { filledCount };
+}
+
 // ─── AUTO-CAPTURE LOGIC ───────────────────────────────────────────────────────
 
 let stagedSession = null;
@@ -683,7 +743,18 @@ async function checkStagedSession() {
                     const result = fillFormFields(draft.form_schema, draft.form_fields);
                     if (result.filledCount > 0) {
                         showCaptureToast(`Auto-filled ${result.filledCount} fields for ${stagedSession.opportunity_id}`, 'success');
-                    } else {
+                    }
+                }
+
+                // SECOND LAYER: Smart Profile Fallback (if draft was empty or didn't catch everything)
+                console.log('🧠 FundMe: Applying Smart Profile Fallback...');
+                const profileRes = await fetch(`${API_BASE}/founder/profile?user_id=${encodeURIComponent(stagedSession.user_id)}`);
+                if (profileRes.ok) {
+                    const profile = await profileRes.json();
+                    const profileResult = fillFromProfile(profile);
+                    if (profileResult.filledCount > 0) {
+                        showCaptureToast(`Smart-filled ${profileResult.filledCount} field(s) from your profile.`, 'success');
+                    } else if (!draft?.form_fields || Object.keys(draft.form_fields).length === 0) {
                         showCaptureToast(`Form found! Use the FundMe popup to "Fill Portal" if auto-fill didn't catch everything.`);
                     }
                 }

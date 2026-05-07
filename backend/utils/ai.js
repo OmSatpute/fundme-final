@@ -113,6 +113,22 @@ async function callOpenRouterModel(prompt, model) {
   }
 }
 
+async function callOpenRouterFree(prompt) {
+  const freeModels = [
+    'meta-llama/llama-3.1-8b-instruct:free',
+    'google/gemma-2-9b-it:free',
+    'mistralai/mistral-7b-instruct:free',
+    'microsoft/phi-3-mini-128k-instruct:free',
+    'meta-llama/llama-3-8b-instruct:free'
+  ];
+  
+  for (const model of freeModels) {
+    const res = await callOpenRouterModel(prompt, model);
+    if (res) return res;
+  }
+  return null;
+}
+
 /**
  * Google AI Studio (Gemini API) helper.
  * Uses the generateContent endpoint which is NOT OpenAI-compatible.
@@ -174,7 +190,7 @@ async function callLLM(prompt, retries = 1) {
   if (rFlash) return rFlash;
   */
 
-  const rOR = await callOpenRouterModel(prompt, 'meta-llama/llama-3.1-8b-instruct:free');
+  const rOR = await callOpenRouterFree(prompt);
   if (rOR) return rOR;
 
   if (retries > 0) {
@@ -203,8 +219,8 @@ async function callLLMForDraft(prompt, retries = 1) {
   const r70b = await callGroq(prompt, 'llama-3.3-70b-versatile');
   if (r70b) return r70b;
 
-  // Tier 3: Llama 3.1 8B on OpenRouter (global free pool)
-  const rOR8b = await callOpenRouterModel(prompt, 'meta-llama/llama-3.1-8b-instruct:free');
+  // Tier 3: OpenRouter Free Pool (Multiple models)
+  const rOR8b = await callOpenRouterFree(prompt);
   if (rOR8b) return rOR8b;
 
   // Tier 4: Llama 3.1 8B on Groq (14,400 req/day — almost impossible to exhaust)
