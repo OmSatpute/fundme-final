@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { apiGetProfile, apiSaveProfile, errMsg } from "@/lib/api";
 import { getUser } from "@/lib/auth";
+import { getAvatarInitials } from "@/lib/avatar";
 
 const SECTIONS = [
   { id: "company", label: "Company", Icon: Building2 },
@@ -53,6 +54,8 @@ export default function StartupProfile() {
 
   if (loading) return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-[var(--accent)]" /></div>;
 
+  const avatarInitials = getAvatarInitials(form.startup_name, user?.name, user?.email);
+
   return (
     <div className="grid grid-cols-12 gap-10" data-testid="profile-page">
       <aside className="col-span-12 lg:col-span-3 lg:sticky lg:top-24 lg:self-start">
@@ -60,7 +63,7 @@ export default function StartupProfile() {
         <div className="space-y-1">
           {SECTIONS.map(({ id, label, Icon }) => (
             <button key={id} onClick={() => setActive(id)} data-testid={`profile-section-${id}`}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all ${active === id ? "bg-[var(--primary)] text-white" : "text-slate-700 hover:bg-[var(--primary-light)]/70"}`}>
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all ${active === id ? "bg-[var(--primary-light)] text-slate-950 font-semibold" : "text-slate-700 hover:bg-[var(--primary-light)]/70"}`}>
               <Icon size={15} strokeWidth={1.75} />
               {label}
             </button>
@@ -76,11 +79,7 @@ export default function StartupProfile() {
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div className="flex items-center gap-5">
             <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--primary)] text-white flex items-center justify-center text-lg font-bold ring-4 ring-white shadow overflow-hidden">
-              {user?.avatar ? (
-                <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
-              ) : (
-                (form.startup_name?.[0] || user?.name?.[0] || "F").toUpperCase()
-              )}
+              {avatarInitials}
             </div>
             <div>
               <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight">{form.startup_name || user?.name || "Your startup"}</h1>

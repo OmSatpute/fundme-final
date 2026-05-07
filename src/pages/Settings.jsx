@@ -33,11 +33,11 @@ export default function Settings() {
   useEffect(() => {
     apiGetUser()
       .then((data) => {
-        setUser({
-          ...user,
+        setUser((prev) => ({
+          ...prev,
           ...data,
-          notifications: data.notifications || user.notifications
-        });
+          notifications: data.notifications || prev.notifications
+        }));
       })
       .catch((e) => toast.error(errMsg(e, "Failed to load settings")))
       .finally(() => setLoading(false));
@@ -82,7 +82,7 @@ export default function Settings() {
               onClick={() => setTab(id)}
               data-testid={`settings-tab-${id}`}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all ${
-                tab === id ? "bg-[var(--primary)] text-white" : "text-slate-700 hover:bg-[var(--primary-light)]"
+                tab === id ? "bg-[var(--primary-light)] text-slate-950 font-semibold" : "text-slate-700 hover:bg-[var(--primary-light)]"
               }`}
             >
               <Icon size={15} strokeWidth={1.75} />

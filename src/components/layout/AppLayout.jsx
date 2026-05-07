@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getUser, clearAuth } from "@/lib/auth";
 import { apiGetProfile } from "@/lib/api";
+import { getAvatarInitials } from "@/lib/avatar";
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", Icon: LayoutGrid },
@@ -43,7 +44,7 @@ export default function AppLayout() {
   const startupName = profile?.startup_name || user?.name || "Founder";
   const stage = profile?.stage || "";
   const sector = profile?.sector || "";
-  const initials = (startupName.split(" ").map((p) => p[0]).slice(0, 2).join("") || "F").toUpperCase();
+  const avatarInitials = getAvatarInitials(startupName, user?.email);
 
   const signOut = () => {
     clearAuth();
@@ -152,7 +153,7 @@ export default function AppLayout() {
                   <div className="text-[11px] text-slate-500 leading-tight">{[stage, sector].filter(Boolean).join(" | ") || (user?.email || "")}</div>
                 </div>
                 <div className="h-9 w-9 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--primary)] text-white flex items-center justify-center text-xs font-bold tracking-wide ring-2 ring-white shadow-sm">
-                  {initials}
+                  {avatarInitials}
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -162,8 +163,8 @@ export default function AppLayout() {
                   <span className="text-slate-900 font-semibold">{user?.email || startupName}</span>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild data-testid="dropdown-profile"><Link to="/profile" className="cursor-pointer"><Building2 size={14} className="mr-2" /> Startup profile</Link></DropdownMenuItem>
-                <DropdownMenuItem asChild data-testid="dropdown-settings"><Link to="/settings" className="cursor-pointer"><SettingsIcon size={14} className="mr-2" /> Settings</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild data-testid="dropdown-profile"><Link to="/profile" className="cursor-pointer text-slate-900 focus:bg-slate-50 focus:text-slate-900"><Building2 size={14} className="mr-2" /> Startup profile</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild data-testid="dropdown-settings"><Link to="/settings" className="cursor-pointer text-slate-900 focus:bg-slate-50 focus:text-slate-900"><SettingsIcon size={14} className="mr-2" /> Settings</Link></DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={signOut} className="text-rose-600 focus:text-rose-700 cursor-pointer" data-testid="dropdown-signout">
                   <LogOut size={14} className="mr-2" /> Sign out
