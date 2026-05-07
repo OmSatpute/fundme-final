@@ -206,7 +206,7 @@ export default function OpportunityCard({ opp, draft, onChange }) {
           {eligibilityLoading ? (
             <><Loader2 size={14} className="mr-2 animate-spin" /> Analyzing Fit...</>
           ) : (
-            <><Sparkles size={14} className="mr-2" /> Check Eligibility</>
+            <>Check Eligibility</>
           )}
         </Button>
       )}
