@@ -1,0 +1,48 @@
+[
+  {
+    "input": {
+      "website": "https://anupamsobti.github.io/",
+      "startup_overview": "Research group focused on geospatial AI."
+    },
+    "baselines": {
+      "single": {
+        "output": {
+          "startup_name": "Not Provided",
+          "sector": "Artificial Intelligence",
+          "stage": "Research",
+          "startup_overview": "Research group focused on geospatial AI",
+          "problem_statement": "Not Provided",
+          "solution_summary": "Not Provided",
+          "target_customers": "Not Provided",
+          "business_model": "Not Provided"
+        },
+        "eval": {
+          "score": 2,
+          "reasoning": "The candidate profile lacks key details such as the company name, problem statement, solution summary, target customers, and business model. It only partially captures the sector and stage. The accuracy is low due to the missing company name and incomplete startup overview. The completeness score is also low due to the numerous missing fields. However, there is no hallucination penalty since the candidate profile does not invent any facts not present in the ground truth.",
+          "accuracy": 2,
+          "completeness": 1,
+          "hallucination_penalty": 0
+        }
+      },
+      "agentic": {
+        "output": {
+          "startup_name": "Geospatial Computer Vision Group",
+          "sector": "Geospatial AI and Computer Vision",
+          "stage": "Research and Development",
+          "startup_overview": "A research group focused on developing state-of-the-art geospatial intelligence for supporting domains across urban climate, agriculture, and water security using techniques from computer vision, machine learning, and embedded systems.",
+          "problem_statement": "Reducing the information gap among various stakeholders, such as information about heat islands in cities or crop health for insurance companies, by leveraging geospatial AI and computer vision.",
+          "solution_summary": "Designing scalable and generalizable models using self-supervised learning to provide geospatial intelligence for urban planning, agriculture, and water security, with applications such as tracking cool roofs, farm-level analytics, and anomaly detection in aerial agricultural images.",
+          "target_customers": "Industries, startups, and stakeholders in urban planning, agriculture, and water security, including insurance companies and government agencies.",
+          "business_model": "Collaboration-based, with a focus on partnering with industries, startups, and students to develop and apply geospatial AI and computer vision solutions, potentially leading to licensing or consulting revenue streams."
+        },
+        "eval": {
+          "score": 8.5,
+          "reasoning": "The candidate profile accurately captures the company name and core mission, and fills in all fields with high-quality detail. However, it slightly deviates from the ground truth in the sector and stage fields, and introduces some minor hallucinations in the solution summary and business model fields.",
+          "accuracy": 9,
+          "completeness": 9.5,
+          "hallucination_penalty": 1
+        }
+      }
+    }
+  }
+]

@@ -1,3 +1,4 @@
-npm run install-all  ## all dependencies for frontend and backend
+npm run install-all  ## all dependencies for frontend and backend (Run this only once when you download the project for 1st time and ignore the vulnerability warnings)
 npm run build   ## build the frontend
 npm run dev     ## run the frontend and backend
+The 2nd and 3rd command will run the frontend and backend these have to be run every time you start the project.

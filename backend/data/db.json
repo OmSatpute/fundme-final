@@ -197,33 +197,6 @@
       "role": "founder",
       "avatar": "https://ui-avatars.com/api/?name=rishabh&background=0ea5e9&color=fff&size=32",
       "created_at": "2026-05-07"
-    },
-    {
-      "user_id": "u37405b",
-      "name": "avni",
-      "email": "avnig@gmail.com",
-      "password": "$2b$12$ok6Edtqz0Kuc837EPwjsKuhnQaeM3OMvka3aN/Y/pf3HzHfQIDqE6",
-      "role": "founder",
-      "avatar": "https://ui-avatars.com/api/?name=avni&background=0ea5e9&color=fff&size=32",
-      "created_at": "2026-05-07"
-    },
-    {
-      "user_id": "u11b04f",
-      "name": "yuwbd",
-      "email": "hiudehi@gmail.com",
-      "password": "$2b$12$pOFuRuyycCAekfgslODN7eVxZvs1MGKbcF0O.uDEjSiRScbeSgBxK",
-      "role": "founder",
-      "avatar": "https://ui-avatars.com/api/?name=yuwbd&background=0ea5e9&color=fff&size=32",
-      "created_at": "2026-05-07"
-    },
-    {
-      "user_id": "u39aa1a",
-      "name": "euih",
-      "email": "egdxc@gmail.com",
-      "password": "$2b$12$c86WshKBm5mp.rm2JaZWI.MBigHHx7y4Rb0hN9/kWEYGU0iGC5u8C",
-      "role": "founder",
-      "avatar": "https://ui-avatars.com/api/?name=euih&background=0ea5e9&color=fff&size=32",
-      "created_at": "2026-05-07"
     }
   ],
   "founder_profiles": [
@@ -665,33 +638,6 @@
       "solution_summary": "The AgriSense AI platform delivers real-time insights and personalized recommendations to farmers through a user-friendly mobile application, leveraging AI models trained on extensive agricultural data to drive precision farming and improved resource management.",
       "target_customers": "Small and medium-scale farmers, agricultural cooperatives, and government-backed farming initiatives",
       "business_model": "The company generates revenue through a multi-channel approach, including subscription plans, strategic partnerships with agri-enterprises, and sales of IoT-based hardware kits, ensuring a scalable and sustainable business model.",
-      "team_size": 0,
-      "founded_year": 2026,
-      "location": "",
-      "documents": {
-        "pitch_deck": null,
-        "financial_projections": null,
-        "letters_of_support": null,
-        "budget_breakdown": null
-      },
-      "profile_completion": {
-        "score": 0,
-        "missing_fields": []
-      }
-    },
-    {
-      "founder_id": "fc5c82d",
-      "user_id": "u39aa1a",
-      "startup_name": "FundMe",
-      "sector": "Artificial Intelligence and Fintech",
-      "stage": "Early-stage",
-      "startup_overview": "FundMe is an AI-driven platform designed to streamline the startup funding process by providing tailored funding opportunities to users based on their profiles and requirements. Leveraging machine learning and natural language processing, the platform aims to reduce manual effort and increase the efficiency of the funding application process.",
-      "website": "",
-      "application_email": "",
-      "problem_statement": "The current startup funding process is often manual, time-consuming, and inefficient, resulting in a significant amount of time and resources being wasted on application submissions and tracking. This leads to a high likelihood of errors, missed opportunities, and decreased productivity for startups and investors alike.",
-      "solution_summary": "FundMe's AI-driven platform utilizes machine learning algorithms to match startups with relevant funding opportunities, automating the application process and providing real-time tracking and workflow management. The platform also integrates with external sites, enabling seamless auto-filling of application forms and reducing the need for manual data entry.",
-      "target_customers": "Early-stage startups, venture capital firms, angel investors, and other stakeholders in the startup ecosystem seeking to optimize their funding application and tracking processes.",
-      "business_model": "FundMe's business model is based on a subscription-based service, offering tiered plans to accommodate the diverse needs of its target customers. The platform also generates revenue through affiliate partnerships with funding providers and by offering premium services, such as personalized funding recommendations and application support.",
       "team_size": 0,
       "founded_year": 2026,
       "location": "",
@@ -4388,7 +4334,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9169276",
@@ -4417,7 +4363,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9222372",
@@ -4446,7 +4392,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9215497",
@@ -4475,7 +4421,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9225884",
@@ -4504,7 +4450,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9218410",
@@ -4533,7 +4479,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9227694",
@@ -4562,7 +4508,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9224661",
@@ -4591,7 +4537,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9227062",
@@ -4620,7 +4566,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9227655",
@@ -4649,7 +4595,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9227577",
@@ -4678,7 +4624,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9198892",
@@ -4707,7 +4653,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9225088",
@@ -4736,7 +4682,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9226346",
@@ -4765,7 +4711,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9223340",
@@ -4794,7 +4740,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9223574",
@@ -4823,7 +4769,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9172287",
@@ -4852,7 +4798,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9221717",
@@ -4881,7 +4827,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9248545",
@@ -4910,7 +4856,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     },
     {
       "opportunity_id": "gem_9241934",
@@ -4939,7 +4885,7 @@
       "source": "gem",
       "scraped_at": "2026-05-07T14:32:21.379Z",
       "first_seen_at": "2026-05-07T14:32:21.379Z",
-      "last_seen_at": "2026-05-07T14:46:48.323Z"
+      "last_seen_at": "2026-05-07T14:33:13.037Z"
     }
   ],
   "saved_opportunities": [
@@ -5013,6 +4959,12 @@
       "saved_id": "seccf69",
       "user_id": "u40b43e",
       "opportunity_id": "opp_1d6edf",
+      "saved_date": "2026-05-07"
+    },
+    {
+      "saved_id": "s675abc",
+      "user_id": "udc3e40",
+      "opportunity_id": "opp_b01f80",
       "saved_date": "2026-05-07"
     }
   ],
@@ -20499,294 +20451,9 @@
       "source_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
       "capture_meta": {},
       "last_saved": "2026-05-07T14:15:34.520Z"
-    },
-    {
-      "draft_id": "dfb5d89",
-      "user_id": "u7d5987",
-      "opportunity_id": "opp_8bfb58",
-      "created_at": "2026-05-07T14:28:00.241Z",
-      "status": "draft",
-      "title": "Soft Loan Scheme for Women Entrepreneurs Application Draft",
-      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
-      "form_schema": {
-        "title": "Soft Loan Scheme for Women Entrepreneurs Application Draft",
-        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
-        "sections": [
-          {
-            "title": "Startup Basics",
-            "fields": [
-              {
-                "id": "startup_name",
-                "label": "Startup name",
-                "type": "text",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Startup Basics",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "startup_name",
-                  "css": ""
-                }
-              },
-              {
-                "id": "website",
-                "label": "Website",
-                "type": "url",
-                "required": false,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Startup Basics",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "website",
-                  "css": ""
-                }
-              },
-              {
-                "id": "contact_email",
-                "label": "Application email",
-                "type": "email",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Startup Basics",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "contact_email",
-                  "css": ""
-                }
-              },
-              {
-                "id": "location",
-                "label": "Location",
-                "type": "text",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Startup Basics",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "location",
-                  "css": ""
-                }
-              }
-            ]
-          },
-          {
-            "title": "Opportunity Fit",
-            "fields": [
-              {
-                "id": "startup_overview",
-                "label": "Startup overview",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "Explain what you are building in All Sectors.",
-                "options": [],
-                "section": "Opportunity Fit",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "startup_overview",
-                  "css": ""
-                }
-              },
-              {
-                "id": "problem_statement",
-                "label": "Problem statement",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Opportunity Fit",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "problem_statement",
-                  "css": ""
-                }
-              },
-              {
-                "id": "solution_summary",
-                "label": "Solution summary",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Opportunity Fit",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "solution_summary",
-                  "css": ""
-                }
-              },
-              {
-                "id": "why_this_opportunity",
-                "label": "Why are you a strong fit for this opportunity?",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Opportunity Fit",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "why_this_opportunity",
-                  "css": ""
-                }
-              }
-            ]
-          },
-          {
-            "title": "Execution and Impact",
-            "fields": [
-              {
-                "id": "traction_metrics",
-                "label": "Traction or proof points",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Execution and Impact",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "traction_metrics",
-                  "css": ""
-                }
-              },
-              {
-                "id": "team_background",
-                "label": "Team background",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Execution and Impact",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "team_background",
-                  "css": ""
-                }
-              },
-              {
-                "id": "use_of_funds",
-                "label": "How will you use the funding or support?",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Execution and Impact",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "use_of_funds",
-                  "css": ""
-                }
-              },
-              {
-                "id": "milestones",
-                "label": "Upcoming milestones",
-                "type": "textarea",
-                "required": true,
-                "placeholder": "",
-                "help_text": "",
-                "options": [],
-                "section": "Execution and Impact",
-                "max_words": null,
-                "selectorHints": {
-                  "name": "",
-                  "id": "milestones",
-                  "css": ""
-                }
-              }
-            ]
-          }
-        ],
-        "required_documents": [
-          "Pitch deck",
-          "Financial projections"
-        ]
-      },
-      "form_fields": {
-        "startup_name": "",
-        "website": "",
-        "contact_email": "",
-        "location": "",
-        "startup_overview": "",
-        "problem_statement": "",
-        "solution_summary": "",
-        "why_this_opportunity": "",
-        "traction_metrics": "",
-        "team_background": "",
-        "use_of_funds": "",
-        "milestones": ""
-      },
-      "completion": {
-        "completed_fields": [],
-        "missing_fields": [
-          "startup_name",
-          "contact_email",
-          "location",
-          "startup_overview",
-          "problem_statement",
-          "solution_summary",
-          "why_this_opportunity",
-          "traction_metrics",
-          "team_background",
-          "use_of_funds",
-          "milestones"
-        ],
-        "progress": 0
-      },
-      "required_documents_status": {
-        "Pitch deck": "missing",
-        "Financial projections": "missing"
-      },
-      "schema_source": "manual",
-      "source_url": "https://startupmission.kerala.gov.in/schemes/women-soft-loan",
-      "capture_meta": {},
-      "last_saved": "2026-05-07T14:28:00.241Z"
     }
   ],
   "extension_sessions": [
-    {
-      "session_id": "xaceed7",
-      "user_id": "u7d5987",
-      "opportunity_id": "opp_720633",
-      "external_url": "https://haryana.coe-iot.com/incubationapplication/?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
-      "hostname": "haryana.coe-iot.com",
-      "root_domain": "coe-iot.com",
-      "created_at": "2026-05-07T14:15:03.211Z",
-      "updated_at": "2026-05-07T14:15:03.211Z"
-    },
-    {
-      "session_id": "x94b48a",
-      "user_id": "u39aa1a",
-      "opportunity_id": "opp_1d6edf",
-      "external_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
-      "hostname": "investharyana.in",
-      "root_domain": "investharyana.in",
-      "created_at": "2026-05-07T13:54:10.197Z",
-      "updated_at": "2026-05-07T13:54:10.197Z"
-    },
     {
       "session_id": "xe44f41",
       "user_id": "u1",

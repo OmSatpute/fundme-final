@@ -1,0 +1,20 @@
+{
+  "test_cases": [
+    {
+      "input": {
+        "website": "https://anupamsobti.github.io/",
+        "startup_overview": "Research group focused on geospatial AI."
+      },
+      "ground_truth": {
+        "startup_name": "Geospatial Computer Vision Group",
+        "sector": "AI, Geospatial Technology, Urban Planning, Agriculture",
+        "stage": "Research / Applied Research",
+        "startup_overview": "A research group at Plaksha University developing state-of-the-art geospatial intelligence using computer vision, machine learning, and embedded systems to support urban climate, agriculture, and water security.",
+        "problem_statement": "Critical information gaps among stakeholders regarding data like urban heat islands and crop health hinder sustainable development and informed decision-making.",
+        "solution_summary": "Creating scalable models using self-supervised learning to provide actionable insights for urban planning and agriculture, bridging the data gap for industries and government.",
+        "target_customers": "Industries, startups, insurance companies, and academic collaborators.",
+        "business_model": "Applied research collaborations and development of geospatial intelligence tools for sustainability goals."
+      }
+    }
+  ]
+}
