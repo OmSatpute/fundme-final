@@ -1,5 +1,6 @@
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import Landing from "@/pages/Landing";
 import Dashboard from "@/pages/Dashboard";
@@ -20,11 +21,24 @@ import OnboardingProfile from "@/pages/auth/OnboardingProfile";
 import OnboardingReview from "@/pages/auth/OnboardingReview";
 import OpportunityDetails from "@/pages/OpportunityDetails";
 
+function ScrollToTop() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.querySelectorAll("[data-scroll-root]").forEach((node) => {
+      node.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+  }, [location.pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />

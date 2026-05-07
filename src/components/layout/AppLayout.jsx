@@ -173,7 +173,7 @@ export default function AppLayout() {
           </div>
         </header>
 
-        <main className="flex-1 px-8 py-10 overflow-y-auto">
+        <main className="flex-1 px-8 py-10 overflow-y-auto" data-scroll-root>
           <motion.div key={location.pathname} initial={{ opacity: 1 }} animate={{ opacity: 1 }} className="w-full h-full">
             <Outlet />
           </motion.div>

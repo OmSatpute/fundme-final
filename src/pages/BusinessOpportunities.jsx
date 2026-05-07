@@ -45,8 +45,8 @@ export default function BusinessOpportunities() {
       <AnimatePresence initial={false}>
         {showFilters && (
           <motion.aside initial={{ width: 0, opacity: 0 }} animate={{ width: 256, opacity: 1 }} exit={{ width: 0, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 320, damping: 32 }} className="shrink-0 overflow-hidden self-start" data-testid="business-filters">
-            <div className="w-64 sticky top-5 space-y-7">
+            transition={{ type: "spring", stiffness: 320, damping: 32 }} className="shrink-0 overflow-hidden self-start sticky top-5 max-h-[calc(100vh-2.5rem)]" data-testid="business-filters">
+            <div className="w-64 max-h-[calc(100vh-2.5rem)] overflow-y-auto pr-2 space-y-7">
               <div className="flex items-center justify-between">
                 <div className="text-xs uppercase tracking-[0.18em] text-slate-500 font-bold">Filters {activeCount > 0 && <span className="ml-1 text-[var(--accent)]">({activeCount})</span>}</div>
                 <button onClick={() => setShowFilters(false)} className="p-1 hover:bg-slate-100 rounded-md text-slate-500" data-testid="hide-filters-biz" title="Hide filters"><X size={14} /></button>
