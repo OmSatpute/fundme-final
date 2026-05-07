@@ -55,6 +55,13 @@ export default function BusinessOpportunities() {
   }, [items, q, types, sectors, benefits]);
 
   const activeCount = types.length + sectors.length + benefits.length;
+  const handleSavedChange = (opportunityId, nextSaved) => {
+    setItems((current) =>
+      current.map((item) =>
+        item.opportunity_id === opportunityId ? { ...item, saved: nextSaved } : item
+      )
+    );
+  };
 
   return (
     <div className="flex gap-8" data-testid="business-page">
@@ -105,7 +112,7 @@ export default function BusinessOpportunities() {
           <div className="flex justify-center py-16"><Loader2 className="animate-spin text-[var(--accent)]" /></div>
         ) : (
           <motion.div layout className={`grid grid-cols-1 ${showFilters ? "lg:grid-cols-2" : "lg:grid-cols-3"} gap-5`}>
-            {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} onChange={reload} />)}
+            {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} onChange={reload} onSavedChange={handleSavedChange} />)}
           </motion.div>
         )}
       </section>

@@ -11,7 +11,7 @@ import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
 import { stageExtensionContext } from "@/lib/applyFlow";
 import { checkExtensionInstalled } from "@/lib/utils";
 
-export default function OpportunityCard({ opp, draft, onChange }) {
+export default function OpportunityCard({ opp, draft, onChange, onSavedChange }) {
   const nav = useNavigate();
   const [saved, setSaved] = useState(!!opp.saved);
   const [currentDraft, setCurrentDraft] = useState(draft || null);
@@ -37,18 +37,19 @@ export default function OpportunityCard({ opp, draft, onChange }) {
       if (saved) {
         await apiUnsaveOpp(opp.opportunity_id);
         setSaved(false);
+        onSavedChange?.(opp.opportunity_id, false);
         toast.success("Removed from saved");
       } else {
         await apiSaveOpp(opp.opportunity_id);
         setSaved(true);
+        onSavedChange?.(opp.opportunity_id, true);
         toast.success("Saved to your list");
       }
-      onChange?.();
     } catch (err) {
       if (err?.response?.status === 409) {
         setSaved(true);
+        onSavedChange?.(opp.opportunity_id, true);
         toast.success("Already in your saved list");
-        onChange?.();
         return;
       }
       toast.error(errMsg(err, "Could not update saved list."));

@@ -13,6 +13,18 @@ export default function Saved() {
   };
 
   useEffect(reload, []);
+  const handleSavedChange = (opportunityId, nextSaved) => {
+    if (!nextSaved) {
+      setItems((current) => current.filter((item) => item.opportunity_id !== opportunityId));
+      return;
+    }
+
+    setItems((current) =>
+      current.map((item) =>
+        item.opportunity_id === opportunityId ? { ...item, saved: true } : item
+      )
+    );
+  };
 
   return (
     <div className="max-w-5xl" data-testid="saved-page">
@@ -32,7 +44,7 @@ export default function Saved() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {items.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} onChange={reload} />)}
+          {items.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} onChange={reload} onSavedChange={handleSavedChange} />)}
         </div>
       )}
     </div>

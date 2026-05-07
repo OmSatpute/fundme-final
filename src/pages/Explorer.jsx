@@ -72,6 +72,13 @@ export default function Explorer() {
 
   const activeCount = stages.length + sectors.length + types.length;
   const draftByOpp = useMemo(() => new Map(drafts.map((d) => [d.opportunity_id, d])), [drafts]);
+  const handleSavedChange = (opportunityId, nextSaved) => {
+    setOpps((current) =>
+      current.map((opp) =>
+        opp.opportunity_id === opportunityId ? { ...opp, saved: nextSaved } : opp
+      )
+    );
+  };
 
   return (
     <div className="flex gap-8" data-testid="explorer-page">
@@ -127,7 +134,7 @@ export default function Explorer() {
           <div className="flex justify-center py-16"><Loader2 className="animate-spin text-[var(--accent)]" /></div>
         ) : (
           <motion.div layout className={view === "grid" ? `grid grid-cols-1 ${showFilters ? "lg:grid-cols-2" : "lg:grid-cols-3"} gap-5` : "flex flex-col gap-5"}>
-            {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} draft={draftByOpp.get(o.opportunity_id)} onChange={reload} />)}
+            {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} draft={draftByOpp.get(o.opportunity_id)} onChange={reload} onSavedChange={handleSavedChange} />)}
           </motion.div>
         )}
       </section>
