@@ -9,8 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
-import { apiListOpportunities, apiSaveOpp, apiUnsaveOpp, apiListSaved, apiCreateDraft, apiStageExtensionSession, errMsg } from "@/lib/api";
-import { getUserId } from "@/lib/auth";
+import { apiListOpportunities, apiSaveOpp, apiUnsaveOpp, apiListSaved, apiCreateDraft, apiGetDraftByOpportunity, errMsg } from "@/lib/api";
+import { stageExtensionContext } from "@/lib/applyFlow";
 import { checkExtensionInstalled } from "@/lib/utils";
 
 export default function OpportunityDetails() {
@@ -20,6 +20,7 @@ export default function OpportunityDetails() {
   const [loading, setLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [draft, setDraft] = useState(null);
   const [draftBusy, setDraftBusy] = useState(false);
   const [applyBusy, setApplyBusy] = useState(false);
   const [showExtensionModal, setShowExtensionModal] = useState(false);
@@ -35,6 +36,7 @@ export default function OpportunityDetails() {
           // Check if saved
           const saved = await apiListSaved();
           setIsSaved(saved.some(s => s.opportunity_id === id));
+          setDraft(await apiGetDraftByOpportunity(id));
           
           // Auto-trigger portal if we just reloaded for extension on THIS page
           if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname) {
@@ -43,7 +45,6 @@ export default function OpportunityDetails() {
             setTimeout(() => {
               const btn = document.querySelector('[data-testid="apply-portal-btn"]');
               if (btn) btn.click();
-              else openPortal();
             }, 800);
           }
         } else {
@@ -78,26 +79,18 @@ export default function OpportunityDetails() {
     }
   };
 
-  const stashExtensionContext = (externalUrl) => {
-    window.postMessage({
-      source: "fundme-web",
-      type: "FUNDME_STASH_SESSION",
-      user_id: getUserId(),
-      opportunity_id: id,
-      baseUrl: window.location.origin,
-    }, "*");
-
-    return apiStageExtensionSession({
+  const stashExtensionContext = (externalUrl) =>
+    stageExtensionContext({
       opportunity_id: id,
       external_url: externalUrl,
     });
-  };
 
   const prepareDraft = async () => {
     setDraftBusy(true);
     try {
-      await apiCreateDraft(id);
-      toast.success("Draft created. You can continue it from Drafts.");
+      const nextDraft = await apiCreateDraft(id, opp.link);
+      setDraft(nextDraft);
+      toast.success("Draft started. Next, use Apply to Portal.");
       nav("/drafts");
     } catch (e) {
       toast.error(errMsg(e, "Could not create draft."));
@@ -119,10 +112,11 @@ export default function OpportunityDetails() {
     }
 
     try {
-      await apiCreateDraft(id);
+      const nextDraft = draft || await apiCreateDraft(id, opp.link);
+      setDraft(nextDraft);
       await stashExtensionContext(opp.link);
       window.open(opp.link, "_blank", "noopener,noreferrer");
-      toast.success("Extension context prepared for this opportunity.");
+      toast.success("Portal opened. The extension will use this draft to fill the form.");
     } catch (e) {
       toast.error(errMsg(e, "Could not prepare the extension context."));
     } finally {
@@ -270,13 +264,25 @@ export default function OpportunityDetails() {
               <SnapshotItem icon={MapPin} label="Location" value={opp.location || "Global / Remote"} />
               <SnapshotItem icon={Info} label="Type" value={opp.type || "Grant"} />
             </div>
+            <div className="border-t border-slate-100 px-6 py-5">
+              <h4 className="text-xs uppercase tracking-[0.18em] text-slate-500 font-bold">Application Journey</h4>
+              <div className="mt-4 space-y-3">
+                <JourneyStep icon={FileEdit} title={draft ? "Draft ready" : "Start draft"} text={draft ? "Your draft workspace is ready to review." : "Create the workspace for this opportunity."} />
+                <JourneyStep icon={ExternalLink} title="Apply to portal" text="Open the official portal with the FundMe extension ready to fill forms." />
+                <JourneyStep icon={CheckCircle2} title="Review and submit" text="Check answers and submit manually on the portal." />
+              </div>
+            </div>
             <div className="p-6 pt-2 space-y-3">
               <Button
-                onClick={prepareDraft}
+                onClick={draft ? () => nav(`/drafts/${draft.draft_id}?review=true`) : prepareDraft}
                 disabled={draftBusy}
-                className="w-full h-12 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold rounded-xl btn-press shadow-lg shadow-emerald-200/40 disabled:opacity-60"
+                variant={draft ? "outline" : "default"}
+                className={draft
+                  ? "w-full h-12 border-slate-200 hover:bg-slate-50 text-slate-700 hover:text-slate-700 font-semibold rounded-xl disabled:opacity-60"
+                  : "w-full h-12 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold rounded-xl btn-press shadow-lg shadow-emerald-200/40 disabled:opacity-60"}
               >
-                {draftBusy ? <Loader2 size={16} className="mr-2 animate-spin" /> : <FileEdit size={16} className="mr-2" />} Prepare Draft
+                {draftBusy ? <Loader2 size={16} className="mr-2 animate-spin" /> : draft ? <CheckCircle2 size={16} className="mr-2" /> : <FileEdit size={16} className="mr-2" />}
+                {draft ? "Review Draft" : "Start Draft"}
               </Button>
               {opp.link && (
                 <Button
@@ -288,7 +294,7 @@ export default function OpportunityDetails() {
                   data-testid="apply-portal-btn"
                 >
                   {applyBusy ? <Loader2 size={16} className="mr-2 animate-spin" /> : null}
-                  Apply on Portal <ExternalLink size={16} className="ml-2" />
+                  Apply to Portal <ExternalLink size={16} className="ml-2" />
                 </Button>
               )}
             </div>
@@ -334,6 +340,20 @@ function SnapshotItem({ icon: Icon, label, value, color = "text-slate-900" }) {
         <span className="text-xs font-medium">{label}</span>
       </div>
       <span className={`text-sm font-bold ${color}`}>{value}</span>
+    </div>
+  );
+}
+
+function JourneyStep({ icon: Icon, title, text }) {
+  return (
+    <div className="flex gap-3">
+      <div className="mt-0.5 h-7 w-7 rounded-md bg-[var(--primary-light)] text-[var(--accent)] flex items-center justify-center shrink-0">
+        <Icon size={14} />
+      </div>
+      <div>
+        <div className="text-sm font-semibold text-slate-900">{title}</div>
+        <p className="mt-0.5 text-xs leading-snug text-slate-500">{text}</p>
+      </div>
     </div>
   );
 }

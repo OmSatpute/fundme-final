@@ -1,24 +1,34 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { CheckCircle2, Bookmark, BookmarkCheck, Sparkles, ArrowUpRight, Loader2 } from "lucide-react";
+import { CheckCircle2, Bookmark, BookmarkCheck, Sparkles, ArrowUpRight, Loader2, FileEdit, ExternalLink, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { apiSaveOpp, apiUnsaveOpp, apiCreateDraft, apiGetProfile, errMsg } from "@/lib/api";
 import axios from "axios";
 import { API_BASE } from "@/lib/api";
+import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
+import { stageExtensionContext } from "@/lib/applyFlow";
+import { checkExtensionInstalled } from "@/lib/utils";
 
-export default function OpportunityCard({ opp, onChange }) {
+export default function OpportunityCard({ opp, draft, onChange }) {
   const nav = useNavigate();
   const [saved, setSaved] = useState(!!opp.saved);
+  const [currentDraft, setCurrentDraft] = useState(draft || null);
   const [busy, setBusy] = useState(false);
   const [draftBusy, setDraftBusy] = useState(false);
+  const [applyBusy, setApplyBusy] = useState(false);
+  const [showExtensionModal, setShowExtensionModal] = useState(false);
   const [eligibilityLoading, setEligibilityLoading] = useState(false);
   const [eligibilityResult, setEligibilityResult] = useState(null);
 
   useEffect(() => {
     setSaved(!!opp.saved);
   }, [opp.opportunity_id, opp.saved]);
+
+  useEffect(() => {
+    setCurrentDraft(draft || null);
+  }, [draft, opp.opportunity_id]);
 
   const toggleSave = async (e) => {
     e.stopPropagation();
@@ -50,13 +60,52 @@ export default function OpportunityCard({ opp, onChange }) {
   const prepareDraft = async () => {
     setDraftBusy(true);
     try {
-      await apiCreateDraft(opp.opportunity_id);
-      toast.success("Draft created - open it from Drafts");
+      const nextDraft = await apiCreateDraft(opp.opportunity_id, opp.link);
+      setCurrentDraft(nextDraft);
+      toast.success("Draft started. Next, use Apply to Portal.");
+      nav("/drafts");
+      onChange?.();
     } catch (err) {
       toast.error(errMsg(err, "Could not create draft."));
     } finally {
       setDraftBusy(false);
     }
+  };
+
+  const applyToPortal = async ({ skipInstallCheck = false } = {}) => {
+    if (!opp.link) {
+      toast.error("No portal link is available for this opportunity.");
+      return;
+    }
+
+    setApplyBusy(true);
+    try {
+      const nextDraft = currentDraft || await apiCreateDraft(opp.opportunity_id, opp.link);
+      setCurrentDraft(nextDraft);
+
+      if (!skipInstallCheck) {
+        const isInstalled = await checkExtensionInstalled();
+        if (!isInstalled) {
+          sessionStorage.setItem("FUNDME_EXT_PENDING_OPPORTUNITY", opp.opportunity_id);
+          setShowExtensionModal(true);
+          return;
+        }
+      }
+
+      await stageExtensionContext({ opportunity_id: opp.opportunity_id, external_url: opp.link });
+      window.open(opp.link, "_blank", "noopener,noreferrer");
+      toast.success("Portal opened. The extension will fill from your draft when the form appears.");
+    } catch (err) {
+      toast.error(errMsg(err, "Could not prepare the portal."));
+    } finally {
+      setApplyBusy(false);
+    }
+  };
+
+  const openPortalWithoutExtension = () => {
+    if (!opp.link) return;
+    window.open(opp.link, "_blank", "noopener,noreferrer");
+    toast.info("Opening portal without extension.");
   };
 
   const checkEligibility = async () => {
@@ -169,10 +218,13 @@ export default function OpportunityCard({ opp, onChange }) {
           {busy ? <Loader2 size={14} className="animate-spin" /> :
             saved ? <><BookmarkCheck size={14} className="mr-1" />Unsave</> : <><Bookmark size={14} className="mr-1" />Save</>}
         </Button>
-        <Button onClick={prepareDraft} disabled={draftBusy}
-          className="btn-press rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium disabled:opacity-60"
+        <Button onClick={currentDraft ? () => nav(`/drafts/${currentDraft.draft_id}?review=true`) : prepareDraft} disabled={draftBusy}
+          variant={currentDraft ? "outline" : "default"}
+          className={currentDraft
+            ? "btn-press rounded-md border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-900 hover:text-slate-900 font-medium disabled:opacity-60"
+            : "btn-press rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium disabled:opacity-60"}
           data-testid={`prepare-draft-${opp.opportunity_id}`}>
-          {draftBusy ? <Loader2 size={14} className="animate-spin" /> : "Prepare Draft"}
+          {draftBusy ? <Loader2 size={14} className="animate-spin" /> : currentDraft ? <><Eye size={14} className="mr-1" />Review Draft</> : <><FileEdit size={14} className="mr-1" />Start Draft</>}
         </Button>
         <Button variant="outline"
           className="btn-press rounded-md border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-900 hover:text-slate-900 font-medium"
@@ -181,6 +233,34 @@ export default function OpportunityCard({ opp, onChange }) {
           View Details <ArrowUpRight size={12} className="ml-1" />
         </Button>
       </div>
+
+      {currentDraft && (
+        <div className="rounded-md border border-[var(--accent)]/20 bg-[var(--primary-light)]/50 p-3">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold text-slate-900">Draft ready</div>
+              <p className="mt-1 text-xs leading-snug text-slate-600">Open the official portal and let the extension fill from this draft.</p>
+            </div>
+            <Button
+              size="sm"
+              disabled={applyBusy || !opp.link}
+              onClick={() => applyToPortal()}
+              className="shrink-0 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white"
+              data-testid={`apply-portal-${opp.opportunity_id}`}
+            >
+              {applyBusy ? <Loader2 size={13} className="animate-spin" /> : <ExternalLink size={13} />}
+              Portal
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <ExtensionInstallModal
+        open={showExtensionModal}
+        onOpenChange={setShowExtensionModal}
+        onVerified={() => applyToPortal({ skipInstallCheck: true })}
+        onIgnore={openPortalWithoutExtension}
+      />
     </motion.div>
   );
 }

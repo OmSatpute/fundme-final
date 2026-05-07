@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { ArrowRight, Calendar, FileText, Bookmark, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiListOpportunities, apiListDrafts, apiGetProfile, apiSaveOpp, apiUnsaveOpp } from "@/lib/api";
+import { getUser } from "@/lib/auth";
 
 const fade = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 } };
 
@@ -45,6 +46,7 @@ const getDeadlineStyles = (deadlineStr) => {
 };
 
 export default function Dashboard() {
+  const nav = useNavigate();
   const [data, setData] = useState({ opps: [], drafts: [], profile: null });
   const [loading, setLoading] = useState(true);
 
@@ -86,6 +88,8 @@ export default function Dashboard() {
   if (loading) return <div className="flex items-center justify-center py-32"><Loader2 className="animate-spin text-[var(--accent)]" /></div>;
 
   const { opps, drafts, profile } = data;
+  const user = getUser();
+  const firstName = (user?.name || "Founder").split(" ")[0];
 
   // Compute KPIs client-side (real server has no /dashboard/summary endpoint)
   const today = new Date(); today.setHours(0,0,0,0);
@@ -107,7 +111,7 @@ export default function Dashboard() {
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-[var(--accent)] font-bold">Overview</div>
           <h1 className="mt-2 font-display text-5xl font-bold tracking-tight leading-none">
-            Good morning, <span className="font-serif-display text-[var(--accent)]">{(profile?.startup_name || "founder").split(" ")[0].toLowerCase()}.</span>
+            Good morning, <span className="font-serif-display text-[var(--accent)]">{firstName}.</span>
           </h1>
           <p className="mt-3 text-slate-500">Your pipeline, refreshed in real time.</p>
         </div>
@@ -154,7 +158,7 @@ export default function Dashboard() {
         </div>
         {drafts.length === 0 ? (
           <div className="bg-white border border-dashed border-slate-200 p-10 text-center text-sm text-slate-500">
-            No drafts yet. Open the Explorer and click <strong>Prepare Draft</strong> on any opportunity.
+            No drafts yet. Open the Explorer and click <strong>Start Draft</strong> on any opportunity.
           </div>
         ) : (
           <div className="bg-white border border-slate-200 overflow-hidden">
@@ -170,7 +174,7 @@ export default function Dashboard() {
               </div>
               <Link to="/drafts">
                 <Button className="mt-6 w-full h-12 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white" data-testid="continue-draft-btn">
-                  Continue Draft <ArrowRight size={14} className="ml-2" />
+                  Open Drafts <ArrowRight size={14} className="ml-2" />
                 </Button>
               </Link>
             </div>
@@ -192,13 +196,29 @@ export default function Dashboard() {
           {matches.length === 0 ? (
             <div className="px-6 py-10 text-center text-sm text-slate-500">No matches yet - try refreshing or completing your profile.</div>
           ) : matches.map((row) => (
-            <div key={row.opportunity_id} className="grid grid-cols-12 px-6 py-4 items-center text-sm hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0">
+            <div
+              key={row.opportunity_id}
+              onClick={() => nav(`/explorer/${row.opportunity_id}`)}
+              className="grid grid-cols-12 px-6 py-4 items-center text-sm hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0 cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") nav(`/explorer/${row.opportunity_id}`);
+              }}
+            >
               <div className="col-span-5 font-medium text-slate-900 line-clamp-1">{row.title}</div>
               <div className="col-span-2 text-slate-600">{row.type}</div>
               <div className="col-span-2 text-slate-600">{row.amount}</div>
               <div className="col-span-2 text-[var(--accent)] font-medium">{row.deadline}</div>
               <div className="col-span-1 text-right">
-                <button onClick={() => handleToggleSave(row)} className="p-1 hover:bg-slate-100 rounded-full transition-colors" title={row.saved ? "Unsave" : "Save"}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleToggleSave(row);
+                  }}
+                  className="p-1 hover:bg-slate-100 rounded-full transition-colors"
+                  title={row.saved ? "Unsave" : "Save"}
+                >
                   <Bookmark size={15} className={`inline transition-colors ${row.saved ? "fill-[var(--accent)] text-[var(--accent)]" : "text-slate-400"}`} />
                 </button>
               </div>

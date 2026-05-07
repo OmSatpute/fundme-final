@@ -1,11 +1,12 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, FileText, Loader2, Save, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ExternalLink, Eye, FileEdit, FileText, Loader2, Save, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
 import {
   apiGenerateDraftAnswers,
   apiGetDraft,
@@ -13,6 +14,8 @@ import {
   apiUpdateDraft,
   errMsg,
 } from "@/lib/api";
+import { getApplyLink, stageExtensionContext } from "@/lib/applyFlow";
+import { checkExtensionInstalled } from "@/lib/utils";
 
 const fieldsFromSchema = (schema = {}) =>
   (schema.sections || []).flatMap((section) =>
@@ -31,6 +34,8 @@ export default function DraftEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [applyBusy, setApplyBusy] = useState(false);
+  const [showExtensionModal, setShowExtensionModal] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -38,6 +43,15 @@ export default function DraftEditor() {
       .then((data) => {
         setDraft(data);
         setValues(data.form_fields || {});
+
+        if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname) {
+          sessionStorage.removeItem("FUNDME_EXT_RELOAD");
+          sessionStorage.removeItem("FUNDME_EXT_PENDING_DRAFT");
+          setTimeout(() => {
+            const btn = document.querySelector('[data-testid="draft-editor-apply-portal"]');
+            if (btn) btn.click();
+          }, 800);
+        }
       })
       .catch((e) => toast.error(errMsg(e, "Could not load draft.")))
       .finally(() => setLoading(false));
@@ -52,6 +66,7 @@ export default function DraftEditor() {
       return acc;
     }, {});
   }, [fields]);
+  const applyLink = useMemo(() => getApplyLink(draft || {}), [draft]);
 
   const setField = (fieldId, value) => {
     setValues((current) => ({ ...current, [fieldId]: value }));
@@ -91,6 +106,44 @@ export default function DraftEditor() {
     }
   };
 
+  const applyToPortal = async ({ skipInstallCheck = false } = {}) => {
+    if (!applyLink) {
+      toast.error("No portal link is available for this draft.");
+      return;
+    }
+
+    setApplyBusy(true);
+    try {
+      if (!isReview) {
+        const updated = await apiUpdateDraft(id, { form_fields: values });
+        setDraft((current) => ({ ...current, ...updated }));
+      }
+
+      if (!skipInstallCheck) {
+        const isInstalled = await checkExtensionInstalled();
+        if (!isInstalled) {
+          sessionStorage.setItem("FUNDME_EXT_PENDING_DRAFT", id);
+          setShowExtensionModal(true);
+          return;
+        }
+      }
+
+      await stageExtensionContext({ opportunity_id: draft.opportunity_id, external_url: applyLink });
+      window.open(applyLink, "_blank", "noopener,noreferrer");
+      toast.success("Portal opened. The extension will fill from this draft when the form appears.");
+    } catch (e) {
+      toast.error(errMsg(e, "Could not prepare the extension context."));
+    } finally {
+      setApplyBusy(false);
+    }
+  };
+
+  const applyWithoutExtension = () => {
+    if (!applyLink) return;
+    window.open(applyLink, "_blank", "noopener,noreferrer");
+    toast.info("Opening portal without extension.");
+  };
+
   if (loading) {
     return <div className="flex justify-center py-32"><Loader2 className="animate-spin text-emerald-600" /></div>;
   }
@@ -114,25 +167,49 @@ export default function DraftEditor() {
           </Link>
           <div className="mt-5 text-[10px] uppercase tracking-[0.22em] text-emerald-600 font-bold">{isReview ? "Reviewing draft" : "Application draft"}</div>
           <h1 className="mt-2 font-display text-4xl md:text-5xl font-bold tracking-tight">{draft.opportunity_title}</h1>
-          <p className="mt-3 text-slate-500">{isReview ? "Previewing your application answers. Go back to edit." : (draft.form_schema?.subtitle || "Review and refine your application answers.")}</p>
+          <p className="mt-3 text-slate-500">{isReview ? "Previewing your answers before using them on the portal." : (draft.form_schema?.subtitle || "Review and refine your application answers.")}</p>
         </div>
-        {!isReview && (
-          <div className="flex gap-2">
-            <Button variant="outline" className="h-11 rounded-md border-slate-300" onClick={generateAnswers} disabled={generating || saving || fields.length === 0}>
-              {generating ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Sparkles size={14} className="mr-2" />} Generate
+        <div className="flex flex-wrap gap-2">
+          {!isReview && (
+            <>
+              <Button variant="outline" className="h-11 rounded-md border-slate-300" onClick={generateAnswers} disabled={generating || saving || fields.length === 0}>
+                {generating ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Sparkles size={14} className="mr-2" />} Generate
+              </Button>
+              <Button className="h-11 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white" onClick={() => saveDraft()} disabled={saving}>
+                {saving ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Save size={14} className="mr-2" />} Save
+              </Button>
+              <Button asChild variant="outline" className="h-11 rounded-md border-slate-300">
+                <Link to={`/drafts/${id}?review=true`}><Eye size={14} className="mr-2" /> Review Draft</Link>
+              </Button>
+            </>
+          )}
+          {isReview && (
+            <Button asChild variant="outline" className="h-11 rounded-md border-slate-300">
+              <Link to={`/drafts/${id}`}><FileEdit size={14} className="mr-2" /> Edit Draft</Link>
             </Button>
-            <Button className="h-11 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white" onClick={() => saveDraft()} disabled={saving}>
-              {saving ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Save size={14} className="mr-2" />} Save
-            </Button>
-          </div>
-        )}
+          )}
+          <Button
+            className="h-11 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white"
+            onClick={() => applyToPortal()}
+            disabled={applyBusy || !applyLink}
+            data-testid="draft-editor-apply-portal"
+          >
+            {applyBusy ? <Loader2 size={14} className="mr-2 animate-spin" /> : <ExternalLink size={14} className="mr-2" />} Apply to Portal
+          </Button>
+        </div>
       </header>
+
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-slate-600">
+        <DraftJourneyStep icon={FileEdit} title="Start draft" text="Build the answers here first." />
+        <DraftJourneyStep icon={ExternalLink} title="Use extension" text="Apply to Portal opens the official form and prepares auto-fill." />
+        <DraftJourneyStep icon={CheckCircle2} title="Review and submit" text="Check the filled portal form, submit manually, then mark applied." />
+      </section>
 
       {fields.length === 0 ? (
         <div className="border border-dashed border-slate-300 bg-white p-12 text-center">
           <FileText size={28} className="mx-auto text-slate-400" />
           <div className="mt-4 font-semibold">No application fields captured yet</div>
-          <div className="mt-2 text-sm text-slate-500">This draft exists, but it does not have a form schema attached.</div>
+          <div className="mt-2 text-sm text-slate-500">Use Apply to Portal to open the official form with the extension ready.</div>
         </div>
       ) : (
         <div className="space-y-5">
@@ -156,6 +233,25 @@ export default function DraftEditor() {
           ))}
         </div>
       )}
+
+      <ExtensionInstallModal
+        open={showExtensionModal}
+        onOpenChange={setShowExtensionModal}
+        onVerified={() => applyToPortal({ skipInstallCheck: true })}
+        onIgnore={applyWithoutExtension}
+      />
+    </div>
+  );
+}
+
+function DraftJourneyStep({ icon: Icon, title, text }) {
+  return (
+    <div className="flex items-start gap-2 rounded-md bg-white border border-slate-200 px-3 py-2">
+      <Icon size={14} className="mt-0.5 text-[var(--accent)] shrink-0" />
+      <div>
+        <div className="font-semibold text-slate-900">{title}</div>
+        <div className="mt-0.5 leading-snug">{text}</div>
+      </div>
     </div>
   );
 }
@@ -191,4 +287,3 @@ function DraftField({ field, value, onChange, readOnly }) {
     </div>
   );
 }
-

@@ -4,11 +4,10 @@ import {
   DialogContent, 
   DialogHeader, 
   DialogTitle, 
-  DialogDescription,
-  DialogFooter
+  DialogDescription
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Download, Chrome, Puzzle, ArrowRight, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { Download, Chrome, Puzzle, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { checkExtensionInstalled } from "@/lib/utils";
 
@@ -44,10 +43,10 @@ export function ExtensionInstallModal({ open, onOpenChange, onVerified, onIgnore
               <Puzzle size={24} />
             </div>
             <DialogTitle className="text-2xl font-display font-bold text-slate-900 tracking-tight">
-              Extension Required
+              Use FundMe Extension
             </DialogTitle>
             <DialogDescription className="text-slate-500 text-base mt-2">
-              To apply directly on the portal and use AI auto-fill, you need to install the FundMe AI extension.
+              Install or verify the extension before opening the official portal so FundMe can fill the form from your draft.
             </DialogDescription>
           </DialogHeader>
 
@@ -59,6 +58,7 @@ export function ExtensionInstallModal({ open, onOpenChange, onVerified, onIgnore
               <Step number="2" text="Open Chrome and navigate to chrome://extensions" />
               <Step number="3" text="Enable 'Developer mode' in the top right corner." />
               <Step number="4" text="Click 'Load unpacked' and select the unzipped folder." />
+              <Step number="5" text="Return here, click Apply to Portal, review the filled form, and submit manually." />
             </div>
           </div>
 

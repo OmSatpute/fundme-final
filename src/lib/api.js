@@ -140,6 +140,8 @@ const normalizeDraft = (d = {}) => ({
   progress: draftProgress(d),
   status: (d.status || "IN PROGRESS").toUpperCase(),
   deadline: d.deadline || d.opportunity?.deadline || "",
+  source_url: d.source_url || "",
+  apply_link: d.source_url || d.opportunity?.external_apply_url || d.opportunity?.link || "",
   form_schema: d.form_schema,
   form_fields: d.form_fields || {},
   opportunity: d.opportunity || null,
@@ -155,15 +157,26 @@ export const apiGetDraft = async (draft_id) => normalizeDraft(
   await unwrap(http.get(`/drafts/${draft_id}?user_id=${encodeURIComponent(getUserId())}`))
 );
 
-export const apiCreateDraft = (opportunity_id) =>
-  unwrap(http.post("/drafts/bootstrap", {
+export const apiGetDraftByOpportunity = async (opportunity_id) => {
+  try {
+    return normalizeDraft(
+      await unwrap(http.get(`/drafts/by-opportunity?user_id=${encodeURIComponent(getUserId())}&opportunity_id=${encodeURIComponent(opportunity_id)}`))
+    );
+  } catch (e) {
+    if (e.response?.status === 404) return null;
+    throw e;
+  }
+};
+
+export const apiCreateDraft = async (opportunity_id, source_url = "") =>
+  normalizeDraft(await unwrap(http.post("/drafts/bootstrap", {
     user_id: getUserId(),
     opportunity_id,
-    source_url: "",
+    source_url,
     form_schema: null,
     schema_source: "manual",
     capture_meta: {},
-  }));
+  })));
 
 export const apiStageExtensionSession = ({ opportunity_id, external_url }) =>
   unwrap(http.post("/extension/session", {

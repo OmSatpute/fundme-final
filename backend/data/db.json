@@ -197,6 +197,33 @@
       "role": "founder",
       "avatar": "https://ui-avatars.com/api/?name=rishabh&background=0ea5e9&color=fff&size=32",
       "created_at": "2026-05-07"
+    },
+    {
+      "user_id": "u37405b",
+      "name": "avni",
+      "email": "avnig@gmail.com",
+      "password": "$2b$12$ok6Edtqz0Kuc837EPwjsKuhnQaeM3OMvka3aN/Y/pf3HzHfQIDqE6",
+      "role": "founder",
+      "avatar": "https://ui-avatars.com/api/?name=avni&background=0ea5e9&color=fff&size=32",
+      "created_at": "2026-05-07"
+    },
+    {
+      "user_id": "u11b04f",
+      "name": "yuwbd",
+      "email": "hiudehi@gmail.com",
+      "password": "$2b$12$pOFuRuyycCAekfgslODN7eVxZvs1MGKbcF0O.uDEjSiRScbeSgBxK",
+      "role": "founder",
+      "avatar": "https://ui-avatars.com/api/?name=yuwbd&background=0ea5e9&color=fff&size=32",
+      "created_at": "2026-05-07"
+    },
+    {
+      "user_id": "u39aa1a",
+      "name": "euih",
+      "email": "egdxc@gmail.com",
+      "password": "$2b$12$c86WshKBm5mp.rm2JaZWI.MBigHHx7y4Rb0hN9/kWEYGU0iGC5u8C",
+      "role": "founder",
+      "avatar": "https://ui-avatars.com/api/?name=euih&background=0ea5e9&color=fff&size=32",
+      "created_at": "2026-05-07"
     }
   ],
   "founder_profiles": [
@@ -638,6 +665,33 @@
       "solution_summary": "The AgriSense AI platform delivers real-time insights and personalized recommendations to farmers through a user-friendly mobile application, leveraging AI models trained on extensive agricultural data to drive precision farming and improved resource management.",
       "target_customers": "Small and medium-scale farmers, agricultural cooperatives, and government-backed farming initiatives",
       "business_model": "The company generates revenue through a multi-channel approach, including subscription plans, strategic partnerships with agri-enterprises, and sales of IoT-based hardware kits, ensuring a scalable and sustainable business model.",
+      "team_size": 0,
+      "founded_year": 2026,
+      "location": "",
+      "documents": {
+        "pitch_deck": null,
+        "financial_projections": null,
+        "letters_of_support": null,
+        "budget_breakdown": null
+      },
+      "profile_completion": {
+        "score": 0,
+        "missing_fields": []
+      }
+    },
+    {
+      "founder_id": "fc5c82d",
+      "user_id": "u39aa1a",
+      "startup_name": "FundMe",
+      "sector": "Artificial Intelligence and Fintech",
+      "stage": "Early-stage",
+      "startup_overview": "FundMe is an AI-driven platform designed to streamline the startup funding process by providing tailored funding opportunities to users based on their profiles and requirements. Leveraging machine learning and natural language processing, the platform aims to reduce manual effort and increase the efficiency of the funding application process.",
+      "website": "",
+      "application_email": "",
+      "problem_statement": "The current startup funding process is often manual, time-consuming, and inefficient, resulting in a significant amount of time and resources being wasted on application submissions and tracking. This leads to a high likelihood of errors, missed opportunities, and decreased productivity for startups and investors alike.",
+      "solution_summary": "FundMe's AI-driven platform utilizes machine learning algorithms to match startups with relevant funding opportunities, automating the application process and providing real-time tracking and workflow management. The platform also integrates with external sites, enabling seamless auto-filling of application forms and reducing the need for manual data entry.",
+      "target_customers": "Early-stage startups, venture capital firms, angel investors, and other stakeholders in the startup ecosystem seeking to optimize their funding application and tracking processes.",
+      "business_model": "FundMe's business model is based on a subscription-based service, offering tiered plans to accommodate the diverse needs of its target customers. The platform also generates revenue through affiliate partnerships with funding providers and by offering premium services, such as personalized funding recommendations and application support.",
       "team_size": 0,
       "founded_year": 2026,
       "location": "",
@@ -3652,6 +3706,586 @@
       "scraped_at": "2026-05-07T04:30:38.155Z",
       "last_seen_at": "2026-05-07T04:30:38.155Z",
       "rolling_verified_at": "2026-05-07T04:30:38.224Z"
+    },
+    {
+      "opportunity_id": "gem_9248267",
+      "title": "Handcrafted Showpiece and Statue",
+      "provider": "Urban Development and Environment Department",
+      "description": "Tender GEM/2026/B/7467067 on GeM. Quantity: 1.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 22 Apr 2026, 6:28 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9248267",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9248267",
+      "slug": "gem-9248267",
+      "raw_scraped_text": "{\"id\":\"9248267\",\"b_id\":[9248267],\"b_bid_number\":[\"GEM/2026/B/7467067\"],\"b_category_name\":[\"Handcrafted Showpiece and Statue\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-22T18:28:16Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Handcrafted Showpiece and Statue\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_musi_arts_art_ha28775375\"],\"b.b_created_by\":[\"Buyerthandla\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_deptName\":[\"Urban Development and Environment Department\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9244060",
+      "title": "Monthly Basis Cab & Taxi Hiring Services - SUV; 4500 Km per month  x 24 hrs per day; Local 24*7,Mon",
+      "provider": "Ministry of Coal - COAL INDIA LIMITED",
+      "description": "Tender GEM/2026/B/7463235 on GeM. Quantity: 5. Items: Monthly Basis Cab & Taxi Hiring Services - SUV; 4500 Km per month  x 24 hrs per day; Local 24*7,Monthly Basis Cab & Taxi Hiring Services - SUV; 3000 Km per month  x 12 hrs per day; Local 24*7.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 21 Apr 2026, 7:23 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9244060",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9244060",
+      "slug": "gem-9244060",
+      "raw_scraped_text": "{\"id\":\"9244060\",\"b_id\":[9244060],\"b_bid_number\":[\"GEM/2026/B/7463235\"],\"b_category_name\":[\"Monthly Basis Cab & Taxi Hiring Services - SUV; 4500 Km per month  x 24 hrs per day; Local 24*7,Mon\"],\"b_total_quantity\":[5],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[2],\"b_type\":[1],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-21T19:23:40Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Monthly Basis Cab & Taxi Hiring Services - SUV; 4500 Km per month  x 24 hrs per day; Local 24*7,Monthly Basis Cab & Taxi Hiring Services - SUV; 3000 Km per month  x 12 hrs per day; Local 24*7\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"services_home_ve54336454_mont\"],\"b.b_created_by\":[\"jnt_emm1\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Coal\"],\"ba_official_details_deptName\":[\"COAL INDIA LIMITED\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9248410",
+      "title": "Multi Grain Winnower Paddy cleaner Grain Cleaner",
+      "provider": "Agriculture Marketing and Export Department Uttar Pradesh",
+      "description": "Tender GEM/2026/B/7467186 on GeM. Quantity: 20.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 22 Apr 2026, 7:09 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9248410",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9248410",
+      "slug": "gem-9248410",
+      "raw_scraped_text": "{\"id\":\"9248410\",\"b_id\":[9248410],\"b_bid_number\":[\"GEM/2026/B/7467186\"],\"b_category_name\":[\"Multi Grain Winnower Paddy cleaner Grain Cleaner\"],\"b_total_quantity\":[20],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-22T19:09:16Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Multi Grain Winnower Paddy cleaner Grain Cleaner\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_fa68031381_agri_ag66051114_mult\"],\"b.b_created_by\":[\"JAISS@1234\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_deptName\":[\"Agriculture Marketing and Export Department Uttar Pradesh\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9248468",
+      "title": "Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outs",
+      "provider": "Home Department Daman and Diu",
+      "description": "Tender GEM/2026/B/7467237 on GeM. Quantity: 8. Items: Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 22 Apr 2026, 7:29 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9248468",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9248468",
+      "slug": "gem-9248468",
+      "raw_scraped_text": "{\"id\":\"9248468\",\"b_id\":[9248468],\"b_bid_number\":[\"GEM/2026/B/7467237\"],\"b_category_name\":[\"Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outs\"],\"b_total_quantity\":[8],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[5],\"b_type\":[1],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-22T19:29:27Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others,Manpower Outsourcing Services - Minimum wage - Semi-skilled; Secondary School; Others\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"services_home_manp_manp\"],\"b.b_created_by\":[\"prashant.solanki80\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_deptName\":[\"Home Department Daman and Diu\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9198713",
+      "title": "Design Suppy Installation Testing And Commissioning of 06 Passenger Lift as per BOQ,CAMC of 6 Passa",
+      "provider": "Ministry of Finance - Department of Financial Services",
+      "description": "Tender GEM/2026/B/7422543 on GeM. Quantity: 7. Items: Design Suppy Installation Testing And Commissioning of 06 Passenger Lift as per BOQ,CAMC of 6 Passanger Lifts after Defect Liability Period as per BOQ,DUMMY 1,DUMMY 2,DUMMY 3.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 07 Apr 2026, 7:59 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9198713",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9198713",
+      "slug": "gem-9198713",
+      "raw_scraped_text": "{\"id\":\"9198713\",\"b_id\":[9198713],\"b_bid_number\":[\"GEM/2026/B/7422543\"],\"b_category_name\":[\"Design Suppy Installation Testing And Commissioning of 06 Passenger Lift as per BOQ,CAMC of 6 Passa\"],\"b_total_quantity\":[7],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[5],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-07T19:59:21Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Design Suppy Installation Testing And Commissioning of 06 Passenger Lift as per BOQ,CAMC of 6 Passanger Lifts after Defect Liability Period as per BOQ,DUMMY 1,DUMMY 2,DUMMY 3\"],\"b_is_custom_item\":[0],\"bbt_title\":[\"DESIGN SUPPLY INSTALLATION TESTING AND COMMISSIONING OF 02NO 06 PAGSSENGER LIFTS AT SBI AO VARANASI\"],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_boq_boql_boql_boq\"],\"b.b_created_by\":[\"SBILHOLUC.BUY_CON1\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Finance\"],\"ba_official_details_deptName\":[\"Department of Financial Services\"],\"bd_details_is_boq\":[true],\"bd_details_new_boq\":[true]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9260458",
+      "title": "Slide Microscope,SGOT 05 x20 ml,SGPT 05 X20 ml,Creatinine 04 x 60 ml,Urea 05 x 20 ml,Urine collecto",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Tender GEM/2026/B/7478107 on GeM. Quantity: 157. Items: Slide Microscope,SGOT 05 x20 ml,SGPT 05 X20 ml,Creatinine 04 x 60 ml,Urea 05 x 20 ml,Urine collector container 100ml,Hand wash 10 ltr jar,PCV Tube.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 26 Apr 2026, 7:45 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9260458",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9260458",
+      "slug": "gem-9260458",
+      "raw_scraped_text": "{\"id\":\"9260458\",\"b_id\":[9260458],\"b_bid_number\":[\"GEM/2026/B/7478107\"],\"b_category_name\":[\"Slide Microscope,SGOT 05 x20 ml,SGPT 05 X20 ml,Creatinine 04 x 60 ml,Urea 05 x 20 ml,Urine collecto\"],\"b_total_quantity\":[157],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[8],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-26T19:45:12Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Slide Microscope,SGOT 05 x20 ml,SGPT 05 X20 ml,Creatinine 04 x 60 ml,Urea 05 x 20 ml,Urine collector container 100ml,Hand wash 10 ltr jar,PCV Tube\"],\"b_is_custom_item\":[0],\"bbt_title\":[\"VETERINARY LABORATORY REAGENTS\"],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_boq_boql_boql_boq\"],\"b.b_created_by\":[\"25mfvhvo\"],\"ba_is_single_packet\":[1],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"],\"bd_details_is_boq\":[true],\"bd_details_new_boq\":[true]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9260438",
+      "title": "Agricultural Trailer Complying to AIS 112",
+      "provider": "Urban Development Department Uttar Pradesh",
+      "description": "Tender GEM/2026/B/7478088 on GeM. Quantity: 1.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 26 Apr 2026, 7:11 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9260438",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9260438",
+      "slug": "gem-9260438",
+      "raw_scraped_text": "{\"id\":\"9260438\",\"b_id\":[9260438],\"b_bid_number\":[\"GEM/2026/B/7478088\"],\"b_category_name\":[\"Agricultural Trailer Complying to AIS 112\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-26T19:11:17Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Agricultural Trailer Complying to AIS 112\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_ve66014551_vehi_auto_agri\"],\"b.b_created_by\":[\"buyerunn\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_deptName\":[\"Urban Development Department Uttar Pradesh\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9260427",
+      "title": "Monthly Basis Cab & Taxi Hiring Services - Premium SUV; 2000 km x 320 hours; Local 24*7",
+      "provider": "Ministry of Finance - Department of Revenue",
+      "description": "Tender GEM/2026/B/7478078 on GeM. Quantity: 1.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 26 Apr 2026, 7:25 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9260427",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9260427",
+      "slug": "gem-9260427",
+      "raw_scraped_text": "{\"id\":\"9260427\",\"b_id\":[9260427],\"b_bid_number\":[\"GEM/2026/B/7478078\"],\"b_category_name\":[\"Monthly Basis Cab & Taxi Hiring Services - Premium SUV; 2000 km x 320 hours; Local 24*7\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-26T19:25:39Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Monthly Basis Cab & Taxi Hiring Services - Premium SUV; 2000 km x 320 hours; Local 24*7\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"services_home_ve54336454_mont\"],\"b.b_created_by\":[\"HQPOOLBUYER\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Finance\"],\"ba_official_details_deptName\":[\"Department of Revenue\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9164869",
+      "title": "HMI & AUX CONSOLE FOR RFCC & VDU-II/9040M26B21,Installation and Commissioning/9040M26B21",
+      "provider": "Ministry of Petroleum and Natural Gas - INDIAN OIL CORPORATION LIMITED",
+      "description": "Tender GEM/2026/B/7393110 on GeM. Quantity: 2.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 28 Mar 2026, 2:33 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9164869",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9164869",
+      "slug": "gem-9164869",
+      "raw_scraped_text": "{\"id\":\"9164869\",\"b_id\":[9164869],\"b_bid_number\":[\"GEM/2026/B/7393110\"],\"b_category_name\":[\"HMI & AUX CONSOLE FOR RFCC & VDU-II/9040M26B21,Installation and Commissioning/9040M26B21\"],\"b_total_quantity\":[2],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[2],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-03-28T14:33:15Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"HMI & AUX CONSOLE FOR RFCC & VDU-II/9040M26B21,Installation and Commissioning/9040M26B21\"],\"b_is_custom_item\":[1],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"buyer1.ihr.wb\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Petroleum and Natural Gas\"],\"ba_official_details_deptName\":[\"INDIAN OIL CORPORATION LIMITED\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9219572",
+      "title": "Cotton Mattresses (V2)",
+      "provider": "Basic Education Department Uttar Pradesh",
+      "description": "Tender GEM/2026/B/7441271 on GeM. Quantity: 2700.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 6:26 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9219572",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9219572",
+      "slug": "gem-9219572",
+      "raw_scraped_text": "{\"id\":\"9219572\",\"b_id\":[9219572],\"b_bid_number\":[\"GEM/2026/B/7441271\"],\"b_category_name\":[\"Cotton Mattresses (V2)\"],\"b_total_quantity\":[2700],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T18:26:12Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Cotton Mattresses (V2)\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_furn_ac74548875_furn_cott\"],\"b.b_created_by\":[\"bsa.kos-up\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_deptName\":[\"Basic Education Department Uttar Pradesh\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9227510",
+      "title": "Z1 MISC-675-86-23 GASKET",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Tender GEM/2026/B/7448418 on GeM. Quantity: 2284.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:07 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9227510",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9227510",
+      "slug": "gem-9227510",
+      "raw_scraped_text": "{\"id\":\"9227510\",\"b_id\":[9227510],\"b_bid_number\":[\"GEM/2026/B/7448418\"],\"b_category_name\":[\"Z1 MISC-675-86-23 GASKET\"],\"b_total_quantity\":[2284],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:07:00Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Z1 MISC-675-86-23 GASKET\"],\"b_is_custom_item\":[1],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"nihalgem\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9213060",
+      "title": "4tb hard disk",
+      "provider": "Ministry of Home Affairs - Central Police Organisation",
+      "description": "Tender GEM/2026/B/7435592 on GeM. Quantity: 6.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:06 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9213060",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9213060",
+      "slug": "gem-9213060",
+      "raw_scraped_text": "{\"id\":\"9213060\",\"b_id\":[9213060],\"b_bid_number\":[\"GEM/2026/B/7435592\"],\"b_category_name\":[\"4tb hard disk\"],\"b_total_quantity\":[6],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:06:42Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"4tb hard disk\"],\"b_is_custom_item\":[1],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"vinodkadam.nia\"],\"ba_is_single_packet\":[1],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Home Affairs\"],\"ba_official_details_deptName\":[\"Central Police Organisation\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9213046",
+      "title": "hard disk2tb",
+      "provider": "Ministry of Home Affairs - Central Police Organisation",
+      "description": "Tender GEM/2026/B/7435578 on GeM. Quantity: 7.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:07 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9213046",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9213046",
+      "slug": "gem-9213046",
+      "raw_scraped_text": "{\"id\":\"9213046\",\"b_id\":[9213046],\"b_bid_number\":[\"GEM/2026/B/7435578\"],\"b_category_name\":[\"hard disk2tb\"],\"b_total_quantity\":[7],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:07:41Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"hard disk2tb\"],\"b_is_custom_item\":[1],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"vinodkadam.nia\"],\"ba_is_single_packet\":[1],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Home Affairs\"],\"ba_official_details_deptName\":[\"Central Police Organisation\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9213012",
+      "title": "hard disk 1tb",
+      "provider": "Ministry of Home Affairs - Central Police Organisation",
+      "description": "Tender GEM/2026/B/7435550 on GeM. Quantity: 10.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:04 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9213012",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9213012",
+      "slug": "gem-9213012",
+      "raw_scraped_text": "{\"id\":\"9213012\",\"b_id\":[9213012],\"b_bid_number\":[\"GEM/2026/B/7435550\"],\"b_category_name\":[\"hard disk 1tb\"],\"b_total_quantity\":[10],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:04:15Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"hard disk 1tb\"],\"b_is_custom_item\":[1],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"vinodkadam.nia\"],\"ba_is_single_packet\":[1],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Home Affairs\"],\"ba_official_details_deptName\":[\"Central Police Organisation\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9225205",
+      "title": "Expanded Polyethylene Foam",
+      "provider": "Ministry of Home Affairs - Central Armed Police Forces",
+      "description": "Tender GEM/2026/B/7446288 on GeM. Quantity: 2000.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:25 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9225205",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9225205",
+      "slug": "gem-9225205",
+      "raw_scraped_text": "{\"id\":\"9225205\",\"b_id\":[9225205],\"b_bid_number\":[\"GEM/2026/B/7446288\"],\"b_category_name\":[\"Expanded Polyethylene Foam\"],\"b_total_quantity\":[2000],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:25:22Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Expanded Polyethylene Foam\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_stru_insu_ther_expa\"],\"b.b_created_by\":[\"bahadursingh\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Home Affairs\"],\"ba_official_details_deptName\":[\"Central Armed Police Forces\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9184837",
+      "title": "Urodynamic Systems",
+      "provider": "Ministry of Health and Family Welfare - Department of Health and Family Welfare",
+      "description": "Tender GEM/2026/B/7410346 on GeM. Quantity: 2.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:19 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9184837",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9184837",
+      "slug": "gem-9184837",
+      "raw_scraped_text": "{\"id\":\"9184837\",\"b_id\":[9184837],\"b_bid_number\":[\"GEM/2026/B/7410346\"],\"b_category_name\":[\"Urodynamic Systems\"],\"b_total_quantity\":[2],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:19:06Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Urodynamic Systems\"],\"b_is_custom_item\":[1],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"Pankaj.kumar8728\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Health and Family Welfare\"],\"ba_official_details_deptName\":[\"Department of Health and Family Welfare\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9227574",
+      "title": "Z6/R90 MISC-T-90S-184-70-052-SB CABLENO12",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Tender GEM/2026/B/7448476 on GeM. Quantity: 30.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:30 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9227574",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9227574",
+      "slug": "gem-9227574",
+      "raw_scraped_text": "{\"id\":\"9227574\",\"b_id\":[9227574],\"b_bid_number\":[\"GEM/2026/B/7448476\"],\"b_category_name\":[\"Z6/R90 MISC-T-90S-184-70-052-SB CABLENO12\"],\"b_total_quantity\":[30],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:30:03Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Z6/R90 MISC-T-90S-184-70-052-SB CABLENO12\"],\"b_is_custom_item\":[1],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"nihalgem\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9227565",
+      "title": "Three Seater Sofa,Single Seater Sofa,Side Table,Coffee Table,Dining Table,Dining Chair,Office Table",
+      "provider": "Ministry of Housing & Urban Affairs (MoHUA) - Central Public Works Department",
+      "description": "Tender GEM/2026/B/7448468 on GeM. Quantity: 1243. Items: Three Seater Sofa,Single Seater Sofa,Side Table,Coffee Table,Dining Table,Dining Chair,Office Table,Almirah,Revolving Chair,Almirah,Reception Table,Bed Side Table,Three Seater Sofa,Center Table,King Size Bed,Study Chair,Bed Side Table,Study Table,Single Bed,Single Mattress,King Size Mattress,Pillow,Bed Sheet Single,Bed Sheet Double,Blanket Single,Blanket Double,Bath Towel,Face Towel,Pillow Cover,Roller Blind,Single bed Mattress Cover,Double Bed Mattress Cover,Single Bed Blanket Cover,Double Bed Blanket Cover.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:35 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9227565",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9227565",
+      "slug": "gem-9227565",
+      "raw_scraped_text": "{\"id\":\"9227565\",\"b_id\":[9227565],\"b_bid_number\":[\"GEM/2026/B/7448468\"],\"b_category_name\":[\"Three Seater Sofa,Single Seater Sofa,Side Table,Coffee Table,Dining Table,Dining Chair,Office Table\"],\"b_total_quantity\":[1243],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[34],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:35:07Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Three Seater Sofa,Single Seater Sofa,Side Table,Coffee Table,Dining Table,Dining Chair,Office Table,Almirah,Revolving Chair,Almirah,Reception Table,Bed Side Table,Three Seater Sofa,Center Table,King Size Bed,Study Chair,Bed Side Table,Study Table,Single Bed,Single Mattress,King Size Mattress,Pillow,Bed Sheet Single,Bed Sheet Double,Blanket Single,Blanket Double,Bath Towel,Face Towel,Pillow Cover,Roller Blind,Single bed Mattress Cover,Double Bed Mattress Cover,Single Bed Blanket Cover,Double Bed Blanket Cover\"],\"b_is_custom_item\":[0],\"bbt_title\":[\"Custom BID\"],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_boq_boql_boql_boq\"],\"b.b_created_by\":[\"gopallal-jat@gov.in\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Housing & Urban Affairs (MoHUA)\"],\"ba_official_details_deptName\":[\"Central Public Works Department\"],\"bd_details_is_boq\":[true],\"bd_details_new_boq\":[true]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9227560",
+      "title": "Custom Bid for Services - Installation of special flooring in the chemical process plant and labora",
+      "provider": "PMO - Department of Atomic Energy",
+      "description": "Tender GEM/2026/B/7448464 on GeM. Quantity: 1. Items: Custom Bid for Services - Installation of special flooring in the chemical process plant and laboratory areas at BARC.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:35 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9227560",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9227560",
+      "slug": "gem-9227560",
+      "raw_scraped_text": "{\"id\":\"9227560\",\"b_id\":[9227560],\"b_bid_number\":[\"GEM/2026/B/7448464\"],\"b_category_name\":[\"Custom Bid for Services - Installation of special flooring in the chemical process plant and labora\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:35:01Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Custom Bid for Services - Installation of special flooring in the chemical process plant and laboratory areas at BARC\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"services_home_cust\"],\"b.b_created_by\":[\"ManivannanBARC\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"PMO\"],\"ba_official_details_deptName\":[\"Department of Atomic Energy\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
+    },
+    {
+      "opportunity_id": "gem_9227425",
+      "title": "Integrated AI Compute System (NVIDIA DGX B200)",
+      "provider": "Ministry of Education - Department of Higher Education",
+      "description": "Tender GEM/2026/B/7448349 on GeM. Quantity: 1.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 16 Apr 2026, 7:36 pm. Bid end: 07 May 2026, 8:00 pm.",
+      "type": "Tender",
+      "amount": "High value bid",
+      "deadline": "07 May 2026, 8:00 pm",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9227425",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9227425",
+      "slug": "gem-9227425",
+      "raw_scraped_text": "{\"id\":\"9227425\",\"b_id\":[9227425],\"b_bid_number\":[\"GEM/2026/B/7448349\"],\"b_category_name\":[\"Integrated AI Compute System (NVIDIA DGX B200)\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-04-16T19:36:27Z\"],\"final_end_date_sort\":[\"2026-05-07T20:00:00Z\"],\"bd_category_name\":[\"Integrated AI Compute System (NVIDIA DGX B200)\"],\"b_is_custom_item\":[1],\"is_high_value\":[true],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"Indraj1@work\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Education\"],\"ba_official_details_deptName\":[\"Department of Higher Education\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-07T14:07:02.100Z",
+      "first_seen_at": "2026-05-07T14:07:02.100Z",
+      "last_seen_at": "2026-05-07T14:07:02.100Z"
     }
   ],
   "saved_opportunities": [
@@ -17113,9 +17747,2093 @@
       "source_url": "",
       "capture_meta": {},
       "last_saved": "2026-05-07T04:18:47.182Z"
+    },
+    {
+      "draft_id": "d41f635",
+      "user_id": "u39aa1a",
+      "opportunity_id": "opp_1d6edf",
+      "created_at": "2026-05-07T13:40:27.323Z",
+      "status": "draft",
+      "title": "Cloud Storage Reimbursement Grant Application",
+      "subtitle": "Application for reimbursement of cloud storage costs for DPIIT-recognized Haryana startups",
+      "form_schema": {
+        "title": "Cloud Storage Reimbursement Grant Application",
+        "subtitle": "Application for reimbursement of cloud storage costs for DPIIT-recognized Haryana startups",
+        "sections": [
+          {
+            "title": "Startup Information",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup Name",
+                "type": "text",
+                "required": true,
+                "placeholder": "Enter your startup name",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Information",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "startup_description",
+                "label": "Startup Description",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Please provide a brief description of your startup",
+                "options": [],
+                "section": "Startup Information",
+                "max_words": 150,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_description",
+                  "css": ""
+                }
+              },
+              {
+                "id": "dpiit_recognition",
+                "label": "DPIIT Recognition",
+                "type": "checkbox",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Has your startup received recognition from DPIIT?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "section": "Startup Information",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "dpiit_recognition",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Eligibility Criteria",
+            "fields": [
+              {
+                "id": "haryana_registration",
+                "label": "Haryana Registration",
+                "type": "checkbox",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Is your startup officially registered and operating within Haryana?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "section": "Eligibility Criteria",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "haryana_registration",
+                  "css": ""
+                }
+              },
+              {
+                "id": "cloud_provider",
+                "label": "Cloud Provider",
+                "type": "select",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Which cloud provider is your startup using?",
+                "options": [
+                  "Amazon Web Services (AWS)",
+                  "Google Cloud Platform (GCP)",
+                  "Microsoft Azure"
+                ],
+                "section": "Eligibility Criteria",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "cloud_provider",
+                  "css": ""
+                }
+              },
+              {
+                "id": "gst_invoices",
+                "label": "GST Invoices",
+                "type": "checkbox",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Do you have valid GST invoices for all cloud expenses?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "section": "Eligibility Criteria",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "gst_invoices",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Financial Information",
+            "fields": [
+              {
+                "id": "cloud_expenses",
+                "label": "Cloud Expenses",
+                "type": "number",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Please provide the total cloud expenses incurred by your startup",
+                "options": [],
+                "section": "Financial Information",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "cloud_expenses",
+                  "css": ""
+                }
+              },
+              {
+                "id": "reimbursement_amount",
+                "label": "Reimbursement Amount",
+                "type": "number",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Please provide the amount you are seeking reimbursement for",
+                "options": [],
+                "section": "Financial Information",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "reimbursement_amount",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "GST invoices",
+          "Cloud provider agreement"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "startup_description": "",
+        "dpiit_recognition": "",
+        "haryana_registration": "",
+        "cloud_provider": "",
+        "gst_invoices": "",
+        "cloud_expenses": "",
+        "reimbursement_amount": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "startup_description",
+          "dpiit_recognition",
+          "haryana_registration",
+          "cloud_provider",
+          "gst_invoices",
+          "cloud_expenses",
+          "reimbursement_amount"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "GST invoices": "missing",
+        "Cloud provider agreement": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T13:54:10.167Z"
+    },
+    {
+      "draft_id": "d15d981",
+      "user_id": "u39aa1a",
+      "opportunity_id": "opp_b01f80",
+      "created_at": "2026-05-07T13:55:44.259Z",
+      "status": "draft",
+      "title": "Circular Bharat Accelerator Application Draft",
+      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+      "form_schema": {
+        "title": "Circular Bharat Accelerator Application Draft",
+        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+        "sections": [
+          {
+            "title": "Startup Basics",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup name",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "website",
+                "label": "Website",
+                "type": "url",
+                "required": false,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "website",
+                  "css": ""
+                }
+              },
+              {
+                "id": "contact_email",
+                "label": "Application email",
+                "type": "email",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "contact_email",
+                  "css": ""
+                }
+              },
+              {
+                "id": "location",
+                "label": "Location",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "location",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Opportunity Fit",
+            "fields": [
+              {
+                "id": "startup_overview",
+                "label": "Startup overview",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Explain what you are building in All Sectors.",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_overview",
+                  "css": ""
+                }
+              },
+              {
+                "id": "problem_statement",
+                "label": "Problem statement",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "problem_statement",
+                  "css": ""
+                }
+              },
+              {
+                "id": "solution_summary",
+                "label": "Solution summary",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "solution_summary",
+                  "css": ""
+                }
+              },
+              {
+                "id": "why_this_opportunity",
+                "label": "Why are you a strong fit for this opportunity?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "why_this_opportunity",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Execution and Impact",
+            "fields": [
+              {
+                "id": "traction_metrics",
+                "label": "Traction or proof points",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "traction_metrics",
+                  "css": ""
+                }
+              },
+              {
+                "id": "team_background",
+                "label": "Team background",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "team_background",
+                  "css": ""
+                }
+              },
+              {
+                "id": "use_of_funds",
+                "label": "How will you use the funding or support?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "use_of_funds",
+                  "css": ""
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Upcoming milestones",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "milestones",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "Financial projections"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "website": "",
+        "contact_email": "",
+        "location": "",
+        "startup_overview": "",
+        "problem_statement": "",
+        "solution_summary": "",
+        "why_this_opportunity": "",
+        "traction_metrics": "",
+        "team_background": "",
+        "use_of_funds": "",
+        "milestones": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "contact_email",
+          "location",
+          "startup_overview",
+          "problem_statement",
+          "solution_summary",
+          "why_this_opportunity",
+          "traction_metrics",
+          "team_background",
+          "use_of_funds",
+          "milestones"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "Financial projections": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://nsrcel.accubate.app/ext/form/18872/1/apply?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T13:55:44.259Z"
+    },
+    {
+      "draft_id": "dbe715a",
+      "user_id": "u39aa1a",
+      "opportunity_id": "opp_e8a40a",
+      "created_at": "2026-05-07T13:57:12.392Z",
+      "status": "draft",
+      "title": "Net SGST Reimbursement Application Draft",
+      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+      "form_schema": {
+        "title": "Net SGST Reimbursement Application Draft",
+        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+        "sections": [
+          {
+            "title": "Startup Basics",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup name",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "website",
+                "label": "Website",
+                "type": "url",
+                "required": false,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "website",
+                  "css": ""
+                }
+              },
+              {
+                "id": "contact_email",
+                "label": "Application email",
+                "type": "email",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "contact_email",
+                  "css": ""
+                }
+              },
+              {
+                "id": "location",
+                "label": "Location",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "location",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Opportunity Fit",
+            "fields": [
+              {
+                "id": "startup_overview",
+                "label": "Startup overview",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Explain what you are building in All Sectors.",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_overview",
+                  "css": ""
+                }
+              },
+              {
+                "id": "problem_statement",
+                "label": "Problem statement",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "problem_statement",
+                  "css": ""
+                }
+              },
+              {
+                "id": "solution_summary",
+                "label": "Solution summary",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "solution_summary",
+                  "css": ""
+                }
+              },
+              {
+                "id": "why_this_opportunity",
+                "label": "Why are you a strong fit for this opportunity?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "why_this_opportunity",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Execution and Impact",
+            "fields": [
+              {
+                "id": "traction_metrics",
+                "label": "Traction or proof points",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "traction_metrics",
+                  "css": ""
+                }
+              },
+              {
+                "id": "team_background",
+                "label": "Team background",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "team_background",
+                  "css": ""
+                }
+              },
+              {
+                "id": "use_of_funds",
+                "label": "How will you use the funding or support?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "use_of_funds",
+                  "css": ""
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Upcoming milestones",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "milestones",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "Financial projections"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "website": "",
+        "contact_email": "",
+        "location": "",
+        "startup_overview": "",
+        "problem_statement": "",
+        "solution_summary": "",
+        "why_this_opportunity": "",
+        "traction_metrics": "",
+        "team_background": "",
+        "use_of_funds": "",
+        "milestones": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "contact_email",
+          "location",
+          "startup_overview",
+          "problem_statement",
+          "solution_summary",
+          "why_this_opportunity",
+          "traction_metrics",
+          "team_background",
+          "use_of_funds",
+          "milestones"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "Financial projections": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T13:57:12.393Z"
+    },
+    {
+      "draft_id": "ddbee07",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_b01f80",
+      "created_at": "2026-05-07T14:09:18.528Z",
+      "status": "draft",
+      "title": "Circular Bharat Accelerator Application Draft",
+      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+      "form_schema": {
+        "title": "Circular Bharat Accelerator Application Draft",
+        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+        "sections": [
+          {
+            "title": "Startup Basics",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup name",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "website",
+                "label": "Website",
+                "type": "url",
+                "required": false,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "website",
+                  "css": ""
+                }
+              },
+              {
+                "id": "contact_email",
+                "label": "Application email",
+                "type": "email",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "contact_email",
+                  "css": ""
+                }
+              },
+              {
+                "id": "location",
+                "label": "Location",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "location",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Opportunity Fit",
+            "fields": [
+              {
+                "id": "startup_overview",
+                "label": "Startup overview",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Explain what you are building in All Sectors.",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_overview",
+                  "css": ""
+                }
+              },
+              {
+                "id": "problem_statement",
+                "label": "Problem statement",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "problem_statement",
+                  "css": ""
+                }
+              },
+              {
+                "id": "solution_summary",
+                "label": "Solution summary",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "solution_summary",
+                  "css": ""
+                }
+              },
+              {
+                "id": "why_this_opportunity",
+                "label": "Why are you a strong fit for this opportunity?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "why_this_opportunity",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Execution and Impact",
+            "fields": [
+              {
+                "id": "traction_metrics",
+                "label": "Traction or proof points",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "traction_metrics",
+                  "css": ""
+                }
+              },
+              {
+                "id": "team_background",
+                "label": "Team background",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "team_background",
+                  "css": ""
+                }
+              },
+              {
+                "id": "use_of_funds",
+                "label": "How will you use the funding or support?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "use_of_funds",
+                  "css": ""
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Upcoming milestones",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "milestones",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "Financial projections"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "website": "",
+        "contact_email": "",
+        "location": "",
+        "startup_overview": "",
+        "problem_statement": "",
+        "solution_summary": "",
+        "why_this_opportunity": "",
+        "traction_metrics": "",
+        "team_background": "",
+        "use_of_funds": "",
+        "milestones": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "contact_email",
+          "location",
+          "startup_overview",
+          "problem_statement",
+          "solution_summary",
+          "why_this_opportunity",
+          "traction_metrics",
+          "team_background",
+          "use_of_funds",
+          "milestones"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "Financial projections": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://nsrcel.accubate.app/ext/form/18872/1/apply?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T14:09:18.528Z"
+    },
+    {
+      "draft_id": "da2e1bc",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_e8a40a",
+      "created_at": "2026-05-07T14:14:12.041Z",
+      "status": "draft",
+      "title": "Net SGST Reimbursement Application Draft",
+      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+      "form_schema": {
+        "title": "Net SGST Reimbursement Application Draft",
+        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+        "sections": [
+          {
+            "title": "Startup Basics",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup name",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "website",
+                "label": "Website",
+                "type": "url",
+                "required": false,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "website",
+                  "css": ""
+                }
+              },
+              {
+                "id": "contact_email",
+                "label": "Application email",
+                "type": "email",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "contact_email",
+                  "css": ""
+                }
+              },
+              {
+                "id": "location",
+                "label": "Location",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "location",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Opportunity Fit",
+            "fields": [
+              {
+                "id": "startup_overview",
+                "label": "Startup overview",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Explain what you are building in All Sectors.",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_overview",
+                  "css": ""
+                }
+              },
+              {
+                "id": "problem_statement",
+                "label": "Problem statement",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "problem_statement",
+                  "css": ""
+                }
+              },
+              {
+                "id": "solution_summary",
+                "label": "Solution summary",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "solution_summary",
+                  "css": ""
+                }
+              },
+              {
+                "id": "why_this_opportunity",
+                "label": "Why are you a strong fit for this opportunity?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "why_this_opportunity",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Execution and Impact",
+            "fields": [
+              {
+                "id": "traction_metrics",
+                "label": "Traction or proof points",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "traction_metrics",
+                  "css": ""
+                }
+              },
+              {
+                "id": "team_background",
+                "label": "Team background",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "team_background",
+                  "css": ""
+                }
+              },
+              {
+                "id": "use_of_funds",
+                "label": "How will you use the funding or support?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "use_of_funds",
+                  "css": ""
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Upcoming milestones",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "milestones",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "Financial projections"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "website": "",
+        "contact_email": "",
+        "location": "",
+        "startup_overview": "",
+        "problem_statement": "",
+        "solution_summary": "",
+        "why_this_opportunity": "",
+        "traction_metrics": "",
+        "team_background": "",
+        "use_of_funds": "",
+        "milestones": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "contact_email",
+          "location",
+          "startup_overview",
+          "problem_statement",
+          "solution_summary",
+          "why_this_opportunity",
+          "traction_metrics",
+          "team_background",
+          "use_of_funds",
+          "milestones"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "Financial projections": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T14:14:12.041Z"
+    },
+    {
+      "draft_id": "d2b76e6",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_1e7113",
+      "created_at": "2026-05-07T14:14:48.929Z",
+      "status": "draft",
+      "title": "Patent Reimbursement Incentives: Karnataka Startup Policy Application Draft",
+      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+      "form_schema": {
+        "title": "Patent Reimbursement Incentives: Karnataka Startup Policy Application Draft",
+        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+        "sections": [
+          {
+            "title": "Startup Basics",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup name",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "website",
+                "label": "Website",
+                "type": "url",
+                "required": false,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "website",
+                  "css": ""
+                }
+              },
+              {
+                "id": "contact_email",
+                "label": "Application email",
+                "type": "email",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "contact_email",
+                  "css": ""
+                }
+              },
+              {
+                "id": "location",
+                "label": "Location",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "location",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Opportunity Fit",
+            "fields": [
+              {
+                "id": "startup_overview",
+                "label": "Startup overview",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Explain what you are building in All Sectors.",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_overview",
+                  "css": ""
+                }
+              },
+              {
+                "id": "problem_statement",
+                "label": "Problem statement",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "problem_statement",
+                  "css": ""
+                }
+              },
+              {
+                "id": "solution_summary",
+                "label": "Solution summary",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "solution_summary",
+                  "css": ""
+                }
+              },
+              {
+                "id": "why_this_opportunity",
+                "label": "Why are you a strong fit for this opportunity?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "why_this_opportunity",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Execution and Impact",
+            "fields": [
+              {
+                "id": "traction_metrics",
+                "label": "Traction or proof points",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "traction_metrics",
+                  "css": ""
+                }
+              },
+              {
+                "id": "team_background",
+                "label": "Team background",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "team_background",
+                  "css": ""
+                }
+              },
+              {
+                "id": "use_of_funds",
+                "label": "How will you use the funding or support?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "use_of_funds",
+                  "css": ""
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Upcoming milestones",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "milestones",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "Financial projections"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "website": "",
+        "contact_email": "",
+        "location": "",
+        "startup_overview": "",
+        "problem_statement": "",
+        "solution_summary": "",
+        "why_this_opportunity": "",
+        "traction_metrics": "",
+        "team_background": "",
+        "use_of_funds": "",
+        "milestones": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "contact_email",
+          "location",
+          "startup_overview",
+          "problem_statement",
+          "solution_summary",
+          "why_this_opportunity",
+          "traction_metrics",
+          "team_background",
+          "use_of_funds",
+          "milestones"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "Financial projections": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://www.missionstartupkarnataka.org/incentives?patent-reimbursement-incentives",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T14:14:48.929Z"
+    },
+    {
+      "draft_id": "dcb50e8",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_720633",
+      "created_at": "2026-05-07T14:14:54.060Z",
+      "status": "draft",
+      "title": "NASSCOM CoE – IoT & AI Gurugram Incubation Program Application Draft",
+      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+      "form_schema": {
+        "title": "NASSCOM CoE – IoT & AI Gurugram Incubation Program Application Draft",
+        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+        "sections": [
+          {
+            "title": "Startup Basics",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup name",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "website",
+                "label": "Website",
+                "type": "url",
+                "required": false,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "website",
+                  "css": ""
+                }
+              },
+              {
+                "id": "contact_email",
+                "label": "Application email",
+                "type": "email",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "contact_email",
+                  "css": ""
+                }
+              },
+              {
+                "id": "location",
+                "label": "Location",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "location",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Opportunity Fit",
+            "fields": [
+              {
+                "id": "startup_overview",
+                "label": "Startup overview",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Explain what you are building in All Sectors.",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_overview",
+                  "css": ""
+                }
+              },
+              {
+                "id": "problem_statement",
+                "label": "Problem statement",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "problem_statement",
+                  "css": ""
+                }
+              },
+              {
+                "id": "solution_summary",
+                "label": "Solution summary",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "solution_summary",
+                  "css": ""
+                }
+              },
+              {
+                "id": "why_this_opportunity",
+                "label": "Why are you a strong fit for this opportunity?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "why_this_opportunity",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Execution and Impact",
+            "fields": [
+              {
+                "id": "traction_metrics",
+                "label": "Traction or proof points",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "traction_metrics",
+                  "css": ""
+                }
+              },
+              {
+                "id": "team_background",
+                "label": "Team background",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "team_background",
+                  "css": ""
+                }
+              },
+              {
+                "id": "use_of_funds",
+                "label": "How will you use the funding or support?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "use_of_funds",
+                  "css": ""
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Upcoming milestones",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "milestones",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "Financial projections"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "website": "",
+        "contact_email": "",
+        "location": "",
+        "startup_overview": "",
+        "problem_statement": "",
+        "solution_summary": "",
+        "why_this_opportunity": "",
+        "traction_metrics": "",
+        "team_background": "",
+        "use_of_funds": "",
+        "milestones": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "contact_email",
+          "location",
+          "startup_overview",
+          "problem_statement",
+          "solution_summary",
+          "why_this_opportunity",
+          "traction_metrics",
+          "team_background",
+          "use_of_funds",
+          "milestones"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "Financial projections": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://haryana.coe-iot.com/incubationapplication/?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T14:14:54.060Z"
+    },
+    {
+      "draft_id": "dc868ec",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_637a92",
+      "created_at": "2026-05-07T14:15:34.520Z",
+      "status": "draft",
+      "title": "Haryana Startup Policy 2022 Patent Cost Reimbursement Scheme Application Draft",
+      "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+      "form_schema": {
+        "title": "Haryana Startup Policy 2022 Patent Cost Reimbursement Scheme Application Draft",
+        "subtitle": "AI-inferred application structure. Capture the live external form with the extension for the most accurate field list.",
+        "sections": [
+          {
+            "title": "Startup Basics",
+            "fields": [
+              {
+                "id": "startup_name",
+                "label": "Startup name",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_name",
+                  "css": ""
+                }
+              },
+              {
+                "id": "website",
+                "label": "Website",
+                "type": "url",
+                "required": false,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "website",
+                  "css": ""
+                }
+              },
+              {
+                "id": "contact_email",
+                "label": "Application email",
+                "type": "email",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "contact_email",
+                  "css": ""
+                }
+              },
+              {
+                "id": "location",
+                "label": "Location",
+                "type": "text",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Startup Basics",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "location",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Opportunity Fit",
+            "fields": [
+              {
+                "id": "startup_overview",
+                "label": "Startup overview",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "Explain what you are building in All Sectors.",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "startup_overview",
+                  "css": ""
+                }
+              },
+              {
+                "id": "problem_statement",
+                "label": "Problem statement",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "problem_statement",
+                  "css": ""
+                }
+              },
+              {
+                "id": "solution_summary",
+                "label": "Solution summary",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "solution_summary",
+                  "css": ""
+                }
+              },
+              {
+                "id": "why_this_opportunity",
+                "label": "Why are you a strong fit for this opportunity?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Opportunity Fit",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "why_this_opportunity",
+                  "css": ""
+                }
+              }
+            ]
+          },
+          {
+            "title": "Execution and Impact",
+            "fields": [
+              {
+                "id": "traction_metrics",
+                "label": "Traction or proof points",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "traction_metrics",
+                  "css": ""
+                }
+              },
+              {
+                "id": "team_background",
+                "label": "Team background",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "team_background",
+                  "css": ""
+                }
+              },
+              {
+                "id": "use_of_funds",
+                "label": "How will you use the funding or support?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "use_of_funds",
+                  "css": ""
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Upcoming milestones",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "",
+                "help_text": "",
+                "options": [],
+                "section": "Execution and Impact",
+                "max_words": null,
+                "selectorHints": {
+                  "name": "",
+                  "id": "milestones",
+                  "css": ""
+                }
+              }
+            ]
+          }
+        ],
+        "required_documents": [
+          "Pitch deck",
+          "Financial projections"
+        ]
+      },
+      "form_fields": {
+        "startup_name": "",
+        "website": "",
+        "contact_email": "",
+        "location": "",
+        "startup_overview": "",
+        "problem_statement": "",
+        "solution_summary": "",
+        "why_this_opportunity": "",
+        "traction_metrics": "",
+        "team_background": "",
+        "use_of_funds": "",
+        "milestones": ""
+      },
+      "completion": {
+        "completed_fields": [],
+        "missing_fields": [
+          "startup_name",
+          "contact_email",
+          "location",
+          "startup_overview",
+          "problem_statement",
+          "solution_summary",
+          "why_this_opportunity",
+          "traction_metrics",
+          "team_background",
+          "use_of_funds",
+          "milestones"
+        ],
+        "progress": 0
+      },
+      "required_documents_status": {
+        "Pitch deck": "missing",
+        "Financial projections": "missing"
+      },
+      "schema_source": "manual",
+      "source_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
+      "capture_meta": {},
+      "last_saved": "2026-05-07T14:15:34.520Z"
     }
   ],
   "extension_sessions": [
+    {
+      "session_id": "xaceed7",
+      "user_id": "u7d5987",
+      "opportunity_id": "opp_720633",
+      "external_url": "https://haryana.coe-iot.com/incubationapplication/?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
+      "hostname": "haryana.coe-iot.com",
+      "root_domain": "coe-iot.com",
+      "created_at": "2026-05-07T14:15:03.211Z",
+      "updated_at": "2026-05-07T14:15:03.211Z"
+    },
+    {
+      "session_id": "x94b48a",
+      "user_id": "u39aa1a",
+      "opportunity_id": "opp_1d6edf",
+      "external_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
+      "hostname": "investharyana.in",
+      "root_domain": "investharyana.in",
+      "created_at": "2026-05-07T13:54:10.197Z",
+      "updated_at": "2026-05-07T13:54:10.197Z"
+    },
     {
       "session_id": "xe44f41",
       "user_id": "u1",
@@ -17345,26 +20063,6 @@
       "root_domain": "missionstartupkarnataka.org",
       "created_at": "2026-05-03T21:31:16.820Z",
       "updated_at": "2026-05-03T21:31:16.820Z"
-    },
-    {
-      "session_id": "x7f6aa0",
-      "user_id": "u1",
-      "opportunity_id": "opp_e8a40a",
-      "external_url": "https://investharyana.in/#/startupPolicies/withoutlogin",
-      "hostname": "investharyana.in",
-      "root_domain": "investharyana.in",
-      "created_at": "2026-05-03T08:21:54.264Z",
-      "updated_at": "2026-05-03T08:21:54.264Z"
-    },
-    {
-      "session_id": "xb8bc88",
-      "user_id": "u1",
-      "opportunity_id": "opp_b01f80",
-      "external_url": "https://nsrcel.accubate.app/ext/form/18872/1/apply?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
-      "hostname": "nsrcel.accubate.app",
-      "root_domain": "accubate.app",
-      "created_at": "2026-05-03T08:21:20.544Z",
-      "updated_at": "2026-05-03T08:21:20.544Z"
     }
   ],
   "documents": [],

@@ -5,7 +5,7 @@ import OpportunityCard from "@/components/OpportunityCard";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { apiListOpportunities } from "@/lib/api";
+import { apiListDrafts, apiListOpportunities } from "@/lib/api";
 
 const STAGES = ["Idea", "MVP", "Early Revenue", "Growth", "PMF"];
 const SECTORS = ["AI / ML", "AgriTech", "DeepTech", "Fintech", "HealthTech", "Manufacturing", "Social Impact"];
@@ -19,12 +19,32 @@ export default function Explorer() {
   const [types, setTypes] = useState([]);
   const [showFilters, setShowFilters] = useState(true);
   const [opps, setOpps] = useState([]);
+  const [drafts, setDrafts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => { reload(); /* eslint-disable-next-line */ }, []);
   const reload = () => {
     setLoading(true);
-    apiListOpportunities().then(setOpps).catch(() => setOpps([])).finally(() => setLoading(false));
+    Promise.all([apiListOpportunities(), apiListDrafts()])
+      .then(([nextOpps, nextDrafts]) => {
+        setOpps(nextOpps);
+        setDrafts(nextDrafts);
+
+        const pendingOppId = sessionStorage.getItem("FUNDME_EXT_PENDING_OPPORTUNITY");
+        if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname && pendingOppId) {
+          sessionStorage.removeItem("FUNDME_EXT_RELOAD");
+          sessionStorage.removeItem("FUNDME_EXT_PENDING_OPPORTUNITY");
+          setTimeout(() => {
+            const btn = document.querySelector(`[data-testid="apply-portal-${pendingOppId}"]`);
+            if (btn) btn.click();
+          }, 800);
+        }
+      })
+      .catch(() => {
+        setOpps([]);
+        setDrafts([]);
+      })
+      .finally(() => setLoading(false));
   };
 
   const toggle = (set, val) => set.includes(val) ? set.filter((v) => v !== val) : [...set, val];
@@ -40,6 +60,7 @@ export default function Explorer() {
   }, [opps, q, stages, sectors, types]);
 
   const activeCount = stages.length + sectors.length + types.length;
+  const draftByOpp = useMemo(() => new Map(drafts.map((d) => [d.opportunity_id, d])), [drafts]);
 
   return (
     <div className="flex gap-8" data-testid="explorer-page">
@@ -95,7 +116,7 @@ export default function Explorer() {
           <div className="flex justify-center py-16"><Loader2 className="animate-spin text-[var(--accent)]" /></div>
         ) : (
           <motion.div layout className={view === "grid" ? `grid grid-cols-1 ${showFilters ? "lg:grid-cols-2" : "lg:grid-cols-3"} gap-5` : "flex flex-col gap-5"}>
-            {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} onChange={reload} />)}
+            {filtered.map((o) => <OpportunityCard key={o.opportunity_id} opp={o} draft={draftByOpp.get(o.opportunity_id)} onChange={reload} />)}
           </motion.div>
         )}
       </section>
