@@ -58,6 +58,8 @@ const filterOpenDeadlines = (opps) => {
 // ---------- auth ----------
 export const apiSignup = (body) => unwrap(http.post("/signup", body));
 export const apiLogin = (body) => unwrap(http.post("/login", body));
+export const apiGetUser = () => unwrap(http.get(`/user?user_id=${encodeURIComponent(getUserId())}`));
+export const apiUpdateUser = (body) => unwrap(http.put("/user", { ...body, user_id: getUserId() }));
 
 // ---------- AI ----------
 export const apiGenerateProfile = ({ file, startup_overview, website }) => {
@@ -198,6 +200,9 @@ export const apiListApplications = async () => {
 
 export const apiTrackApplication = ({ opportunity_id, deadline }) =>
   unwrap(http.post("/applications", { user_id: getUserId(), opportunity_id, deadline }));
+
+export const apiTrackExternalApplication = ({ opportunity_id, status = "Applied" }) =>
+  unwrap(http.post("/applications", { user_id: getUserId(), opportunity_id, status }));
 
 export const apiUpdateApplicationStatus = (application_id, data) =>
   unwrap(http.put(`/applications/${application_id}`, typeof data === "string" ? { status: data } : data));

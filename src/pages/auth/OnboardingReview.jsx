@@ -20,6 +20,7 @@ const FALLBACK = {
   solution_summary: "",
   target_customers: "",
   business_model: "",
+  website: "",
 };
 
 export default function OnboardingReview() {
@@ -85,6 +86,7 @@ export default function OnboardingReview() {
           <Field label="Solution summary" multiline editing={editing} value={profile.solution_summary} onChange={(v) => update("solution_summary", v)} testid="rev-solution" />
           <Field label="Target customers" multiline editing={editing} value={profile.target_customers} onChange={(v) => update("target_customers", v)} testid="rev-users" />
           <Field label="Business model" multiline editing={editing} value={profile.business_model} onChange={(v) => update("business_model", v)} testid="rev-model" />
+          <Field label="Startup website" editing={editing} value={profile.website} onChange={(v) => update("website", v)} testid="rev-website" />
         </div>
 
         <Button onClick={finish} disabled={busy}

@@ -1596,8 +1596,9 @@ app.put('/api/user', (req, res) => {
   const user = db.users.find(u => u.user_id === user_id);
   if (!user) return res.status(404).json({ error: 'User not found' });
 
-  // Allow updating name, email (but not user_id, role, created_at)
-  const allowed = ['name', 'email', 'password', 'avatar'];
+  // Allow updating profile fields and settings
+  const allowed = ['name', 'email', 'password', 'avatar', 'designation', 'phone', 'notifications', 'billing_email', 'gstin'];
+
   allowed.forEach(k => { if (fields[k] !== undefined) user[k] = fields[k]; });
 
   writeDB(db);
@@ -1683,6 +1684,11 @@ app.post('/api/ai/generate-profile', memoryUpload.single('file'), async (req, re
     // Final check for trailing commas etc
     let jsonText = cleanJson[0].replace(/,\s*([\]}])/g, '$1');
     const parsed = JSON.parse(jsonText);
+
+    // If website was provided but not in AI result, add it
+    if (website && !parsed.website) {
+      parsed.website = website;
+    }
 
     res.json({ result: parsed });
   } catch (err) {

@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User, Bell, Shield, CreditCard, Trash2 } from "lucide-react";
+import { User, Bell, Shield, CreditCard, Trash2, Loader2, Save } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { apiGetUser, apiUpdateUser, errMsg } from "@/lib/api";
+import { setAuth } from "@/lib/auth";
 
 const TABS = [
   { id: "account", label: "Account", Icon: User },
@@ -16,7 +18,58 @@ const TABS = [
 
 export default function Settings() {
   const [tab, setTab] = useState("account");
-  const [notify, setNotify] = useState({ deadline: true, matches: true, weekly: false, marketing: false });
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    designation: "",
+    notifications: { deadline: true, matches: true, weekly: false, marketing: false },
+    billing_email: "",
+    gstin: ""
+  });
+
+  useEffect(() => {
+    apiGetUser()
+      .then((data) => {
+        setUser({
+          ...user,
+          ...data,
+          notifications: data.notifications || user.notifications
+        });
+      })
+      .catch((e) => toast.error(errMsg(e, "Failed to load settings")))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const update = (k, v) => setUser(prev => ({ ...prev, [k]: v }));
+  const updateNotif = (k, v) => setUser(prev => ({
+    ...prev,
+    notifications: { ...prev.notifications, [k]: v }
+  }));
+
+  const save = async () => {
+    setBusy(true);
+    try {
+      const updated = await apiUpdateUser(user);
+      setAuth(updated);
+      toast.success("Settings saved successfully");
+    } catch (e) {
+      toast.error(errMsg(e, "Save failed"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin text-[var(--accent)] mb-4" size={32} />
+        <p className="text-slate-500 font-medium">Loading your preferences...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-12 gap-10 max-w-6xl" data-testid="settings-page">
@@ -52,12 +105,21 @@ export default function Settings() {
         >
           {tab === "account" && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <Field label="Full name"><Input defaultValue="Avni Gaur" className="h-11 rounded-md" data-testid="input-fullname" /></Field>
-              <Field label="Email"><Input type="email" defaultValue="avni@agrisense.ai" className="h-11 rounded-md" data-testid="input-email" /></Field>
-              <Field label="Phone"><Input defaultValue="+91 98xxxx1234" className="h-11 rounded-md" /></Field>
-              <Field label="Designation"><Input defaultValue="Founder & CEO" className="h-11 rounded-md" /></Field>
+              <Field label="Full name">
+                <Input value={user.name} onChange={e => update("name", e.target.value)} className="h-11 rounded-md" data-testid="input-fullname" />
+              </Field>
+              <Field label="Email">
+                <Input type="email" value={user.email} onChange={e => update("email", e.target.value)} className="h-11 rounded-md" data-testid="input-email" />
+              </Field>
+              <Field label="Phone">
+                <Input value={user.phone || ""} onChange={e => update("phone", e.target.value)} placeholder="+91 98xxxx1234" className="h-11 rounded-md" />
+              </Field>
+              <Field label="Designation">
+                <Input value={user.designation || ""} onChange={e => update("designation", e.target.value)} placeholder="Founder & CEO" className="h-11 rounded-md" />
+              </Field>
               <div className="md:col-span-2 flex justify-end">
-                <Button onClick={() => toast.success("Account updated")} className="rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white h-11 px-5 btn-press" data-testid="save-account">
+                <Button onClick={save} disabled={busy} className="rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white h-11 px-6 btn-press" data-testid="save-account">
+                  {busy ? <Loader2 size={16} className="mr-2 animate-spin" /> : <Save size={16} className="mr-2" />}
                   Save changes
                 </Button>
               </div>
@@ -66,10 +128,16 @@ export default function Settings() {
 
           {tab === "notifications" && (
             <div className="space-y-5">
-              <ToggleRow label="Deadline reminders" desc="Get notified 7, 3 and 1 day before any deadline." checked={notify.deadline} onChange={(v) => setNotify({ ...notify, deadline: v })} testid="notif-deadline" />
-              <ToggleRow label="New high-relevance matches" desc="Email me when an opportunity matches 80%+." checked={notify.matches} onChange={(v) => setNotify({ ...notify, matches: v })} testid="notif-matches" />
-              <ToggleRow label="Weekly digest" desc="A Monday morning recap of your pipeline." checked={notify.weekly} onChange={(v) => setNotify({ ...notify, weekly: v })} testid="notif-weekly" />
-              <ToggleRow label="Product updates" desc="Occasional emails about new features." checked={notify.marketing} onChange={(v) => setNotify({ ...notify, marketing: v })} testid="notif-marketing" />
+              <ToggleRow label="Deadline reminders" desc="Get notified 7, 3 and 1 day before any deadline." checked={user.notifications.deadline} onChange={(v) => updateNotif("deadline", v)} testid="notif-deadline" />
+              <ToggleRow label="New high-relevance matches" desc="Email me when an opportunity matches 80%+." checked={user.notifications.matches} onChange={(v) => updateNotif("matches", v)} testid="notif-matches" />
+              <ToggleRow label="Weekly digest" desc="A Monday morning recap of your pipeline." checked={user.notifications.weekly} onChange={(v) => updateNotif("weekly", v)} testid="notif-weekly" />
+              <ToggleRow label="Product updates" desc="Occasional emails about new features." checked={user.notifications.marketing} onChange={(v) => updateNotif("marketing", v)} testid="notif-marketing" />
+              <div className="flex justify-end pt-4">
+                <Button onClick={save} disabled={busy} className="rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white h-11 px-6 btn-press">
+                  {busy ? <Loader2 size={16} className="mr-2 animate-spin" /> : <Save size={16} className="mr-2" />}
+                  Save preferences
+                </Button>
+              </div>
             </div>
           )}
 
@@ -93,16 +161,28 @@ export default function Settings() {
 
           {tab === "billing" && (
             <div className="space-y-6">
-              <div className="bg-[var(--primary-light)] border border-[var(--primary-light)] p-6">
+              <div className="bg-[var(--primary-light)] border border-[var(--primary-light)] p-6 rounded-md">
                 <div className="text-xs uppercase tracking-wider text-[var(--accent)] font-bold">Current plan</div>
-                <div className="mt-2 font-display text-3xl font-bold">Founder · Free</div>
-                <p className="mt-2 text-sm text-[var(--accent)]/80">Unlock unlimited AI drafts, Kanban automations, and priority support.</p>
+                <div className="mt-2 font-display text-3xl font-bold text-slate-900">Founder · Free</div>
+                <p className="mt-2 text-sm text-slate-600">Unlock unlimited AI drafts, Kanban automations, and priority support.</p>
                 <Button className="mt-4 rounded-md bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white" data-testid="upgrade-plan">
                   Upgrade to Growth
                 </Button>
               </div>
-              <Field label="Billing email"><Input defaultValue="finance@agrisense.ai" className="h-11 rounded-md" /></Field>
-              <Field label="GSTIN"><Input defaultValue="29ABCDE1234F1Z5" className="h-11 rounded-md" /></Field>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <Field label="Billing email">
+                  <Input value={user.billing_email || ""} onChange={e => update("billing_email", e.target.value)} placeholder="finance@agrisense.ai" className="h-11 rounded-md" />
+                </Field>
+                <Field label="GSTIN">
+                  <Input value={user.gstin || ""} onChange={e => update("gstin", e.target.value)} placeholder="29ABCDE1234F1Z5" className="h-11 rounded-md" />
+                </Field>
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={save} disabled={busy} className="rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white h-11 px-6 btn-press">
+                  {busy ? <Loader2 size={16} className="mr-2 animate-spin" /> : <Save size={16} className="mr-2" />}
+                  Save billing info
+                </Button>
+              </div>
             </div>
           )}
         </motion.div>
