@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User, Bell, Shield, CreditCard, Trash2, Loader2, Save } from "lucide-react";
+import { User, Bell, Shield, CreditCard, Trash2, Loader2, Save, Check, ArrowUpRight, Sparkles } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { apiGetUser, apiUpdateUser, errMsg } from "@/lib/api";
 import { setAuth } from "@/lib/auth";
@@ -16,10 +17,62 @@ const TABS = [
   { id: "billing", label: "Billing", Icon: CreditCard },
 ];
 
+const PRICING_TIERS = [
+  {
+    name: "Free",
+    subtitle: "Validate FundMe with one founder profile",
+    price: "Rs 0",
+    cadence: "/ month",
+    cta: "Current plan",
+    muted: true,
+    features: [
+      "5 AI refreshes per month",
+      "5 AI draft generations",
+      "25 opportunity scrapes",
+      "AI profile generation from summary or deck",
+      "Basic Smart Apply extension fill",
+      "Save up to 10 opportunities",
+    ],
+  },
+  {
+    name: "Plus",
+    subtitle: "For founders actively applying every month",
+    price: "Rs 999",
+    cadence: "/ month",
+    cta: "Get Plus",
+    badge: "Best for founders",
+    featured: true,
+    features: [
+      "25 AI draft generations",
+      "150 opportunity scrapes",
+      "AI fit scores and eligibility reasoning",
+      "AI insights for deadlines and follow-ups",
+      "Smart Apply field mapping and portal fill",
+      "Unlimited saved opportunities and applications",
+    ],
+  },
+  {
+    name: "Pro",
+    subtitle: "For teams running funding as a pipeline",
+    price: "Rs 2,999",
+    cadence: "/ month",
+    cta: "Get Pro",
+    features: [
+      "100 AI draft generations",
+      "1,000 opportunity scrapes",
+      "Advanced tender and business-opportunity monitoring",
+      "Team pipeline, owners, notes, and follow-up workflows",
+      "Priority Smart Apply and deeper AI insights",
+      "Priority support and custom opportunity sources",
+    ],
+  },
+];
+
 export default function Settings() {
   const [tab, setTab] = useState("account");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
+  const [pricingOpen, setPricingOpen] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -163,7 +216,7 @@ export default function Settings() {
             <div className="space-y-6">
               <div className="bg-[var(--primary-light)] border border-[var(--primary-light)] p-6 rounded-md">
                 <div className="text-xs uppercase tracking-wider text-[var(--accent)] font-bold">Current plan</div>
-                <div className="mt-2 font-display text-3xl font-bold text-slate-900">Starter · 5 AI refreshes</div>
+                <div className="mt-2 font-display text-3xl font-bold text-slate-900">Free - 5 AI refreshes</div>
                 <p className="mt-2 text-sm text-slate-600">
                   Try FundMe with 5 AI refreshes for matching, profile updates, and draft generation. Upgrade when your team needs unlimited Smart Apply workflows.
                 </p>
@@ -181,8 +234,8 @@ export default function Settings() {
                     <div className="rounded-md bg-slate-50 px-3 py-2">Smart Apply fill</div>
                   </div>
                 </div>
-                <Button className="mt-4 rounded-md bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white" data-testid="upgrade-plan">
-                  Upgrade to Premium
+                <Button onClick={() => setPricingOpen(true)} className="mt-4 rounded-md bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white" data-testid="upgrade-plan">
+                  View plans
                 </Button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -203,6 +256,7 @@ export default function Settings() {
           )}
         </motion.div>
       </section>
+      <PricingModal open={pricingOpen} onOpenChange={setPricingOpen} />
     </div>
   );
 }
@@ -224,6 +278,85 @@ function ToggleRow({ label, desc, checked, onChange, testid }) {
         <div className="text-sm text-slate-500 mt-0.5">{desc}</div>
       </div>
       <Switch checked={checked} onCheckedChange={onChange} data-testid={testid} className="data-[state=checked]:bg-[var(--accent)]" />
+    </div>
+  );
+}
+
+function PricingModal({ open, onOpenChange }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-6xl border-slate-800 bg-[#1f1f1f] p-0 text-white shadow-2xl sm:rounded-2xl overflow-hidden">
+        <div className="px-6 py-6 sm:px-8 sm:py-7 border-b border-white/10">
+          <DialogHeader>
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-200">
+              <Sparkles size={13} /> FundMe plans
+            </div>
+            <DialogTitle className="mt-4 font-display text-3xl md:text-4xl text-white">
+              Choose how much funding work AI should handle.
+            </DialogTitle>
+            <DialogDescription className="max-w-2xl text-slate-300">
+              Start with profile generation and a few drafts, then upgrade as your team runs more applications, scrapes more opportunities, and needs deeper AI insights.
+            </DialogDescription>
+          </DialogHeader>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 sm:p-6 max-h-[72vh] overflow-y-auto">
+          {PRICING_TIERS.map((tier) => (
+            <PricingCard key={tier.name} tier={tier} />
+          ))}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function PricingCard({ tier }) {
+  return (
+    <div className={`relative flex min-h-[560px] flex-col rounded-2xl border p-5 ${
+      tier.featured
+        ? "border-emerald-400 bg-[#262b27] shadow-[0_0_0_1px_rgba(52,211,153,0.2)]"
+        : "border-white/10 bg-[#202020]"
+    }`}>
+      {tier.badge && (
+        <div className="absolute right-4 top-4 rounded-full bg-emerald-300 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-950">
+          {tier.badge}
+        </div>
+      )}
+      <div className="pr-24">
+        <h3 className="font-display text-3xl font-bold text-white">{tier.name}</h3>
+        <p className="mt-2 min-h-12 text-sm leading-relaxed text-slate-300">{tier.subtitle}</p>
+      </div>
+
+      <div className="mt-8">
+        <span className="font-display text-5xl font-bold tracking-tight text-white">{tier.price}</span>
+        <span className="ml-2 text-sm font-medium text-slate-300">{tier.cadence}</span>
+      </div>
+
+      <Button
+        variant="secondary"
+        className={`mt-6 h-11 w-full rounded-full font-semibold ${
+          tier.featured
+            ? "bg-emerald-300 text-emerald-950 hover:bg-emerald-200"
+            : "bg-white text-slate-950 hover:bg-slate-200"
+        }`}
+      >
+        {tier.cta}
+        {!tier.muted && <ArrowUpRight size={14} className="ml-2" />}
+      </Button>
+
+      <div className="mt-7 border-t border-white/10 pt-6">
+        <div className="text-sm font-semibold text-white">
+          {tier.name === "Free" ? "Includes:" : tier.name === "Plus" ? "Everything in Free, plus:" : "Everything in Plus, plus:"}
+        </div>
+        <ul className="mt-5 space-y-4">
+          {tier.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-slate-200">
+              <Check size={16} className="mt-0.5 shrink-0 text-emerald-300" />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
