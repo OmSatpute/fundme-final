@@ -343,13 +343,13 @@ export default function Landing() {
           <div className="flex items-center gap-4">
             <Target size={20} className="text-emerald-700 shrink-0" />
             <div className="text-sm">
-              <span className="font-bold text-slate-900">Funding</span> from StartupGrantsIndia.com
+              <span className="font-bold text-slate-900">Funding Opportunities</span> from StartupGrantsIndia.com
             </div>
           </div>
           <div className="flex items-center gap-4">
             <Briefcase size={20} className="text-emerald-700 shrink-0" />
             <div className="text-sm">
-              <span className="font-bold text-slate-900">Business</span> via GeM Tenders & Bids
+              <span className="font-bold text-slate-900">Business Opportunities</span> via GeM Tenders & Bids
             </div>
           </div>
           <div className="flex items-center gap-4">
