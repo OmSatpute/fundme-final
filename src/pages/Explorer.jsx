@@ -5,7 +5,7 @@ import OpportunityCard from "@/components/OpportunityCard";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { apiListDrafts, apiListOpportunities } from "@/lib/api";
+import { apiListDrafts, apiListOpportunities, apiGetProfile, apiGetMatchScores } from "@/lib/api";
 
 const STAGES = ["Idea", "MVP", "Early Revenue", "Growth", "PMF"];
 const SECTORS = ["AI / ML", "AgriTech", "DeepTech", "Fintech", "HealthTech", "Manufacturing", "Social Impact"];
@@ -25,8 +25,8 @@ export default function Explorer() {
   useEffect(() => { reload(); /* eslint-disable-next-line */ }, []);
   const reload = () => {
     setLoading(true);
-    Promise.all([apiListOpportunities(), apiListDrafts()])
-      .then(([nextOpps, nextDrafts]) => {
+    Promise.all([apiListOpportunities(), apiListDrafts(), apiGetProfile().catch(() => null)])
+      .then(([nextOpps, nextDrafts, profile]) => {
         setOpps(nextOpps);
         setDrafts(nextDrafts);
 
@@ -38,6 +38,17 @@ export default function Explorer() {
             const btn = document.querySelector(`[data-testid="apply-portal-${pendingOppId}"]`);
             if (btn) btn.click();
           }, 800);
+        }
+
+        if (profile && nextOpps.length > 0) {
+          apiGetMatchScores(profile, nextOpps).then((scores) => {
+            if (!scores || scores.length === 0) return;
+            const scoreMap = new Map(scores.map(s => [s.opportunity_id, s.score]));
+            setOpps(prev => prev.map(o => ({
+              ...o,
+              match: scoreMap.has(o.opportunity_id) ? scoreMap.get(o.opportunity_id) : o.match
+            })));
+          }).catch(err => console.error("Failed to load match scores:", err));
         }
       })
       .catch(() => {

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { ArrowRight, Calendar, FileText, Bookmark, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { apiListOpportunities, apiListDrafts, apiGetProfile, apiSaveOpp, apiUnsaveOpp } from "@/lib/api";
+import { apiListOpportunities, apiListDrafts, apiGetProfile, apiSaveOpp, apiUnsaveOpp, apiGetMatchScores } from "@/lib/api";
 import { getUser } from "@/lib/auth";
 
 const fade = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 } };
@@ -59,6 +59,20 @@ export default function Dashboard() {
     ]).then(([opps, drafts, profile]) => {
       setData({ opps, drafts, profile });
       setLoading(false);
+
+      if (profile && opps.length > 0) {
+        apiGetMatchScores(profile, opps).then((scores) => {
+          if (!scores || scores.length === 0) return;
+          const scoreMap = new Map(scores.map(s => [s.opportunity_id, s.score]));
+          setData(prev => ({
+            ...prev,
+            opps: prev.opps.map(o => ({
+              ...o,
+              match: scoreMap.has(o.opportunity_id) ? scoreMap.get(o.opportunity_id) : o.match
+            }))
+          }));
+        }).catch(err => console.error("Failed to load match scores:", err));
+      }
     });
   };
 
@@ -93,17 +107,22 @@ export default function Dashboard() {
 
   // Compute KPIs client-side (real server has no /dashboard/summary endpoint)
   const today = new Date(); today.setHours(0,0,0,0);
+  const BUSINESS_TYPES = new Set(["Contest", "Fellowship", "Other", "Tender", "Reverse Auction"]);
+  
   const upcoming = opps.filter((o) => {
     if (!o.deadline) return false;
     const d = new Date(o.deadline);
     if (isNaN(d)) return false;
     const diff = (d - today) / (1000 * 60 * 60 * 24);
-    return diff >= 0 && diff <= 30;
+    if (diff < 0 || diff > 30) return false;
+    if (BUSINESS_TYPES.has(o.type)) return false;
+    if (o.match === null || o.match < 50) return false;
+    return true;
   }).sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
   const highest = opps.reduce((max, o) => Math.max(max, parseAmount(o.amount)), 0);
   const completion = profile ? Math.round(PROFILE_KEYS.filter((k) => profile[k]).length / PROFILE_KEYS.length * 100) : 0;
-  const matches = [...opps].sort((a, b) => (b.match || 0) - (a.match || 0)).slice(0, 6);
+  const matches = [...opps].filter((o) => o.match !== null && o.match >= 50).sort((a, b) => (b.match || 0) - (a.match || 0)).slice(0, 6);
 
   return (
     <div className="space-y-12 max-w-7xl" data-testid="dashboard-page">

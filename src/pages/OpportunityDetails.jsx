@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
-import { apiListOpportunities, apiSaveOpp, apiUnsaveOpp, apiListSaved, apiCreateDraft, apiGetDraftByOpportunity, errMsg } from "@/lib/api";
+import { apiListOpportunities, apiSaveOpp, apiUnsaveOpp, apiListSaved, apiCreateDraft, apiGetDraftByOpportunity, apiGetProfile, apiGetMatchScores, errMsg } from "@/lib/api";
 import { stageExtensionContext } from "@/lib/applyFlow";
 import { checkExtensionInstalled } from "@/lib/utils";
 
@@ -37,6 +37,16 @@ export default function OpportunityDetails() {
           const saved = await apiListSaved();
           setIsSaved(saved.some(s => s.opportunity_id === id));
           setDraft(await apiGetDraftByOpportunity(id));
+          
+          apiGetProfile().then(profile => {
+            if (profile) {
+              apiGetMatchScores(profile, [found]).then(scores => {
+                if (scores && scores.length > 0) {
+                  setOpp(prev => ({ ...prev, match: scores[0].score }));
+                }
+              }).catch(e => console.error("Failed to fetch match score", e));
+            }
+          }).catch(e => console.error("Failed to fetch profile", e));
           
           // Auto-trigger portal if we just reloaded for extension on THIS page
           if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname) {

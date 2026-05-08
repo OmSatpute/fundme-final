@@ -202,6 +202,34 @@ async function callLLM(prompt, retries = 1) {
   throw new Error("All AI providers (Groq 70B, Groq 8B, OpenRouter) failed or are missing keys.");
 }
 
+// ─── Match Scoring LLM (Dedicated Chain) ──────────────────────────────────────
+// Tier 1: Google AI Studio — gemini-2.0-flash (fast, free, good JSON generation)
+// Tier 2: Groq Llama 3.3 70B
+// Tier 3: Groq Llama 3.1 8B
+// Tier 4: OpenRouter Free Pool
+
+async function callLLMForMatching(prompt, retries = 1) {
+  const rFlash = await callGoogleAI(prompt, 'gemini-2.0-flash');
+  if (rFlash) return rFlash;
+
+  const r70b = await callGroq(prompt, 'llama-3.3-70b-versatile');
+  if (r70b) return r70b;
+
+  const r8b = await callGroq(prompt, 'llama-3.1-8b-instant');
+  if (r8b) return r8b;
+
+  const rOR = await callOpenRouterFree(prompt);
+  if (rOR) return rOR;
+
+  if (retries > 0) {
+    console.warn(`⚠️ All match providers failed. Retrying in 3s... (${retries} left)`);
+    await new Promise(r => setTimeout(r, 3000));
+    return callLLMForMatching(prompt, retries - 1);
+  }
+
+  throw new Error("All match AI providers (Google, Groq, OpenRouter) failed or are missing keys.");
+}
+
 // ─── Draft Writing LLM (High-Quality Reasoning) ───────────────────────────────
 // Tier 1: Google AI Studio — Gemma 4 26B (free, best for JSON & reasoning)
 // Tier 2: Groq             — Llama 3.3 70B (fast, smart, 1,000 req/day)
@@ -239,6 +267,7 @@ async function callLLMForDraft(prompt, retries = 1) {
 module.exports = {
   callOpenRouter: callLLM, // Backward compat alias
   callLLM,
+  callLLMForMatching,
   callLLMForDraft,
   callGoogleAI,
   getOpenRouterKey,

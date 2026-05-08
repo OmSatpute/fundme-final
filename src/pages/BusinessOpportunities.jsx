@@ -5,7 +5,7 @@ import OpportunityCard from "@/components/OpportunityCard";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { apiListBusinessOpps } from "@/lib/api";
+import { apiListBusinessOpps, apiGetProfile, apiGetMatchScores } from "@/lib/api";
 
 const TYPES = ["Tender", "Reverse Auction", "Contest", "Fellowship", "Other"];
 const SECTORS = ["Government Procurement", "AI / ML", "AgriTech", "DeepTech", "Fintech", "HealthTech", "Manufacturing", "Social Impact"];
@@ -22,7 +22,23 @@ export default function BusinessOpportunities() {
 
   const reload = () => {
     setLoading(true);
-    apiListBusinessOpps().then(setItems).catch(() => setItems([])).finally(() => setLoading(false));
+    Promise.all([apiListBusinessOpps(), apiGetProfile().catch(() => null)])
+      .then(([nextOpps, profile]) => {
+        setItems(nextOpps);
+        
+        if (profile && nextOpps.length > 0) {
+          apiGetMatchScores(profile, nextOpps).then((scores) => {
+            if (!scores || scores.length === 0) return;
+            const scoreMap = new Map(scores.map(s => [s.opportunity_id, s.score]));
+            setItems(prev => prev.map(o => ({
+              ...o,
+              match: scoreMap.has(o.opportunity_id) ? scoreMap.get(o.opportunity_id) : o.match
+            })));
+          }).catch(err => console.error("Failed to load match scores:", err));
+        }
+      })
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
   };
   useEffect(reload, []);
 

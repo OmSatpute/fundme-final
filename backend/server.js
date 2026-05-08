@@ -43,8 +43,8 @@ if (!groqKey && !orKey) {
 app.use(cors());
 
 // Body parsers
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -497,8 +497,12 @@ app.post('/api/founder/profile', (req, res) => {
     target_customers: fields.target_customers || '',
     business_model: fields.business_model || '',
     team_size: fields.team_size || 0,
-    founded_year: fields.founded_year || new Date().getFullYear(),
+    founded: fields.founded || fields.founded_year || '',
+    incorporation: fields.incorporation || '',
+    dpiit: fields.dpiit || '',
     location: fields.location || '',
+    revenue: fields.revenue || '',
+    traction_summary: fields.traction_summary || '',
     documents: { pitch_deck: null, financial_projections: null, letters_of_support: null, budget_breakdown: null },
     profile_completion: { score: 0, missing_fields: [] }
   };
@@ -961,6 +965,7 @@ function saveScrapedToDB(newData) {
   // 2. Merge: update existing or insert new
   let addedCount = 0;
   let updatedCount = 0;
+  let newlyAddedOpps = [];
 
   for (const item of activeNewData) {
     const existing = existingSlugs.get(item.slug) || existingSlugs.get(item.link);
@@ -1013,10 +1018,23 @@ function saveScrapedToDB(newData) {
         last_seen_at: now.toISOString(),
       };
       db.opportunities.push(opp);
+      newlyAddedOpps.push(opp);
       existingSlugs.set(item.slug, opp);
       existingSlugs.set(item.link, opp);
       addedCount++;
     }
+  }
+
+  // 3. Auto-score new opportunities for all founder profiles using LLM API in the background
+  if (newlyAddedOpps.length > 0 && db.founder_profiles && db.founder_profiles.length > 0) {
+    db.founder_profiles.forEach(profile => {
+      // Fire and forget background scoring via the internal API so we use the LLM without blocking the scraper
+      fetch(`http://localhost:${PORT}/api/ai/match-opportunities`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile, opportunities: newlyAddedOpps })
+      }).catch(err => console.error('Background LLM scoring failed:', err.message));
+    });
   }
 
   writeDB(db);
@@ -1278,17 +1296,31 @@ app.post('/api/applications', (req, res) => {
   const existing = db.applications.find(a => a.user_id === user_id && a.opportunity_id === opportunity_id);
   if (existing) return res.status(409).json({ error: 'Application already exists for this opportunity' });
 
+  const appliedDate = todayIsoDate();
+  const stage_details = normalizeStageDetails({
+    Applied: {
+      date: appliedDate,
+      note: req.body.initial_note || 'Application tracked in FundMe'
+    }
+  });
+
   const application = {
     application_id: 'a' + uuidv4().slice(0, 6),
     user_id,
     opportunity_id,
     status: 'Applied',
-    timeline: [{ stage: 'Applied', date: new Date().toISOString().slice(0, 10) }],
+    timeline: buildTimelineFromStageDetails(stage_details),
+    stage_details,
     next_step: null,
     feedback: null,
     ai_insights: [],
-    submitted_at: new Date().toISOString().slice(0, 10),
-    deadline: req.body.deadline || null
+    submitted_at: appliedDate,
+    deadline: req.body.deadline || null,
+    follow_up_date: req.body.follow_up_date || null,
+    priority: req.body.priority || 'Medium',
+    owner: req.body.owner || '',
+    portal_status: req.body.portal_status || '',
+    updated_at: new Date().toISOString()
   };
 
   db.applications.push(application);
@@ -1302,18 +1334,39 @@ app.put('/api/applications/:id', (req, res) => {
   const application = db.applications.find(a => a.application_id === req.params.id);
   if (!application) return res.status(404).json({ error: 'Application not found' });
 
-  const { status, next_step, feedback, timeline } = req.body;
+  const { status, next_step, feedback, timeline, stage_details, follow_up_date, priority, owner, portal_status } = req.body;
+  const currentStatus = status || application.status;
+  let nextStageDetails = normalizeStageDetails(application.stage_details, application.timeline);
+
+  if (Array.isArray(timeline)) {
+    nextStageDetails = normalizeStageDetails(nextStageDetails, timeline);
+  }
+
+  if (stage_details && typeof stage_details === 'object') {
+    nextStageDetails = normalizeStageDetails({ ...nextStageDetails, ...stage_details }, timeline || application.timeline);
+  }
+
+  if (currentStatus && nextStageDetails[currentStatus]) {
+    if (!nextStageDetails[currentStatus].date) {
+      nextStageDetails[currentStatus].date = todayIsoDate();
+    }
+    if (!nextStageDetails[currentStatus].note && next_step) {
+      nextStageDetails[currentStatus].note = next_step;
+    }
+  }
 
   if (status && status !== application.status) {
     application.status = status;
-    application.timeline.push({ stage: status, date: new Date().toISOString().slice(0, 10) });
-
-    // Auto-generate next steps based on status progression
     application.next_step = getNextStep(status);
   }
   if (next_step !== undefined) application.next_step = next_step;
   if (feedback !== undefined) application.feedback = feedback;
-  if (Array.isArray(timeline)) application.timeline = timeline;
+  if (follow_up_date !== undefined) application.follow_up_date = follow_up_date || null;
+  if (priority !== undefined) application.priority = priority || 'Medium';
+  if (owner !== undefined) application.owner = owner || '';
+  if (portal_status !== undefined) application.portal_status = portal_status || '';
+  application.stage_details = nextStageDetails;
+  application.timeline = buildTimelineFromStageDetails(nextStageDetails);
   application.updated_at = new Date().toISOString();
 
   writeDB(db);
@@ -1395,10 +1448,52 @@ function getNextStep(currentStatus) {
     'Shortlisted': 'Schedule interview/pitch preparation',
     'Interview / Pitch Round': 'Follow up within 1 week',
     'Accepted': 'Complete onboarding requirements',
-    'Rejected': 'Review feedback and improve next application'
+    'Rejected': 'Review feedback and improve next application',
+    'Waitlisted': 'Stay warm with the program team and share new traction',
+    'Withdrawn': 'Archive notes and redirect effort to stronger opportunities'
   };
 
   return statusFlow[currentStatus] || 'Check application portal for updates';
+}
+
+const APPLICATION_STAGES = ['Applied', 'Under Review', 'Shortlisted', 'Interview / Pitch Round', 'Accepted', 'Rejected', 'Waitlisted', 'Withdrawn'];
+
+function todayIsoDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function normalizeStageDetails(input = {}, fallbackTimeline = []) {
+  const details = {};
+
+  APPLICATION_STAGES.forEach((stage) => {
+    const existing = input?.[stage];
+    details[stage] = {
+      date: existing?.date || '',
+      note: existing?.note || ''
+    };
+  });
+
+  (fallbackTimeline || []).forEach((item) => {
+    const stage = item?.stage || item?.status;
+    if (!stage || !details[stage]) return;
+    if (item?.date) details[stage].date = item.date;
+    if (item?.note || item?.description) details[stage].note = item.note || item.description;
+  });
+
+  return details;
+}
+
+function buildTimelineFromStageDetails(stageDetails = {}) {
+  return APPLICATION_STAGES
+    .filter((stage) => {
+      const entry = stageDetails?.[stage];
+      return entry && (entry.date || entry.note);
+    })
+    .map((stage) => ({
+      stage,
+      date: stageDetails[stage].date || '',
+      note: stageDetails[stage].note || ''
+    }));
 }
 
 // ─── DRAFTS ───────────────────────────────────────────────────────────────────
@@ -1662,16 +1757,24 @@ app.post('/api/ai/generate-profile', memoryUpload.single('file'), async (req, re
       JSON Schema:
       {
         "startup_name": "string",
-        "sector": "string",
-        "stage": "string",
+        "sector": "string (MUST be exactly one of: AgriTech, AI / ML, DeepTech, FinTech, HealthTech, Climate / Energy, Smart Cities)",
+        "stage": "string (MUST be exactly one of: Idea, MVP, Early Revenue, Growth, PMF, Scale)",
         "startup_overview": "string (improved description)",
         "problem_statement": "string",
         "solution_summary": "string",
         "target_customers": "string",
-        "business_model": "string"
+        "business_model": "string",
+        "founded": "string (e.g. 2022)",
+        "incorporation": "string",
+        "dpiit": "string",
+        "location": "string",
+        "team_size": "number or string",
+        "revenue": "string",
+        "traction_summary": "string",
+        "website": "string (Extract the URL or domain if present anywhere in the text, e.g. https://domain.com)"
       }
 
-      Use high-quality, professional investor-ready language.
+      Use high-quality, professional investor-ready language. Leave fields empty string "" if the information is strictly not available in the context.
     `;
 
     console.log(`🤖 Consulting AI for profile generation...`);
@@ -1685,8 +1788,11 @@ app.post('/api/ai/generate-profile', memoryUpload.single('file'), async (req, re
     let jsonText = cleanJson[0].replace(/,\s*([\]}])/g, '$1');
     const parsed = JSON.parse(jsonText);
 
-    // If website was provided but not in AI result, add it
-    if (website && !parsed.website) {
+    // If website was provided but not in AI result (or AI returned a placeholder), add it
+    const falsyValues = ["", "none", "n/a", "not specified", "not provided", "null", "undefined", "unknown"];
+    const isWebsiteMissing = !parsed.website || falsyValues.includes(String(parsed.website).toLowerCase().trim());
+    
+    if (website && isWebsiteMissing) {
       parsed.website = website;
     }
 
@@ -1855,11 +1961,14 @@ function normalizeMatchScore(score) {
 app.post('/api/ai/match-opportunities', async (req, res) => {
   try {
     const { profile, opportunities } = req.body;
+    console.log(`[DEBUG] /api/ai/match-opportunities called. Opportunities count: ${opportunities?.length}, Profile user_id: ${profile?.user_id}`);
     if (!opportunities || !Array.isArray(opportunities) || opportunities.length === 0) {
+      console.log(`[DEBUG] Returning empty because opportunities array is missing or empty`);
       return res.json({ result: [] });
     }
     const userId = profile?.user_id || 'anonymous';
     const profileSignature = getProfileSignature(profile || {});
+    console.log(`[DEBUG] Calculated signature length: ${profileSignature.length}`);
     const db = readDB();
     if (!db.match_scores) db.match_scores = [];
 
@@ -1868,8 +1977,7 @@ app.post('/api/ai/match-opportunities', async (req, res) => {
     opportunities.forEach(opportunity => {
       const cachedScore = db.match_scores.find(item =>
         item.user_id === userId &&
-        item.opportunity_id === opportunity.opportunity_id &&
-        item.profile_signature === profileSignature
+        item.opportunity_id === opportunity.opportunity_id
       );
 
       if (cachedScore) {
@@ -1883,6 +1991,8 @@ app.post('/api/ai/match-opportunities', async (req, res) => {
         toScore.push(opportunity);
       }
     });
+
+    console.log(`[DEBUG] Found ${cached.length} cached scores, ${toScore.length} remaining to score.`);
 
     if (toScore.length === 0) {
       return res.json({ result: cached });

@@ -207,6 +207,12 @@ export const apiListApplications = async () => {
     next_step: a.next_step || "",
     feedback: a.feedback || "",
     timeline: a.timeline || [],
+    stage_details: a.stage_details || {},
+    follow_up_date: a.follow_up_date || "",
+    priority: a.priority || "Medium",
+    owner: a.owner || "",
+    portal_status: a.portal_status || "",
+    updated_at: a.updated_at || "",
     opportunity: a.opportunity || null,
   }));
 };
@@ -239,4 +245,20 @@ export const apiSaveProfile = async (data) => {
     }
     throw e;
   }
+};
+
+export const apiGetMatchScores = async (profile, opportunities) => {
+  if (!profile || !opportunities || opportunities.length === 0) return [];
+  
+  // Strip heavy properties (like generated_application_schema) to avoid 413 Payload Too Large errors
+  const lightweightOpps = opportunities.map(o => ({
+    opportunity_id: o.opportunity_id,
+    title: o.title,
+    description: o.description,
+    type: o.type,
+    sector: o.sector
+  }));
+
+  const res = await unwrap(http.post("/ai/match-opportunities", { profile, opportunities: lightweightOpps }));
+  return res.result || [];
 };

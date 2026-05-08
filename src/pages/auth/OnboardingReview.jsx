@@ -20,6 +20,13 @@ const FALLBACK = {
   solution_summary: "",
   target_customers: "",
   business_model: "",
+  founded: "",
+  incorporation: "",
+  dpiit: "",
+  location: "",
+  team_size: "",
+  revenue: "",
+  traction_summary: "",
   website: "",
 };
 
@@ -81,11 +88,24 @@ export default function OnboardingReview() {
             <Field label="Stage" editing={editing} value={profile.stage} onChange={(v) => update("stage", v)}
               options={["Idea", "MVP", "Early Revenue", "Growth", "PMF", "Scale"]} testid="rev-stage" />
           </div>
+          <div className="grid grid-cols-2 divide-x divide-slate-100">
+            <Field label="Founded" editing={editing} value={profile.founded} onChange={(v) => update("founded", v)} testid="rev-founded" />
+            <Field label="Location" editing={editing} value={profile.location} onChange={(v) => update("location", v)} testid="rev-location" />
+          </div>
+          <div className="grid grid-cols-2 divide-x divide-slate-100">
+            <Field label="Team Size" editing={editing} value={profile.team_size} onChange={(v) => update("team_size", v)} testid="rev-team" />
+            <Field label="Revenue" editing={editing} value={profile.revenue} onChange={(v) => update("revenue", v)} testid="rev-revenue" />
+          </div>
+          <div className="grid grid-cols-2 divide-x divide-slate-100">
+            <Field label="Incorporation" editing={editing} value={profile.incorporation} onChange={(v) => update("incorporation", v)} testid="rev-incorp" />
+            <Field label="DPIIT" editing={editing} value={profile.dpiit} onChange={(v) => update("dpiit", v)} testid="rev-dpiit" />
+          </div>
           <Field label="Startup overview" multiline editing={editing} value={profile.startup_overview} onChange={(v) => update("startup_overview", v)} testid="rev-overview" />
           <Field label="Problem statement" multiline editing={editing} value={profile.problem_statement} onChange={(v) => update("problem_statement", v)} testid="rev-problem" />
           <Field label="Solution summary" multiline editing={editing} value={profile.solution_summary} onChange={(v) => update("solution_summary", v)} testid="rev-solution" />
           <Field label="Target customers" multiline editing={editing} value={profile.target_customers} onChange={(v) => update("target_customers", v)} testid="rev-users" />
           <Field label="Business model" multiline editing={editing} value={profile.business_model} onChange={(v) => update("business_model", v)} testid="rev-model" />
+          <Field label="Traction summary" multiline editing={editing} value={profile.traction_summary} onChange={(v) => update("traction_summary", v)} testid="rev-traction" />
           <Field label="Startup website" editing={editing} value={profile.website} onChange={(v) => update("website", v)} testid="rev-website" />
         </div>
 
