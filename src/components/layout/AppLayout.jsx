@@ -32,13 +32,22 @@ export default function AppLayout() {
   const user = getUser();
 
   useEffect(() => {
-    apiGetProfile().then(setProfile).catch(() => {});
+    const fetchProfile = () => apiGetProfile().then(setProfile).catch(() => {});
+    fetchProfile();
+
+    window.addEventListener("profile-updated", fetchProfile);
+    return () => window.removeEventListener("profile-updated", fetchProfile);
   }, [location.pathname]);
 
   const completion = (() => {
     if (!profile) return 0;
-    const keys = ["startup_name", "sector", "stage", "startup_overview", "problem_statement", "solution_summary", "target_customers", "business_model"];
-    return Math.round((keys.filter((k) => profile[k]).length / keys.length) * 100);
+    const keys = [
+      "startup_name", "sector", "stage", "startup_overview", "problem_statement", 
+      "solution_summary", "target_customers", "business_model",
+      "founded", "incorporation", "dpiit", "location", "team_size", 
+      "revenue", "traction_summary", "website"
+    ];
+    return Math.round((keys.filter((k) => profile[k] && String(profile[k]).trim() !== "").length / keys.length) * 100);
   })();
 
   const startupName = profile?.startup_name || user?.name || "Founder";

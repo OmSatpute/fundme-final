@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ExternalLink, FileText, CheckCircle2, Eye, Loader2, PencilLine, FileEdit, ClipboardList } from "lucide-react";
+import { ExternalLink, FileText, CheckCircle2, Eye, Loader2, PencilLine, FileEdit, ClipboardList, Lightbulb, FileSearch, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
-import { apiListApplications, apiListDrafts, apiTrackApplication, errMsg } from "@/lib/api";
+import { apiAnalyzeDraftProgress, apiListApplications, apiListDrafts, apiTrackApplication, errMsg } from "@/lib/api";
 import { getApplyLink, stageExtensionContext } from "@/lib/applyFlow";
 import { checkExtensionInstalled } from "@/lib/utils";
 
@@ -28,6 +28,20 @@ const formatEditedAt = (value) => {
   }).format(date)}`;
 };
 
+const getRequiredDocuments = (draft = {}) =>
+  Array.isArray(draft.form_schema?.required_documents) ? draft.form_schema.required_documents : [];
+
+const missingDocumentCount = (draft = {}) => {
+  const status = draft.required_documents_status || {};
+  return getRequiredDocuments(draft).filter((doc) => {
+    const key = String(doc).toLowerCase().trim();
+    const value = status[doc] || status[key];
+    return !["ready", "uploaded", "provided", "complete", "completed"].includes(String(value || "").toLowerCase());
+  }).length;
+};
+
+const needsInsights = (draft = {}) => Number(draft.progress || 0) < 100 || missingDocumentCount(draft) > 0;
+
 export default function Drafts() {
   const nav = useNavigate();
   const [drafts, setDrafts] = useState([]);
@@ -35,10 +49,75 @@ export default function Drafts() {
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState(null);
   const [portalBusyId, setPortalBusyId] = useState(null);
+  const [draftInsights, setDraftInsights] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem("FUNDME_DRAFT_INSIGHTS_CACHE")) || {};
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    if (Object.keys(draftInsights).length > 0) {
+      sessionStorage.setItem("FUNDME_DRAFT_INSIGHTS_CACHE", JSON.stringify(draftInsights));
+    }
+  }, [draftInsights]);
+  const [insightBusy, setInsightBusy] = useState({});
   const [pendingDraft, setPendingDraft] = useState(null);
   const [showExtensionModal, setShowExtensionModal] = useState(false);
 
-  const reload = () => {
+  const loadDraftInsight = useCallback(async (draft) => {
+    if (!draft?.draft_id || !needsInsights(draft)) return;
+    setInsightBusy((prev) => ({ ...prev, [draft.draft_id]: true }));
+    try {
+      const insight = await apiAnalyzeDraftProgress({
+        draft,
+        form_schema: draft.form_schema,
+        opportunity: draft.opportunity || {
+          opportunity_id: draft.opportunity_id,
+          title: draft.opportunity_title,
+          deadline: draft.deadline,
+        },
+      });
+      setDraftInsights((prev) => ({ ...prev, [draft.draft_id]: insight }));
+    } catch (e) {
+      setDraftInsights((prev) => ({
+        ...prev,
+        [draft.draft_id]: {
+          completion_percentage: draft.progress || 0,
+          missing_required_fields: [],
+          missing_documents: getRequiredDocuments(draft),
+          actionable_suggestions: ["Open the draft editor and review unanswered fields before applying."],
+          priority_improvements: ["Review this draft manually because AI insights could not be generated."],
+          next_steps: ["Open Edit Draft", "Add missing evidence", "Run Review Draft"],
+          estimated_time_to_complete: "10-20 minutes",
+          ai_available: false,
+        },
+      }));
+    } finally {
+      setInsightBusy((prev) => ({ ...prev, [draft.draft_id]: false }));
+    }
+  }, []);
+
+  const loadDraftInsights = useCallback((draftData = []) => {
+    const incompleteDrafts = draftData.filter(needsInsights);
+    setDraftInsights((prev) => {
+      const next = {};
+      incompleteDrafts.forEach((draft) => {
+        if (prev[draft.draft_id]) next[draft.draft_id] = prev[draft.draft_id];
+      });
+      return next;
+    });
+
+    // Only auto-load insights the very first time the user visits this page in the session
+    const sessionKey = "FUNDME_DRAFT_INSIGHTS_FETCHED";
+    if (!sessionStorage.getItem(sessionKey)) {
+      sessionStorage.setItem(sessionKey, "true");
+      incompleteDrafts.forEach((draft) => loadDraftInsight(draft));
+    }
+  }, [loadDraftInsight]);
+
+  const reload = useCallback(() => {
     setLoading(true);
     Promise.all([
       apiListDrafts().catch(() => []),
@@ -46,6 +125,7 @@ export default function Drafts() {
     ]).then(([draftData, appData]) => {
       setDrafts(draftData);
       setApplications(appData);
+      loadDraftInsights(draftData);
 
       const pendingDraftId = sessionStorage.getItem("FUNDME_EXT_PENDING_DRAFT");
       if (sessionStorage.getItem("FUNDME_EXT_RELOAD") === window.location.pathname && pendingDraftId) {
@@ -57,9 +137,11 @@ export default function Drafts() {
         }, 800);
       }
     }).finally(() => setLoading(false));
-  };
+  }, [loadDraftInsights]);
 
-  useEffect(reload, []);
+  useEffect(() => {
+    reload();
+  }, [reload]);
 
   const markApplied = async (d) => {
     setBusyId(d.draft_id);
@@ -185,6 +267,15 @@ export default function Drafts() {
                     </div>
                   ) : null}
 
+                  {needsInsights(d) ? (
+                    <DraftInsightPanel
+                      draft={d}
+                      insight={draftInsights[d.draft_id]}
+                      loading={insightBusy[d.draft_id]}
+                      onRefresh={() => loadDraftInsight(d)}
+                    />
+                  ) : null}
+
                   <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-2">
                     <Button
                       className="h-11 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium btn-press disabled:opacity-60"
@@ -257,5 +348,78 @@ function WorkflowStep({ icon: Icon, title, text }) {
         <div className="mt-0.5 leading-snug">{text}</div>
       </div>
     </div>
+  );
+}
+
+function DraftInsightPanel({ draft, insight, loading, onRefresh }) {
+  const missingFields = insight?.missing_required_field_details || insight?.missing_required_fields || [];
+  const missingDocs = insight?.missing_documents || [];
+  const priority = insight?.priority_improvements || [];
+  const suggestions = insight?.actionable_suggestions || insight?.next_steps || [];
+  const completion = typeof insight?.completion_percentage === "number" ? insight.completion_percentage : draft.progress || 0;
+
+  return (
+    <section className="mt-4 rounded-md border border-amber-200 bg-amber-50/70 px-4 py-3" data-testid={`draft-insights-${draft.draft_id}`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start gap-2">
+          <Lightbulb size={16} className="mt-0.5 text-amber-700 shrink-0" />
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h4 className="text-sm font-semibold text-slate-950">AI draft insights</h4>
+              <span className="rounded-full border border-amber-300 bg-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-800">
+                {insight?.ai_available === false ? "Checklist" : "AI"}
+              </span>
+            </div>
+            <p className="mt-1 text-xs text-slate-600">
+              {loading && !insight ? "Analyzing what is missing in this draft..." : `${Math.round(completion)}% complete. ${missingFields.length} field${missingFields.length === 1 ? "" : "s"} and ${missingDocs.length} document${missingDocs.length === 1 ? "" : "s"} need attention.`}
+            </p>
+          </div>
+        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-md text-amber-800 hover:bg-amber-100 hover:text-amber-900"
+          disabled={loading}
+          onClick={onRefresh}
+          aria-label="Refresh draft insights"
+        >
+          {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+        </Button>
+      </div>
+
+      {insight ? (
+        <div className="mt-3 grid grid-cols-1 lg:grid-cols-[1fr_0.9fr] gap-3">
+          <div className="space-y-2">
+            {(priority.length ? priority : suggestions).slice(0, 3).map((item, index) => (
+              <div key={`${draft.draft_id}-priority-${index}`} className="flex gap-2 text-sm text-slate-800">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-600 shrink-0" />
+                <span>{typeof item === "string" ? item : item?.field || item?.label || "Review this section"}</span>
+              </div>
+            ))}
+            {insight.estimated_time_to_complete ? (
+              <div className="text-xs font-medium text-amber-800">Estimated finish time: {insight.estimated_time_to_complete}</div>
+            ) : null}
+          </div>
+
+          <div className="rounded-md border border-amber-200 bg-white/80 p-3">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <FileSearch size={13} /> Required evidence
+            </div>
+            {missingDocs.length ? (
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {missingDocs.slice(0, 5).map((doc) => (
+                  <span key={`${draft.draft_id}-${doc}`} className="rounded-full border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700">
+                    {doc}
+                  </span>
+                ))}
+                {missingDocs.length > 5 ? <span className="px-2 py-1 text-xs text-slate-500">+{missingDocs.length - 5} more</span> : null}
+              </div>
+            ) : (
+              <div className="mt-2 text-xs text-slate-500">No missing documents detected from the captured portal schema.</div>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </section>
   );
 }

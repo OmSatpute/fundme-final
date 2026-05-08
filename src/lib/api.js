@@ -191,6 +191,11 @@ export const apiUpdateDraft = (draft_id, data) =>
 export const apiGenerateDraftAnswers = (data) =>
   unwrap(http.post("/ai/generate-draft", { ...data, user_id: getUserId() }));
 
+export const apiAnalyzeDraftProgress = async (data) => {
+  const response = await unwrap(http.post("/ai/draft-progress", { ...data, user_id: getUserId() }));
+  return response.result || response;
+};
+
 // ---------- applications ----------
 export const apiListApplications = async () => {
   const list = await unwrap(http.get(`/applications?user_id=${encodeURIComponent(getUserId())}`));

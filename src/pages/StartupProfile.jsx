@@ -45,6 +45,7 @@ export default function StartupProfile() {
       if (payload.team_size) payload.team_size = Number(payload.team_size);
       await apiSaveProfile(payload);
       toast.success("Profile saved");
+      window.dispatchEvent(new Event("profile-updated"));
     } catch (e) {
       toast.error(errMsg(e, "Save failed"));
     } finally {

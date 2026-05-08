@@ -10,7 +10,9 @@ import { getUser } from "@/lib/auth";
 const fade = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 } };
 
 const PROFILE_KEYS = ["startup_name", "sector", "stage", "startup_overview", "problem_statement",
-                      "solution_summary", "target_customers", "business_model"];
+                      "solution_summary", "target_customers", "business_model",
+                      "founded", "incorporation", "dpiit", "location", "team_size", 
+                      "revenue", "traction_summary", "website"];
 
 const parseAmount = (s = "") => {
   const m = String(s).match(/(\d+(?:\.\d+)?)\s*(Cr|L|Lakh|Lakhs|Crore|Crores)?/i);
@@ -121,7 +123,7 @@ export default function Dashboard() {
   }).sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
   const highest = opps.reduce((max, o) => Math.max(max, parseAmount(o.amount)), 0);
-  const completion = profile ? Math.round(PROFILE_KEYS.filter((k) => profile[k]).length / PROFILE_KEYS.length * 100) : 0;
+  const completion = profile ? Math.round(PROFILE_KEYS.filter((k) => profile[k] && String(profile[k]).trim() !== "").length / PROFILE_KEYS.length * 100) : 0;
   const matches = [...opps].filter((o) => o.match !== null && o.match >= 50).sort((a, b) => (b.match || 0) - (a.match || 0)).slice(0, 6);
 
   return (

@@ -2331,89 +2331,45 @@ app.post('/api/ai/map-fields', async (req, res) => {
 });
 
 // POST /api/ai/draft-progress
-// Enhanced analysis with detailed insights and actionable suggestions
+// Analyze draft completion with the same provider chain used for draft generation.
 app.post('/api/ai/draft-progress', async (req, res) => {
   try {
-    const { draft, form_schema, opportunity } = req.body;
-
-    // Calculate basic completion metrics
+    const { draft = {}, form_schema, opportunity } = req.body;
     const fields = form_schema ? flattenSchema(form_schema) : [];
+    const fieldValue = (fieldId) => String(draft.form_fields?.[fieldId] || '').trim();
     const totalFields = fields.length;
-    const completedFields = Object.keys(draft.form_fields || {}).length;
+    const completedFields = fields.filter(f => fieldValue(f.id).length > 0).length;
     const requiredFields = fields.filter(f => f.required).length;
-    const completedRequired = Object.keys(draft.form_fields || {}).filter(fieldId => {
-      const field = fields.find(f => f.id === fieldId);
-      return field?.required && draft.form_fields[fieldId] && draft.form_fields[fieldId].trim() !== '';
-    }).length;
+    const completedRequired = fields.filter(f => f.required && fieldValue(f.id).length > 0).length;
+    const missingRequired = fields
+      .filter(f => f.required && fieldValue(f.id).length === 0)
+      .map(f => ({ id: f.id, label: f.label || f.id, section: f.section || 'Application Details' }));
+    const weakFields = fields
+      .filter(f => {
+        const value = fieldValue(f.id);
+        return value.length > 0 && (f.type === 'textarea' || f.max_words) && value.split(/\s+/).filter(Boolean).length < 20;
+      })
+      .slice(0, 6)
+      .map(f => ({
+        id: f.id,
+        label: f.label || f.id,
+        section: f.section || 'Application Details',
+        words: fieldValue(f.id).split(/\s+/).filter(Boolean).length
+      }));
+    const requiredDocuments = Array.isArray(form_schema?.required_documents) ? form_schema.required_documents : [];
+    const requiredDocumentStatus = draft.required_documents_status || {};
+    const documentStatusValue = (doc) => {
+      const key = String(doc).toLowerCase().trim();
+      return String(requiredDocumentStatus[doc] || requiredDocumentStatus[key] || '').toLowerCase();
+    };
+    const missingDocuments = requiredDocuments.filter(doc =>
+      !['ready', 'uploaded', 'provided', 'complete', 'completed'].includes(documentStatusValue(doc))
+    );
 
     const completionRate = totalFields > 0 ? Math.round((completedFields / totalFields) * 100) : 0;
     const requiredCompletionRate = requiredFields > 0 ? Math.round((completedRequired / requiredFields) * 100) : 0;
-
-    const prompt = `
-      You are an expert grant application reviewer. Analyze this draft and provide actionable feedback.
-      
-      Draft Details:
-      - Title: ${draft.title || 'Untitled'}
-      - Completion: ${completedFields}/${totalFields} fields (${completionRate}%)
-      - Required Fields: ${completedRequired}/${requiredFields} completed (${requiredCompletionRate}%)
-      - Opportunity: ${opportunity?.title || 'Not specified'}
-      - Sector: ${opportunity?.sector || 'Not specified'}
-      
-      Form Fields Content:
-      ${JSON.stringify(draft.form_fields || {}, null, 2)}
-      
-      Form Schema:
-      ${JSON.stringify(fields, null, 2)}
-      
-      Return a JSON object with:
-      {
-        "completion_analysis": {
-          "total_fields": ${totalFields},
-          "completed_fields": ${completedFields},
-          "completion_rate": ${completionRate},
-          "required_fields": ${requiredFields},
-          "completed_required": ${completedRequired},
-          "required_completion_rate": ${requiredCompletionRate}
-        },
-        "missing_required_fields": ["field_id1", "field_id2"],
-        "quality_assessment": {
-          "strengths": ["strength1", "strength2"],
-          "weaknesses": ["weakness1", "weakness2"],
-          "overall_score": 75
-        },
-        "actionable_suggestions": [
-          "Specific suggestion 1",
-          "Specific suggestion 2",
-          "Specific suggestion 3"
-        ],
-        "priority_improvements": [
-          {
-            "field": "field_id",
-            "issue": "specific issue",
-            "suggestion": "how to fix"
-          }
-        ]
-      }
-      
-      Focus on:
-      1. Missing required fields
-      2. Quality of responses (too brief, vague, missing key details)
-      3. Alignment with opportunity requirements
-      4. Professional presentation
-      5. Specific, measurable achievements where possible
-    `;
-
-    console.log(`🔍 Analyzing draft progress for ${draft.title || 'untitled draft'}...`);
-    const result = await callOpenRouter(prompt);
-    const analysis = extractJSON(result);
-
-    if (!analysis) {
-      throw new Error('AI failed to return valid draft analysis');
-    }
-
-    // Combine AI analysis with calculated metrics
-    const enhancedAnalysis = {
-      ...analysis,
+    const deterministicAnalysis = {
+      completion_percentage: completionRate,
       completion_analysis: {
         total_fields: totalFields,
         completed_fields: completedFields,
@@ -2422,29 +2378,134 @@ app.post('/api/ai/draft-progress', async (req, res) => {
         completed_required: completedRequired,
         required_completion_rate: requiredCompletionRate
       },
-      next_steps: completionRate >= 80 ? ['Review and submit', 'Add supporting documents'] : ['Complete missing fields', 'Improve existing responses'],
-      estimated_time_to_complete: Math.ceil((totalFields - completedFields) * 2) + ' minutes'
+      missing_required_fields: missingRequired.map(f => f.id),
+      missing_required_field_details: missingRequired,
+      required_documents: requiredDocuments,
+      missing_documents: missingDocuments,
+      quality_assessment: {
+        strengths: completedFields > 0 ? ['Draft has started and can be improved from existing answers.'] : ['Draft shell is ready for AI-assisted completion.'],
+        weaknesses: [
+          ...(missingRequired.length ? [`${missingRequired.length} required field(s) still need answers.`] : []),
+          ...(weakFields.length ? [`${weakFields.length} answer(s) look too brief for reviewer confidence.`] : []),
+          ...(missingDocuments.length ? [`${missingDocuments.length} required document(s) need attention.`] : [])
+        ],
+        overall_score: Math.max(0, Math.min(100, Math.round((completionRate * 0.65) + (requiredCompletionRate * 0.35))))
+      },
+      actionable_suggestions: [
+        ...(missingRequired.length ? [`Start with required fields: ${missingRequired.slice(0, 3).map(f => f.label).join(', ')}.`] : []),
+        ...(weakFields.length ? ['Expand brief answers with traction, eligibility, measurable impact, and specific examples.'] : []),
+        ...(missingDocuments.length ? [`Prepare required documents: ${missingDocuments.slice(0, 4).join(', ')}.`] : []),
+        'Review every answer for exact figures, founder contact details, and opportunity-specific language.'
+      ].slice(0, 4),
+      priority_improvements: [
+        ...missingRequired.slice(0, 4).map(f => ({
+          field: f.id,
+          label: f.label,
+          issue: 'Required field is empty',
+          suggestion: `Add a concise answer for ${f.label} before applying.`
+        })),
+        ...weakFields.slice(0, 2).map(f => ({
+          field: f.id,
+          label: f.label,
+          issue: `Answer is only ${f.words} word(s)`,
+          suggestion: 'Add concrete metrics, customer context, traction, or program fit.'
+        }))
+      ].slice(0, 5),
+      next_steps: completionRate >= 80 ? ['Review answers', 'Attach required documents', 'Submit through portal'] : ['Complete missing required fields', 'Improve short answers', 'Prepare required documents'],
+      estimated_time_to_complete: Math.ceil((totalFields - completedFields + missingDocuments.length) * 2) + ' minutes'
     };
 
-    console.log(`✅ Draft analysis complete: ${completionRate}% complete, ${analysis.actionable_suggestions?.length || 0} suggestions`);
+    const prompt = `
+You are an expert grant application reviewer. Analyze this draft and provide actionable feedback.
+
+Draft Details:
+- Title: ${draft.title || draft.opportunity_title || 'Untitled'}
+- Completion: ${completedFields}/${totalFields} fields (${completionRate}%)
+- Required Fields: ${completedRequired}/${requiredFields} completed (${requiredCompletionRate}%)
+- Opportunity: ${opportunity?.title || 'Not specified'}
+- Sector: ${opportunity?.sector || 'Not specified'}
+
+Form Fields Content:
+${JSON.stringify(draft.form_fields || {}, null, 2)}
+
+Form Schema:
+${JSON.stringify(fields, null, 2)}
+
+Required Documents:
+${JSON.stringify(requiredDocuments, null, 2)}
+
+Current Required Document Status:
+${JSON.stringify(requiredDocumentStatus, null, 2)}
+
+Return ONLY valid JSON with:
+{
+  "missing_required_fields": ["field_id"],
+  "missing_required_field_details": [{"id":"field_id","label":"Field label","section":"Section"}],
+  "missing_documents": ["document name"],
+  "quality_assessment": {
+    "strengths": ["specific strength"],
+    "weaknesses": ["specific weakness"],
+    "overall_score": 75
+  },
+  "actionable_suggestions": ["specific next action"],
+  "priority_improvements": [
+    {"field":"field_id","label":"Field label","issue":"specific issue","suggestion":"how to fix"}
+  ],
+  "next_steps": ["short next step"]
+}
+
+Focus on missing required fields, required documents, vague or short answers, opportunity alignment, and concrete metrics.
+`;
+
+    console.log(`Analyzing draft progress for ${draft.title || draft.opportunity_title || 'untitled draft'}...`);
+    let analysis = deterministicAnalysis;
+    let aiAvailable = false;
+    try {
+      const result = await callLLMForDraft(prompt);
+      const parsed = extractJSON(result);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        analysis = parsed;
+        aiAvailable = true;
+      }
+    } catch (aiErr) {
+      console.warn(`Draft progress AI unavailable, returning deterministic analysis: ${aiErr.message}`);
+    }
+
+    const enhancedAnalysis = {
+      ...deterministicAnalysis,
+      ...(analysis || {}),
+      completion_analysis: deterministicAnalysis.completion_analysis,
+      missing_required_fields: Array.isArray(analysis?.missing_required_fields) ? analysis.missing_required_fields : deterministicAnalysis.missing_required_fields,
+      missing_required_field_details: Array.isArray(analysis?.missing_required_field_details) ? analysis.missing_required_field_details : deterministicAnalysis.missing_required_field_details,
+      missing_documents: Array.isArray(analysis?.missing_documents) ? analysis.missing_documents : deterministicAnalysis.missing_documents,
+      ai_available: aiAvailable,
+      next_steps: Array.isArray(analysis?.next_steps) ? analysis.next_steps : deterministicAnalysis.next_steps,
+      estimated_time_to_complete: deterministicAnalysis.estimated_time_to_complete
+    };
+
+    console.log(`Draft analysis complete: ${completionRate}% complete, ${enhancedAnalysis.actionable_suggestions?.length || 0} suggestions`);
     res.json({ result: enhancedAnalysis });
   } catch (err) {
-    console.error('❌ Draft progress analysis failed:', err.message);
+    console.error('Draft progress analysis failed:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
-
-
-// Catch-all solution for JSON parse errors (avoids crashes on malformed arrivals)
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    logger.warn('Malformed JSON request detected', {
-      path: req.path,
-      method: req.method,
-      ip: req.ip
-    });
-    return res.status(400).send({ error: 'Invalid JSON format' });
+// POST /api/ai/feedback-insights
+// Output suggestions and improvements for a previous rejection
+app.post('/api/ai/feedback-insights', async (req, res) => {
+  try {
+    const { application } = req.body;
+    const prompt = `
+      Analyze this rejected application and return suggestions for improving the next application.
+      Return exactly 3 actionable bullet points.
+      
+      Application: ${JSON.stringify(application)}
+    `;
+    const result = await callOpenRouter(prompt);
+    res.json({ result: result.trim() });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
   next();
 });
