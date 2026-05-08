@@ -70,7 +70,7 @@ app.use((req, res, next) => {
       userId,
       res.statusCode,
       responseTime,
-      res.statusCode >= 400 ? new Error(`HTTP ${res.statusCode}`) : null
+      null // Removed new Error() creation to avoid log noise from normal HTTP errors
     );
 
     originalEnd.call(this, chunk, encoding);
@@ -89,37 +89,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// Catch-all solution for JSON parse errors (avoids crashes on malformed arrivals)
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    logger.warn('Malformed JSON request detected', {
-      path: req.path,
-      method: req.method,
-      ip: req.ip
-    });
-    return res.status(400).send({ error: 'Invalid JSON format' });
-  }
-  next();
-});
 
-// Global error handler
-app.use((err, req, res, next) => {
-  logger.error('Unhandled error in request', err, {
-    path: req.path,
-    method: req.method,
-    user_id: req.user_id || 'anonymous',
-    ip: req.ip
-  });
 
-  // Don't leak error details in production
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const errorResponse = {
-    error: isDevelopment ? err.message : 'Internal server error',
-    ...(isDevelopment && { stack: err.stack })
-  };
 
-  res.status(err.status || 500).json(errorResponse);
-});
 
 // Multer storage for file uploads
 const storage = multer.diskStorage({
@@ -1210,72 +1182,9 @@ app.get('/api/applications', (req, res) => {
   res.json(enriched);
 });
 
-// GET /api/applications/deadline-reminders?user_id=
-app.get('/api/applications/deadline-reminders', (req, res) => {
-  const { user_id } = req.query;
-  if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const applications = db.applications.filter(a => a.user_id === user_id);
-  const reminders = [];
 
-  applications.forEach(app => {
-    const opportunity = db.opportunities.find(o => o.opportunity_id === app.opportunity_id);
-    if (!opportunity || !opportunity.deadline || opportunity.deadline === 'Rolling') return;
 
-    const deadlineDate = parseDeadlineDate(opportunity.deadline);
-    if (!deadlineDate) return;
-
-    const today = new Date();
-    const daysUntilDeadline = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
-
-    if (daysUntilDeadline <= 7 && daysUntilDeadline >= 0) {
-      reminders.push({
-        application_id: app.application_id,
-        opportunity_title: opportunity.title,
-        deadline: opportunity.deadline,
-        days_until_deadline: daysUntilDeadline,
-        urgency: daysUntilDeadline <= 3 ? 'high' : daysUntilDeadline <= 5 ? 'medium' : 'low',
-        status: app.status
-      });
-    }
-  });
-
-  reminders.sort((a, b) => a.days_until_deadline - b.days_until_deadline);
-  res.json(reminders);
-});
-
-// GET /api/applications/analytics?user_id=
-app.get('/api/applications/analytics', (req, res) => {
-  const { user_id } = req.query;
-  if (!user_id) return res.status(400).json({ error: 'user_id is required' });
-
-  const db = readDB();
-  const applications = db.applications.filter(a => a.user_id === user_id);
-
-  const analytics = {
-    total_applications: applications.length,
-    status_breakdown: {},
-    monthly_submissions: {},
-    success_rate: 0,
-    average_response_time: 0
-  };
-
-  applications.forEach(app => {
-    analytics.status_breakdown[app.status] = (analytics.status_breakdown[app.status] || 0) + 1;
-
-    if (app.submitted_at) {
-      const month = app.submitted_at.slice(0, 7);
-      analytics.monthly_submissions[month] = (analytics.monthly_submissions[month] || 0) + 1;
-    }
-  });
-
-  const successfulStatuses = ['Accepted', 'Approved', 'Funded', 'Selected'];
-  const successful = applications.filter(app => successfulStatuses.includes(app.status)).length;
-  analytics.success_rate = applications.length > 0 ? Math.round((successful / applications.length) * 100) : 0;
-
-  res.json(analytics);
-});
 
 // GET /api/applications/:id
 app.get('/api/applications/:id', (req, res) => {
@@ -2525,40 +2434,38 @@ app.post('/api/ai/draft-progress', async (req, res) => {
   }
 });
 
-// POST /api/ai/feedback-insights
-// Output suggestions and improvements for a previous rejection
-app.post('/api/ai/feedback-insights', async (req, res) => {
-  try {
-    const { application } = req.body;
-    const prompt = `
-      Analyze this rejected application and return suggestions for improving the next application.
-      Return exactly 3 actionable bullet points.
-      
-      Application: ${JSON.stringify(application)}
-    `;
-    const result = await callOpenRouter(prompt);
-    res.json({ result: result.trim() });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+
+
+// Catch-all solution for JSON parse errors (avoids crashes on malformed arrivals)
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    logger.warn('Malformed JSON request detected', {
+      path: req.path,
+      method: req.method,
+      ip: req.ip
+    });
+    return res.status(400).send({ error: 'Invalid JSON format' });
   }
+  next();
 });
 
-// POST /api/ai/profile-completion
-// Output missing fields and suggestions
-app.post('/api/ai/profile-completion', async (req, res) => {
-  try {
-    const { profile } = req.body;
-    const prompt = `
-      Analyze this founder profile. Identify missing critical information and suggest improvements.
-      Return a JSON object with "missing_fields" (array) and "suggestions" (array).
-      
-      Profile: ${JSON.stringify(profile)}
-    `;
-    const result = await callOpenRouter(prompt);
-    res.json({ result });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+// Global error handler
+app.use((err, req, res, next) => {
+  logger.error('Unhandled error in request', err, {
+    path: req.path,
+    method: req.method,
+    user_id: req.user_id || 'anonymous',
+    ip: req.ip
+  });
+
+  // Don't leak error details in production
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const errorResponse = {
+    error: isDevelopment ? err.message : 'Internal server error',
+    ...(isDevelopment && { stack: err.stack })
+  };
+
+  res.status(err.status || 500).json(errorResponse);
 });
 // Nightly automated scraper handled via single cron job at Line 255
 
