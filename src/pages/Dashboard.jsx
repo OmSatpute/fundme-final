@@ -145,6 +145,7 @@ export default function Dashboard() {
         <KpiCard value={completion} suffix="%" label="Profile Completion" />
       </section>
 
+
       <section data-testid="deadlines-section">
         <div className="flex items-center gap-2 mb-5">
           <Calendar size={16} className="text-[var(--accent)]" />
