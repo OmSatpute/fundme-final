@@ -338,8 +338,45 @@ export default function Landing() {
         </Link>
       </section>
 
-      <footer className="border-t border-slate-200 py-10 text-center text-sm text-slate-500">
-        © 2026 FundMe. Built for the Indian founder.
+      <section className="bg-white border-t border-slate-100 py-16">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-center gap-12 opacity-80">
+          <div className="flex items-center gap-4">
+            <Target size={20} className="text-emerald-700 shrink-0" />
+            <div className="text-sm">
+              <span className="font-bold text-slate-900">Funding</span> from StartupGrantsIndia.com
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <Briefcase size={20} className="text-emerald-700 shrink-0" />
+            <div className="text-sm">
+              <span className="font-bold text-slate-900">Business</span> via GeM Tenders & Bids
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <CheckCircle2 size={20} className="text-emerald-700 shrink-0" />
+            <div className="text-sm">
+              <span className="font-bold text-slate-900">Verified</span> by <a href="https://www.startupindia.gov.in/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 hover:underline">Startup India</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <footer className="border-t border-slate-200 py-12 bg-[#FAF9F6]">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-baseline gap-0.5">
+            <span className="font-display text-xl font-bold tracking-tighter">FundMe</span>
+            <span className="text-emerald-700 text-xl font-bold">.</span>
+          </div>
+          <div className="text-sm text-slate-500">
+            © 2026 FundMe. Built for the Indian founder.
+          </div>
+          <div className="flex items-center gap-6 text-xs font-medium text-slate-400 uppercase tracking-widest">
+            <a href="#" className="hover:text-emerald-700 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-emerald-700 transition-colors">Terms</a>
+            <a href="#" className="hover:text-emerald-700 transition-colors">Contact</a>
+          </div>
+        </div>
       </footer>
     </div>
   );

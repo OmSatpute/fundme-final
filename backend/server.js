@@ -21,6 +21,20 @@ const {
   inferSchemaFromOpportunity
 } = require('./utils/formDrafts');
 const supabase = require('./config/supabase');
+// ─── ERROR RECOVERY (Prevent Crashes) ──────────────────────────────────────────
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🔥 UNHANDLED REJECTION:', reason);
+  if (typeof logger !== 'undefined' && logger.error) {
+    logger.error('Unhandled Rejection', { reason });
+  }
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('🔥 UNCAUGHT EXCEPTION:', err);
+  if (typeof logger !== 'undefined' && logger.error) {
+    logger.error('Uncaught Exception', err);
+  }
+});
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -588,8 +602,9 @@ async function mergeGemBidsIntoSupabase(items) {
   let updated = 0;
 
   for (const item of items) {
+    // GeM bids ALWAYS go to business_opportunities
     const { data: existing, error: fetchError } = await supabase
-      .from('opportunities')
+      .from('business_opportunities')
       .select('opportunity_id, saved, match_score, first_seen_at, scraped_at')
       .or(`opportunity_id.eq.${item.opportunity_id},slug.eq.${item.slug}`)
       .maybeSingle();
@@ -608,7 +623,7 @@ async function mergeGemBidsIntoSupabase(items) {
         last_seen_at: now,
         scraped_at: existing.scraped_at || now,
       };
-      await supabase.from('opportunities').update(updateData).eq('opportunity_id', existing.opportunity_id);
+      await supabase.from('business_opportunities').update(updateData).eq('opportunity_id', existing.opportunity_id);
       updated++;
     } else {
       const newData = {
@@ -617,7 +632,7 @@ async function mergeGemBidsIntoSupabase(items) {
         first_seen_at: now,
         last_seen_at: now,
       };
-      await supabase.from('opportunities').insert(newData);
+      await supabase.from('business_opportunities').insert(newData);
       added++;
     }
   }
@@ -626,13 +641,15 @@ async function mergeGemBidsIntoSupabase(items) {
 }
 
 async function getStoredBusinessOpportunities() {
-  const businessTypes = ['Contest', 'Fellowship', 'Other', 'Tender', 'Reverse Auction'];
   const { data, error } = await supabase
-    .from('opportunities')
+    .from('business_opportunities')
     .select('*')
-    .or(`type.in.(${businessTypes.join(',')}),source.eq.gem`);
+    .order('last_seen_at', { ascending: false });
     
-  if (error) throw error;
+  if (error) {
+    logger.error('Failed to fetch stored business opportunities', error);
+    return [];
+  }
   return data || [];
 }
 
@@ -674,54 +691,83 @@ app.get('/api/business-opportunities', async (req, res) => {
 
 // GET /api/opportunities?type=
 app.get('/api/opportunities', async (req, res) => {
-  const { type } = req.query;
-  await cleanExpiredOpportunities();
+  try {
+    const { type } = req.query;
+    await cleanExpiredOpportunities();
 
-  let query = supabase.from('opportunities').select('*');
-  if (type) query = query.eq('type', type);
+    let query = supabase.from('funding_opportunities').select('*').order('last_seen_at', { ascending: false });
+    
+    if (type) {
+      query = query.eq('type', type);
+    }
 
-  const { data, error } = await query;
-  if (error) {
-    logger.error('Failed to fetch opportunities', error);
-    return res.status(500).json({ error: 'Failed to fetch opportunities' });
+    const { data, error } = await query;
+    if (error) {
+      logger.error('Failed to fetch opportunities', error);
+      return res.status(500).json({ error: 'Failed to fetch opportunities' });
+    }
+
+    res.json(data || []);
+  } catch (err) {
+    logger.error('GET /api/opportunities error:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  res.json(data || []);
 });
 
 // GET /api/opportunities/:id/details
 app.get('/api/opportunities/:id/details', async (req, res) => {
-  const id = req.params.id;
-  const { data: opp, error: fetchError } = await supabase
-    .from('opportunities')
-    .select('*')
-    .or(`opportunity_id.eq.${id},slug.eq.${id}`)
-    .maybeSingle();
-
-  if (fetchError) throw fetchError;
-  if (!opp) return res.status(404).json({ error: 'Opportunity not found' });
-
-  // Return cached formatted data if it exists
-  if (opp.formatted_details) {
-    if (!opp.external_apply_url && opp.link) {
-      opp.external_apply_url = await scrapeApplyLink(opp.link);
-      await supabase.from('opportunities').update({ external_apply_url: opp.external_apply_url }).eq('opportunity_id', opp.opportunity_id);
-    }
-    return res.json({ formatted: opp.formatted_details, raw: opp.raw_scraped_text || '--', external_apply_url: opp.external_apply_url || '' });
-  }
-
-  if (!opp.link) return res.status(400).json({ error: 'No link available to scrape' });
-
   try {
+    const id = req.params.id;
+    
+    // Try finding in funding first, then business
+    let { data: opp, error: fetchError } = await supabase
+      .from('funding_opportunities')
+      .select('*')
+      .or(`opportunity_id.eq.${id},slug.eq.${id}`)
+      .maybeSingle();
+
+    let tableName = 'funding_opportunities';
+
+    if (!opp && !fetchError) {
+      const { data: busOpp, error: busError } = await supabase
+        .from('business_opportunities')
+        .select('*')
+        .or(`opportunity_id.eq.${id},slug.eq.${id}`)
+        .maybeSingle();
+      
+      opp = busOpp;
+      fetchError = busError;
+      tableName = 'business_opportunities';
+    }
+
+    if (fetchError) {
+      logger.error(`Error fetching opportunity ${id} details`, fetchError);
+      return res.status(500).json({ error: 'Failed to fetch opportunity' });
+    }
+    
+    if (!opp) return res.status(404).json({ error: 'Opportunity not found' });
+
+    // Return cached formatted data if it exists
+    if (opp.formatted_details) {
+      if (!opp.external_apply_url && opp.link) {
+        opp.external_apply_url = await scrapeApplyLink(opp.link);
+        await supabase.from(tableName).update({ external_apply_url: opp.external_apply_url }).eq('opportunity_id', opp.opportunity_id);
+      }
+      return res.json({ formatted: opp.formatted_details, raw: opp.raw_scraped_text || '--', external_apply_url: opp.external_apply_url || '' });
+    }
+
+    if (!opp.link) return res.status(400).json({ error: 'No link available to scrape' });
+
     const raw = await scrapeDetails(opp.link);
     // Cache the raw text for future formatting
     const updateData = { raw_scraped_text: raw };
     if (!opp.external_apply_url) {
       updateData.external_apply_url = await scrapeApplyLink(opp.link);
     }
-    await supabase.from('opportunities').update(updateData).eq('opportunity_id', opp.opportunity_id);
+    await supabase.from(tableName).update(updateData).eq('opportunity_id', opp.opportunity_id);
     res.json({ raw, external_apply_url: updateData.external_apply_url || opp.external_apply_url || '' });
   } catch (err) {
+    logger.error('Details route error:', err);
     res.status(500).json({ error: 'Failed to scrape details: ' + err.message });
   }
 });
@@ -747,16 +793,12 @@ app.post('/api/ai/format-details', async (req, res) => {
 
     // If ID provided, cache the result
     if (opportunity_id) {
-      const { error: updateError } = await supabase
-        .from('opportunities')
-        .update({ formatted_details: formatted })
-        .eq('opportunity_id', opportunity_id);
-        
-      if (updateError) {
-        console.error(`AI System: Failed to cache formatted details for ${opportunity_id}:`, updateError);
-      } else {
-        console.log(`💾 AI System: Cached formatted details for ${opportunity_id}`);
-      }
+      // Try updating both tables as we don't know which one it belongs to
+      await Promise.all([
+        supabase.from('funding_opportunities').update({ formatted_details: formatted }).eq('opportunity_id', opportunity_id),
+        supabase.from('business_opportunities').update({ formatted_details: formatted }).eq('opportunity_id', opportunity_id)
+      ]);
+      console.log(`💾 AI System: Cached formatted details for ${opportunity_id}`);
     }
 
     res.json({ result: formatted });
@@ -768,21 +810,36 @@ app.post('/api/ai/format-details', async (req, res) => {
 
 // GET /api/opportunities/:id
 app.get('/api/opportunities/:id', async (req, res) => {
-  await cleanExpiredOpportunities();
+  try {
+    await cleanExpiredOpportunities();
 
-  const { data, error } = await supabase
-    .from('opportunities')
-    .select('*')
-    .or(`opportunity_id.eq.${req.params.id},slug.eq.${req.params.id}`)
-    .maybeSingle();
+    let { data, error } = await supabase
+      .from('funding_opportunities')
+      .select('*')
+      .or(`opportunity_id.eq.${req.params.id},slug.eq.${req.params.id}`)
+      .maybeSingle();
 
-  if (error) {
-    logger.error('Failed to fetch opportunity', error);
-    return res.status(500).json({ error: 'Failed to fetch opportunity' });
+    if (!data && !error) {
+      const { data: busData, error: busError } = await supabase
+        .from('business_opportunities')
+        .select('*')
+        .or(`opportunity_id.eq.${req.params.id},slug.eq.${req.params.id}`)
+        .maybeSingle();
+      data = busData;
+      error = busError;
+    }
+
+    if (error) {
+      logger.error('Failed to fetch opportunity', error);
+      return res.status(500).json({ error: 'Failed to fetch opportunity' });
+    }
+    
+    if (!data) return res.status(404).json({ error: 'Opportunity not found' });
+    res.json(data);
+  } catch (err) {
+    logger.error('GET /api/opportunities/:id error:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
-  
-  if (!data) return res.status(404).json({ error: 'Opportunity not found' });
-  res.json(data);
 });
 
 // ─── SCRAPING BACKGROUND WORKER (PRODUCTION) ─────────────────────────────────
@@ -823,29 +880,39 @@ function isRollingDeadline(deadline) {
 
 async function cleanExpiredOpportunities(now = new Date()) {
   try {
-    const { data: opportunities, error } = await supabase
-      .from('opportunities')
-      .select('opportunity_id, deadline');
+    const tables = ['funding_opportunities', 'business_opportunities'];
+    let totalRemoved = 0;
+    const allRemovedIds = [];
 
-    if (error) throw error;
+    for (const tableName of tables) {
+      const { data: opportunities, error } = await supabase
+        .from(tableName)
+        .select('opportunity_id, deadline');
 
-    const removedIds = [];
-    for (const o of (opportunities || [])) {
-      if (isDeadlineExpired(o.deadline, now)) {
-        removedIds.push(o.opportunity_id);
+      if (error) continue;
+
+      const removedIds = [];
+      for (const o of (opportunities || [])) {
+        if (isDeadlineExpired(o.deadline, now)) {
+          removedIds.push(o.opportunity_id);
+        }
+      }
+
+      if (removedIds.length > 0) {
+        logger.info(`Cleaning up ${removedIds.length} expired opportunities from ${tableName}`);
+        const { error: deleteError } = await supabase
+          .from(tableName)
+          .delete()
+          .in('opportunity_id', removedIds);
+        
+        if (!deleteError) {
+          totalRemoved += removedIds.length;
+          allRemovedIds.push(...removedIds);
+        }
       }
     }
 
-    if (removedIds.length > 0) {
-      logger.info(`Cleaning up ${removedIds.length} expired opportunities`);
-      const { error: deleteError } = await supabase
-        .from('opportunities')
-        .delete()
-        .in('opportunity_id', removedIds);
-      if (deleteError) throw deleteError;
-    }
-
-    return { removed: removedIds.length, removedIds };
+    return { removed: totalRemoved, removedIds: allRemovedIds };
   } catch (err) {
     logger.error('Failed to cleanup expired opportunities', err);
     return { removed: 0, removedIds: [] };
@@ -855,9 +922,10 @@ async function cleanExpiredOpportunities(now = new Date()) {
 async function revalidateRollingOpportunities(limit = 12) {
   const now = new Date();
   const staleAfterMs = 24 * 60 * 60 * 1000;
-
+  
+  // We'll primarily revalidate funding opportunities as business ones (GeM) are refreshed live
   const { data: opportunities, error } = await supabase
-    .from('opportunities')
+    .from('funding_opportunities')
     .select('*');
 
   if (error) throw error;
@@ -893,11 +961,11 @@ async function revalidateRollingOpportunities(limit = 12) {
       updateData.external_apply_url = details.external_apply_url;
     }
     
-    await supabase.from('opportunities').update(updateData).eq('opportunity_id', opp.opportunity_id);
+    await supabase.from('funding_opportunities').update(updateData).eq('opportunity_id', opp.opportunity_id);
   }
 
   if (removeIds.length > 0) {
-    await supabase.from('opportunities').delete().in('opportunity_id', removeIds);
+    await supabase.from('funding_opportunities').delete().in('opportunity_id', removeIds);
   }
 
   await cleanExpiredOpportunities(now);
@@ -943,9 +1011,14 @@ function isValidExternalApplyUrl(rawUrl) {
 }
 
 async function enrichApplyLinks(items) {
-  const { data: opportunities } = await supabase.from('opportunities').select('slug, external_apply_url');
+  const [fundingResult, businessResult] = await Promise.all([
+    supabase.from('funding_opportunities').select('slug, external_apply_url'),
+    supabase.from('business_opportunities').select('slug, external_apply_url')
+  ]);
+  
+  const opportunities = [...(fundingResult.data || []), ...(businessResult.data || [])];
   const existingBySlug = new Map();
-  opportunities?.forEach(o => {
+  opportunities.forEach(o => {
     if (o.slug) existingBySlug.set(o.slug, o);
   });
 
@@ -1005,6 +1078,14 @@ async function enrichDetailData(items) {
   return items;
 }
 
+function getTableForOpportunity(item) {
+  const businessTypes = ['Contest', 'Fellowship', 'Other', 'Tender', 'Reverse Auction'];
+  if (item.source === 'gem' || businessTypes.includes(item.type)) {
+    return 'business_opportunities';
+  }
+  return 'funding_opportunities';
+}
+
 async function selectScrapedOpportunities(items, limit = 10) {
   if (items.length <= limit) return items;
 
@@ -1046,12 +1127,16 @@ async function saveScrapedToSupabase(newData) {
   const now = new Date();
   const activeNewData = newData.filter(item => !isDeadlineExpired(item.deadline, now));
 
-  // 1. Clean expired scraped entries in Supabase logic is handled by cleanExpiredOpportunities call before save
-  
-  // 2. Fetch existing slugs/links to decide update vs insert
-  const { data: existingOpps } = await supabase.from('opportunities').select('opportunity_id, slug, link, external_apply_url, saved');
+  // Fetch existing from BOTH tables to check for duplicates
+  const [fundingResult, businessResult] = await Promise.all([
+    supabase.from('funding_opportunities').select('opportunity_id, slug, link'),
+    supabase.from('business_opportunities').select('opportunity_id, slug, link')
+  ]);
+
   const existingSlugs = new Map();
-  existingOpps?.forEach(o => {
+  const existingOpps = [...(fundingResult.data || []), ...(businessResult.data || [])];
+  
+  existingOpps.forEach(o => {
     if (o.slug) existingSlugs.set(o.slug, o);
     if (o.link) existingSlugs.set(o.link, o);
   });
@@ -1062,6 +1147,7 @@ async function saveScrapedToSupabase(newData) {
 
   for (const item of activeNewData) {
     const existing = existingSlugs.get(item.slug) || existingSlugs.get(item.link);
+    const tableName = getTableForOpportunity(item);
 
     if (existing) {
       // Refresh metadata on existing entry
@@ -1078,15 +1164,14 @@ async function saveScrapedToSupabase(newData) {
         timeline: item.timeline || existing.timeline,
         about: item.about || existing.about,
         raw_scraped_text: item.raw_scraped_text || existing.raw_scraped_text,
-        external_apply_url: isValidExternalApplyUrl(item.external_apply_url)
-          ? item.external_apply_url
-          : (isValidExternalApplyUrl(existing.external_apply_url) ? existing.external_apply_url : ''),
         last_seen_at: now.toISOString(),
       };
       if (item.amount && item.amount !== 'Variable') updateData.amount = item.amount;
       if (item.deadline && item.deadline !== 'Rolling') updateData.deadline = item.deadline;
       
-      await supabase.from('opportunities').update(updateData).eq('opportunity_id', existing.opportunity_id);
+      // Update in whichever table it's currently in
+      const currentTable = getTableForOpportunity(existing);
+      await supabase.from(currentTable).update(updateData).eq('opportunity_id', existing.opportunity_id);
       updatedCount++;
     } else {
       // Insert new opportunity
@@ -1114,13 +1199,13 @@ async function saveScrapedToSupabase(newData) {
         scraped_at: now.toISOString(),
         last_seen_at: now.toISOString(),
       };
-      await supabase.from('opportunities').insert(opp);
+      await supabase.from(tableName).insert(opp);
       newlyAddedOpps.push(opp);
       addedCount++;
     }
   }
 
-  // 3. Auto-score new opportunities for all founder profiles
+  // Auto-score logic remains similar
   if (newlyAddedOpps.length > 0) {
     const { data: profiles } = await supabase.from('founder_profiles').select('*');
     if (profiles && profiles.length > 0) {
@@ -1134,8 +1219,16 @@ async function saveScrapedToSupabase(newData) {
     }
   }
 
-  const { count } = await supabase.from('opportunities').select('*', { count: 'exact', head: true });
-  return { added: addedCount, updated: updatedCount, total: count || 0 };
+  const [fundingCount, businessCount] = await Promise.all([
+    supabase.from('funding_opportunities').select('*', { count: 'exact', head: true }),
+    supabase.from('business_opportunities').select('*', { count: 'exact', head: true })
+  ]);
+  
+  return { 
+    added: addedCount, 
+    updated: updatedCount, 
+    total: (fundingCount.count || 0) + (businessCount.count || 0) 
+  };
 }
 
 async function runScraper() {
@@ -1208,10 +1301,14 @@ app.get('/api/trigger-scraper', async (req, res) => {
 
 // Get scraper status without triggering
 app.get('/api/scraper-status', async (req, res) => {
-  const { count } = await supabase.from('opportunities').select('*', { count: 'exact', head: true });
+  const [fundingCount, businessCount] = await Promise.all([
+    supabase.from('funding_opportunities').select('*', { count: 'exact', head: true }),
+    supabase.from('business_opportunities').select('*', { count: 'exact', head: true })
+  ]);
+  
   res.json({
     ..._scraperStatus,
-    opportunities_in_db: count || 0,
+    opportunities_in_db: (fundingCount.count || 0) + (businessCount.count || 0),
   });
 });
 
@@ -1227,72 +1324,107 @@ cron.schedule('0 0 * * 0', async () => {
 // GET /api/saved?user_id=
 // GET /api/saved?user_id=
 app.get('/api/saved', async (req, res) => {
-  const { user_id } = req.query;
-  if (!user_id) return res.status(400).json({ error: 'user_id is required' });
+  try {
+    const { user_id } = req.query;
+    if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const { data: saved, error } = await supabase
-    .from('saved_opportunities')
-    .select('*, opportunity:opportunities(*)')
-    .eq('user_id', user_id);
+    // 1. Fetch saved relations
+    const { data: saved, error } = await supabase
+      .from('saved_opportunities')
+      .select('*')
+      .eq('user_id', user_id);
 
-  if (error) {
-    logger.error('Failed to fetch saved opportunities', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    if (error) return res.status(500).json({ error: 'Failed to fetch saved opportunities' });
+    if (!saved || saved.length === 0) return res.json([]);
+
+    // 2. Fetch full details for each saved opportunity from both tables
+    const oppIds = saved.map(s => s.opportunity_id);
+    
+    const [fundingResult, businessResult] = await Promise.all([
+      supabase.from('funding_opportunities').select('*').in('opportunity_id', oppIds),
+      supabase.from('business_opportunities').select('*').in('opportunity_id', oppIds)
+    ]);
+
+    const allOppsMap = new Map();
+    fundingResult.data?.forEach(o => allOppsMap.set(o.opportunity_id, o));
+    businessResult.data?.forEach(o => allOppsMap.set(o.opportunity_id, o));
+
+    // 3. Merge and return
+    const result = saved.map(s => ({
+      ...s,
+      opportunity: allOppsMap.get(s.opportunity_id) || null
+    })).filter(s => s.opportunity !== null);
+
+    res.json(result);
+  } catch (err) {
+    logger.error('Saved route error:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  res.json(saved || []);
 });
 
-// POST /api/saved
 // POST /api/saved
 app.post('/api/saved', async (req, res) => {
-  const { user_id, opportunity_id } = req.body;
-  if (!user_id || !opportunity_id) return res.status(400).json({ error: 'user_id and opportunity_id are required' });
+  try {
+    const { user_id, opportunity_id } = req.body;
+    if (!user_id || !opportunity_id) return res.status(400).json({ error: 'user_id and opportunity_id are required' });
 
-  const { data: existing } = await supabase
-    .from('saved_opportunities')
-    .select('saved_id')
-    .eq('user_id', user_id)
-    .eq('opportunity_id', opportunity_id)
-    .maybeSingle();
+    const { data: existing, error: fetchError } = await supabase
+      .from('saved_opportunities')
+      .select('saved_id')
+      .eq('user_id', user_id)
+      .eq('opportunity_id', opportunity_id)
+      .maybeSingle();
 
-  if (existing) return res.status(409).json({ error: 'Already saved' });
+    if (fetchError) throw fetchError;
+    if (existing) return res.status(409).json({ error: 'Already saved' });
 
-  const saved = {
-    saved_id: 's' + uuidv4().slice(0, 6),
-    user_id,
-    opportunity_id,
-    saved_date: new Date().toISOString().slice(0, 10)
-  };
+    const saved = {
+      saved_id: 's' + uuidv4().slice(0, 6),
+      user_id,
+      opportunity_id,
+      saved_date: new Date().toISOString().slice(0, 10)
+    };
 
-  const { error } = await supabase.from('saved_opportunities').insert(saved);
-  if (error) throw error;
+    const { error } = await supabase.from('saved_opportunities').insert(saved);
+    if (error) throw error;
 
-  res.status(201).json(saved);
+    res.status(201).json(saved);
+  } catch (err) {
+    logger.error('POST /api/saved error:', err);
+    res.status(500).json({ error: 'Failed to save opportunity' });
+  }
 });
 
-// DELETE /api/saved (by query params)
 // DELETE /api/saved (by query params)
 app.delete('/api/saved', async (req, res) => {
-  const { user_id, opportunity_id } = req.query;
-  if (!user_id || !opportunity_id) return res.status(400).json({ error: 'user_id and opportunity_id are required' });
+  try {
+    const { user_id, opportunity_id } = req.query;
+    if (!user_id || !opportunity_id) return res.status(400).json({ error: 'user_id and opportunity_id are required' });
 
-  const { error } = await supabase
-    .from('saved_opportunities')
-    .delete()
-    .eq('user_id', user_id)
-    .eq('opportunity_id', opportunity_id);
+    const { error } = await supabase
+      .from('saved_opportunities')
+      .delete()
+      .eq('user_id', user_id)
+      .eq('opportunity_id', opportunity_id);
 
-  if (error) throw error;
-  res.json({ message: 'Opportunity unsaved' });
+    if (error) throw error;
+    res.json({ message: 'Opportunity unsaved' });
+  } catch (err) {
+    logger.error('DELETE /api/saved error:', err);
+    res.status(500).json({ error: 'Failed to unsave opportunity' });
+  }
 });
 
 // DELETE /api/saved/:id
-// DELETE /api/saved/:id
 app.delete('/api/saved/:id', async (req, res) => {
-  const { error } = await supabase.from('saved_opportunities').delete().eq('saved_id', req.params.id);
-  if (error) throw error;
-  res.json({ message: 'Removed from saved' });
+  try {
+    const { error } = await supabase.from('saved_opportunities').delete().eq('saved_id', req.params.id);
+    if (error) throw error;
+    res.json({ message: 'Removed from saved' });
+  } catch (err) {
+    logger.error('DELETE /api/saved/:id error:', err);
+    res.status(500).json({ error: 'Failed to remove saved entry' });
+  }
 });
 
 // ─── APPLICATIONS ─────────────────────────────────────────────────────────────
@@ -1630,11 +1762,22 @@ app.post('/api/drafts/bootstrap', async (req, res) => {
     return res.status(400).json({ error: 'user_id and opportunity_id are required' });
   }
 
-  const { data: opportunity, error: oppError } = await supabase
-    .from('opportunities')
+  // Try finding in funding first, then business
+  let { data: opportunity, error: oppError } = await supabase
+    .from('funding_opportunities')
     .select('*')
     .or(`opportunity_id.eq.${opportunity_id},slug.eq.${opportunity_id}`)
     .maybeSingle();
+
+  if (!opportunity && !oppError) {
+    const { data: busOpp, error: busError } = await supabase
+      .from('business_opportunities')
+      .select('*')
+      .or(`opportunity_id.eq.${opportunity_id},slug.eq.${opportunity_id}`)
+      .maybeSingle();
+    opportunity = busOpp;
+    oppError = busError;
+  }
 
   if (oppError) throw oppError;
   if (!opportunity) return res.status(404).json({ error: 'Opportunity not found' });
@@ -1653,18 +1796,34 @@ app.post('/api/drafts/bootstrap', async (req, res) => {
 });
 
 // GET /api/drafts/:id
-// GET /api/drafts/:id
 app.get('/api/drafts/:id', async (req, res) => {
   const { data: draft, error } = await supabase
     .from('drafts')
-    .select('*, opportunity:opportunities(*)')
+    .select('*')
     .eq('draft_id', req.params.id)
     .maybeSingle();
 
   if (error) throw error;
   if (!draft) return res.status(404).json({ error: 'Draft not found' });
 
-  res.json(draft);
+  // Manually fetch opportunity details
+  const { data: oppData } = await supabase
+    .from('funding_opportunities')
+    .select('*')
+    .eq('opportunity_id', draft.opportunity_id)
+    .maybeSingle();
+
+  let opportunity = oppData;
+  if (!opportunity) {
+    const { data: busOpp } = await supabase
+      .from('business_opportunities')
+      .select('*')
+      .eq('opportunity_id', draft.opportunity_id)
+      .maybeSingle();
+    opportunity = busOpp;
+  }
+
+  res.json({ ...draft, opportunity });
 });
 
 // PUT /api/drafts/:id — update draft fields
@@ -1932,17 +2091,27 @@ app.post('/api/ai/generate-profile', memoryUpload.single('file'), async (req, re
 });
 
 // POST /api/ai/generate-application-schema
-// POST /api/ai/generate-application-schema
 app.post('/api/ai/generate-application-schema', async (req, res) => {
   try {
     const { opportunity_id, source_url = '' } = req.body || {};
     if (!opportunity_id) return res.status(400).json({ error: 'opportunity_id is required' });
 
-    const { data: opportunity, error: oppError } = await supabase
-      .from('opportunities')
+    // Try finding in funding first, then business
+    let { data: opportunity, error: oppError } = await supabase
+      .from('funding_opportunities')
       .select('*')
       .or(`opportunity_id.eq.${opportunity_id},slug.eq.${opportunity_id}`)
       .maybeSingle();
+
+    if (!opportunity && !oppError) {
+      const { data: busOpp, error: busError } = await supabase
+        .from('business_opportunities')
+        .select('*')
+        .or(`opportunity_id.eq.${opportunity_id},slug.eq.${opportunity_id}`)
+        .maybeSingle();
+      opportunity = busOpp;
+      oppError = busError;
+    }
 
     if (oppError) throw oppError;
     if (!opportunity) return res.status(404).json({ error: 'Opportunity not found' });
@@ -2014,8 +2183,11 @@ app.post('/api/ai/generate-application-schema', async (req, res) => {
 
     const normalized = normalizeSchema(schema || inferSchemaFromOpportunity(opportunity), `${opportunity.title} Application Draft`);
     
-    // Update opportunity with generated schema
-    await supabase.from('opportunities').update({ generated_application_schema: normalized }).eq('opportunity_id', opportunity.opportunity_id);
+    // Update opportunity with generated schema in whichever table it resides
+    await Promise.all([
+      supabase.from('funding_opportunities').update({ generated_application_schema: normalized }).eq('opportunity_id', opportunity.opportunity_id),
+      supabase.from('business_opportunities').update({ generated_application_schema: normalized }).eq('opportunity_id', opportunity.opportunity_id)
+    ]);
 
     // Update existing drafts for this opportunity
     const { data: drafts } = await supabase.from('drafts').select('*').eq('opportunity_id', opportunity.opportunity_id);
@@ -2035,7 +2207,8 @@ app.post('/api/ai/generate-application-schema', async (req, res) => {
 
     res.json({ result: normalized });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    logger.error('Generate application schema error:', err);
+    res.status(500).json({ error: 'Failed to generate application schema' });
   }
 });
 
