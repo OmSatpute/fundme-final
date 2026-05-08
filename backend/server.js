@@ -20,10 +20,10 @@ const {
   calculateCompletion,
   inferSchemaFromOpportunity
 } = require('./utils/formDrafts');
+const supabase = require('./config/supabase');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
-const DB_PATH = path.join(__dirname, 'data', 'db.json');
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
 
 // Ensure uploads directory exists
@@ -90,47 +90,19 @@ app.use((req, res, next) => {
 });
 
 
+// Health check for Railway/Render
+app.get('/health', (req, res) => res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() }));
 
 
-
-// Multer storage for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
-});
-const upload = multer({ storage });
+// ─── CLOUDINARY STORAGE ───────────────────────────────────────────────────────
+const { storage: cloudinaryStorage, cloudinary } = require('./config/cloudinary');
+const upload = multer({ storage: cloudinaryStorage });
 
 // Separate multer for memory-only (AI generation)
 const memoryUpload = multer({ storage: multer.memoryStorage() });
 
-// ─── DB Helpers ───────────────────────────────────────────────────────────────
-function readDB() {
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(raw);
-  } catch (err) {
-    logger.error('Error reading database file', err);
-    // Return minimum viable DB structure to avoid downstream crashes
-    return { 
-      users: [], 
-      founder_profiles: [], 
-      opportunities: [], 
-      saved: [], 
-      drafts: [], 
-      applications: [] 
-    };
-  }
-}
-
-function writeDB(data) {
-  try {
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
-  } catch (err) {
-    logger.error('Error writing to database file', err);
-    // Note: In a real production app, we might want to throw here or 
-    // retry, but for stability, we just log and continue.
-  }
-}
+// ─── DB Helpers (Supabase Migration) ──────────────────────────────────────────
+// Local JSON helpers removed. Queries now use the Supabase client.
 
 function getHostMetadata(rawUrl) {
   try {
@@ -149,10 +121,6 @@ function getHostMetadata(rawUrl) {
   }
 }
 
-function findOpportunity(db, opportunityId) {
-  return db.opportunities.find(o => o.opportunity_id === opportunityId || o.slug === opportunityId);
-}
-
 function getDefaultRequiredDocumentStatus(requiredDocuments = []) {
   return requiredDocuments.reduce((acc, doc) => {
     acc[doc] = 'missing';
@@ -160,8 +128,7 @@ function getDefaultRequiredDocumentStatus(requiredDocuments = []) {
   }, {});
 }
 
-function upsertDraft({
-  db,
+async function upsertDraft({
   user_id,
   opportunity_id,
   schema,
@@ -170,21 +137,23 @@ function upsertDraft({
   capture_meta = {}
 }) {
   const normalizedSchema = normalizeSchema(schema);
-  const existing = db.drafts.find(d => d.user_id === user_id && d.opportunity_id === opportunity_id);
+  
+  // Find existing draft
+  const { data: existingDrafts, error: fetchError } = await supabase
+    .from('drafts')
+    .select('*')
+    .eq('user_id', user_id)
+    .eq('opportunity_id', opportunity_id);
+    
+  if (fetchError) throw fetchError;
+  const existing = existingDrafts?.[0];
+
   const existingFields = existing ? existing.form_fields : {};
   const mergedFields = buildInitialFormFields(normalizedSchema, existingFields);
   const completion = calculateCompletion(normalizedSchema, mergedFields);
   const requiredDocumentsStatus = existing?.required_documents_status || getDefaultRequiredDocumentStatus(normalizedSchema.required_documents);
 
-  const baseDraft = existing || {
-    draft_id: 'd' + uuidv4().slice(0, 6),
-    user_id,
-    opportunity_id,
-    created_at: new Date().toISOString(),
-    status: 'draft'
-  };
-
-  Object.assign(baseDraft, {
+  const draftData = {
     title: normalizedSchema.title,
     subtitle: normalizedSchema.subtitle,
     form_schema: normalizedSchema,
@@ -195,13 +164,32 @@ function upsertDraft({
     source_url,
     capture_meta,
     last_saved: new Date().toISOString()
-  });
+  };
 
-  if (!existing) {
-    db.drafts.push(baseDraft);
+  if (existing) {
+    const { data: updated, error: updateError } = await supabase
+      .from('drafts')
+      .update(draftData)
+      .eq('draft_id', existing.draft_id)
+      .select();
+    if (updateError) throw updateError;
+    return updated[0];
+  } else {
+    const newDraft = {
+      draft_id: 'd' + uuidv4().slice(0, 6),
+      user_id,
+      opportunity_id,
+      created_at: new Date().toISOString(),
+      status: 'draft',
+      ...draftData
+    };
+    const { data: inserted, error: insertError } = await supabase
+      .from('drafts')
+      .insert(newDraft)
+      .select();
+    if (insertError) throw insertError;
+    return inserted[0];
   }
-
-  return baseDraft;
 }
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
@@ -212,8 +200,13 @@ app.post('/api/signup', async (req, res) => {
     const { name, email, password, role } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: 'name, email and password are required' });
 
-    const db = readDB();
-    const existing = db.users.find(u => u.email === email);
+    const { data: existing, error: fetchError } = await supabase
+      .from('users')
+      .select('user_id')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (fetchError) throw fetchError;
     if (existing) return res.status(409).json({ error: 'Email already registered' });
 
     // Hash password securely
@@ -230,8 +223,8 @@ app.post('/api/signup', async (req, res) => {
       created_at: new Date().toISOString().slice(0, 10)
     };
 
-    db.users.push(user);
-    writeDB(db);
+    const { error: insertError } = await supabase.from('users').insert(user);
+    if (insertError) throw insertError;
 
     const { password: _, ...safeUser } = user;
     res.status(201).json({ message: 'Account created', user: safeUser });
@@ -247,8 +240,13 @@ app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'email and password are required' });
 
-    const db = readDB();
-    const user = db.users.find(u => u.email === email);
+    const { data: user, error: fetchError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (fetchError) throw fetchError;
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
     // For backward compatibility with existing plain text passwords
@@ -262,8 +260,8 @@ app.post('/api/login', async (req, res) => {
       // Optionally migrate to hashed password
       if (isValidPassword) {
         const saltRounds = 12;
-        user.password = await bcrypt.hash(password, saltRounds);
-        writeDB(db);
+        const newHashedPassword = await bcrypt.hash(password, saltRounds);
+        await supabase.from('users').update({ password: newHashedPassword }).eq('user_id', user.user_id);
       }
     }
 
@@ -278,90 +276,116 @@ app.post('/api/login', async (req, res) => {
 });
 
 // GET /api/users/check-email
-app.get('/api/users/check-email', (req, res) => {
+app.get('/api/users/check-email', async (req, res) => {
   const { email } = req.query;
   if (!email) return res.status(400).json({ error: 'email query parameter is required' });
 
-  const db = readDB();
-  const existing = db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-  res.json({ exists: !!existing });
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('user_id')
+    .eq('email', email.toLowerCase())
+    .maybeSingle();
+    
+  if (error) {
+    console.error('Email check error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+
+  res.json({ exists: !!user });
 });
 
 
 // ─── FILE UPLOAD ──────────────────────────────────────────────────────────────
 
 // POST /api/upload
-app.post('/api/upload', upload.single('file'), (req, res) => {
+// POST /api/upload
+app.post('/api/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     const { user_id, doc_type, application_id } = req.body;
 
-    const db = readDB();
+    // With Cloudinary, req.file.path is the full secure URL
+    // req.file.filename is the public_id in Cloudinary
+    const fileUrl = req.file.path;
+    const publicId = req.file.filename;
+
     let documentRecord = {
       document_id: 'doc_' + uuidv4().slice(0, 8),
-      filename: req.file.filename,
+      filename: fileUrl, // Storing the full URL in the filename field for compatibility
       original_name: req.file.originalname,
       file_size: req.file.size,
       mime_type: req.file.mimetype,
       uploaded_at: new Date().toISOString(),
       user_id,
-      doc_type
+      doc_type,
+      application_id: application_id || null,
+      uploaded_for: application_id ? 'application' : null,
+      metadata: { public_id: publicId }
     };
 
-    // Upload to founder profile
-    if (user_id && doc_type) {
-      const profile = db.founder_profiles.find(p => p.user_id === user_id);
+    // 1. Save document record to Supabase
+    const { error: docError } = await supabase.from('documents').insert(documentRecord);
+    if (docError) throw docError;
+
+    // 2. If it's a profile document, update founder profile
+    if (user_id && doc_type && !application_id) {
+      const { data: profile, error: profileFetchError } = await supabase
+        .from('founder_profiles')
+        .select('documents')
+        .eq('user_id', user_id)
+        .maybeSingle();
+
+      if (profileFetchError) throw profileFetchError;
       if (profile) {
-        if (!profile.documents) profile.documents = {};
-        profile.documents[doc_type] = req.file.filename;
-
-        // Track document in separate collection for better management
-        if (!db.documents) db.documents = [];
-        db.documents.push(documentRecord);
-
-        writeDB(db);
-        logger.info('Document uploaded to profile', { user_id, doc_type, filename: req.file.filename });
+        const updatedDocs = { ...(profile.documents || {}), [doc_type]: fileUrl };
+        await supabase
+          .from('founder_profiles')
+          .update({ documents: updatedDocs })
+          .eq('user_id', user_id);
+          
+        logger.info('Document uploaded to Cloudinary profile', { user_id, doc_type, url: fileUrl });
       }
     }
 
-    // Upload to application if specified
+    // 3. If it's an application document, update application
     if (application_id) {
-      const application = db.applications.find(a => a.application_id === application_id);
+      const { data: application, error: appFetchError } = await supabase
+        .from('applications')
+        .select('documents')
+        .eq('application_id', application_id)
+        .maybeSingle();
+
+      if (appFetchError) throw appFetchError;
       if (application) {
-        if (!application.documents) application.documents = [];
+        const updatedDocs = [...(application.documents || []), documentRecord];
+        await supabase
+          .from('applications')
+          .update({ documents: updatedDocs })
+          .eq('application_id', application_id);
 
-        const appDocument = {
-          ...documentRecord,
-          application_id,
-          uploaded_for: 'application'
-        };
-
-        application.documents.push(appDocument);
-        db.documents.push(appDocument);
-        writeDB(db);
-
-        logger.info('Document uploaded to application', {
+        logger.info('Document uploaded to Cloudinary application', {
           user_id,
           application_id,
           doc_type,
-          filename: req.file.filename
+          url: fileUrl
         });
       }
     }
 
     res.json({
-      message: 'File uploaded successfully',
+      message: 'File uploaded to Cloudinary successfully',
       document: documentRecord,
-      path: `/uploads/${req.file.filename}`
+      path: fileUrl
     });
   } catch (error) {
-    logger.error('File upload failed', error, { user_id: req.body.user_id });
+    logger.error('Cloudinary upload failed', error, { user_id: req.body.user_id });
     res.status(500).json({ error: 'File upload failed' });
   }
 });
 
 // GET /api/documents?user_id=&application_id=
-app.get('/api/documents', (req, res) => {
+// GET /api/documents?user_id=&application_id=
+app.get('/api/documents', async (req, res) => {
   try {
     const { user_id, application_id } = req.query;
 
@@ -369,16 +393,18 @@ app.get('/api/documents', (req, res) => {
       return res.status(400).json({ error: 'user_id or application_id is required' });
     }
 
-    const db = readDB();
-    let documents = db.documents || [];
+    let query = supabase.from('documents').select('*');
 
     if (user_id) {
-      documents = documents.filter(doc => doc.user_id === user_id && doc.uploaded_for !== 'application');
+      query = query.eq('user_id', user_id).neq('uploaded_for', 'application');
     } else if (application_id) {
-      documents = documents.filter(doc => doc.application_id === application_id);
+      query = query.eq('application_id', application_id);
     }
 
-    res.json(documents);
+    const { data: documents, error } = await query;
+    if (error) throw error;
+
+    res.json(documents || []);
   } catch (error) {
     logger.error('Failed to fetch documents', error);
     res.status(500).json({ error: 'Failed to fetch documents' });
@@ -386,38 +412,62 @@ app.get('/api/documents', (req, res) => {
 });
 
 // DELETE /api/documents/:document_id
-app.delete('/api/documents/:document_id', (req, res) => {
+// DELETE /api/documents/:document_id
+app.delete('/api/documents/:document_id', async (req, res) => {
   try {
     const { document_id } = req.params;
-    const db = readDB();
 
-    const documentIndex = db.documents.findIndex(doc => doc.document_id === document_id);
-    if (documentIndex === -1) {
+    const { data: document, error: fetchError } = await supabase
+      .from('documents')
+      .select('*')
+      .eq('document_id', document_id)
+      .maybeSingle();
+
+    if (fetchError) throw fetchError;
+    if (!document) {
       return res.status(404).json({ error: 'Document not found' });
     }
 
-    const document = db.documents[documentIndex];
-
-    // Remove file from filesystem
-    const filePath = path.join(UPLOADS_DIR, document.filename);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
-
-    // Remove from database
-    db.documents.splice(documentIndex, 1);
-
-    // Update profile references
-    if (document.uploaded_for !== 'application') {
-      const profile = db.founder_profiles.find(p => p.user_id === document.user_id);
-      if (profile && profile.documents && profile.documents[document.doc_type] === document.filename) {
-        delete profile.documents[document.doc_type];
+    // Remove file from Cloudinary if public_id exists
+    const publicId = document.metadata?.public_id;
+    if (publicId) {
+      try {
+        await cloudinary.uploader.destroy(publicId);
+        logger.info('File deleted from Cloudinary', { publicId });
+      } catch (err) {
+        logger.error('Failed to delete file from Cloudinary', err, { publicId });
+      }
+    } else {
+      // Fallback for legacy local files
+      const filePath = path.join(UPLOADS_DIR, document.filename);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
       }
     }
 
-    writeDB(db);
-    logger.info('Document deleted', { document_id, user_id: document.user_id });
+    // Remove from database
+    const { error: deleteError } = await supabase.from('documents').delete().eq('document_id', document_id);
+    if (deleteError) throw deleteError;
 
+    // Update profile references if applicable
+    if (document.uploaded_for !== 'application') {
+      const { data: profile, error: profileFetchError } = await supabase
+        .from('founder_profiles')
+        .select('documents')
+        .eq('user_id', document.user_id)
+        .maybeSingle();
+
+      if (!profileFetchError && profile && profile.documents && profile.documents[document.doc_type] === document.filename) {
+        const updatedDocs = { ...profile.documents };
+        delete updatedDocs[document.doc_type];
+        await supabase
+          .from('founder_profiles')
+          .update({ documents: updatedDocs })
+          .eq('user_id', document.user_id);
+      }
+    }
+
+    logger.info('Document deleted', { document_id, user_id: document.user_id });
     res.json({ message: 'Document deleted successfully' });
   } catch (error) {
     logger.error('Failed to delete document', error);
@@ -428,17 +478,28 @@ app.delete('/api/documents/:document_id', (req, res) => {
 // ─── FOUNDER PROFILE ─────────────────────────────────────────────────────────
 
 // GET /api/founder/profile?user_id=
-app.get('/api/founder/profile', (req, res) => {
+// GET /api/founder/profile?user_id=
+app.get('/api/founder/profile', async (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const profile = db.founder_profiles.find(p => p.user_id === user_id);
+  const { data: profile, error: profileError } = await supabase
+    .from('founder_profiles')
+    .select('*')
+    .eq('user_id', user_id)
+    .maybeSingle();
+
+  if (profileError) throw profileError;
   if (!profile) return res.status(404).json({ error: 'Profile not found' });
 
   // Attach user's name from the users table
-  const user = db.users.find(u => u.user_id === user_id);
-  if (user) {
+  const { data: user, error: userError } = await supabase
+    .from('users')
+    .select('name, email')
+    .eq('user_id', user_id)
+    .maybeSingle();
+
+  if (!userError && user) {
     profile.founder_name = user.name;
     profile.email = user.email; // Account email fallback
   }
@@ -447,12 +508,18 @@ app.get('/api/founder/profile', (req, res) => {
 });
 
 // POST /api/founder/profile — create
-app.post('/api/founder/profile', (req, res) => {
+// POST /api/founder/profile — create
+app.post('/api/founder/profile', async (req, res) => {
   const { user_id, ...fields } = req.body;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const existing = db.founder_profiles.find(p => p.user_id === user_id);
+  const { data: existing, error: fetchError } = await supabase
+    .from('founder_profiles')
+    .select('founder_id')
+    .eq('user_id', user_id)
+    .maybeSingle();
+
+  if (fetchError) throw fetchError;
   if (existing) return res.status(409).json({ error: 'Profile already exists. Use PUT to update.' });
 
   const profile = {
@@ -479,22 +546,35 @@ app.post('/api/founder/profile', (req, res) => {
     profile_completion: { score: 0, missing_fields: [] }
   };
 
-  db.founder_profiles.push(profile);
-  writeDB(db);
+  const { error: insertError } = await supabase.from('founder_profiles').insert(profile);
+  if (insertError) throw insertError;
+
   res.status(201).json(profile);
 });
 
 // PUT /api/founder/profile — update
-app.put('/api/founder/profile', (req, res) => {
+// PUT /api/founder/profile — update
+app.put('/api/founder/profile', async (req, res) => {
   const { user_id, ...fields } = req.body;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const profile = db.founder_profiles.find(p => p.user_id === user_id);
-  if (!profile) return res.status(404).json({ error: 'Profile not found' });
+  const { error } = await supabase
+    .from('founder_profiles')
+    .update(fields)
+    .eq('user_id', user_id);
 
-  Object.assign(profile, fields);
-  writeDB(db);
+  if (error) {
+    logger.error('Profile update error:', error);
+    return res.status(500).json({ error: 'Failed to update profile' });
+  }
+
+  // Fetch and return the updated profile
+  const { data: profile } = await supabase
+    .from('founder_profiles')
+    .select('*')
+    .eq('user_id', user_id)
+    .maybeSingle();
+
   res.json(profile);
 });
 
@@ -502,40 +582,58 @@ app.put('/api/founder/profile', (req, res) => {
 
 let _gemBidsCache = { fetchedAt: 0, items: [] };
 
-function mergeGemBidsIntoDB(db, items) {
+async function mergeGemBidsIntoSupabase(items) {
   const now = new Date().toISOString();
   let added = 0;
   let updated = 0;
 
-  items.forEach(item => {
-    const existing = db.opportunities.find(o => o.opportunity_id === item.opportunity_id || o.slug === item.slug);
+  for (const item of items) {
+    const { data: existing, error: fetchError } = await supabase
+      .from('opportunities')
+      .select('opportunity_id, saved, match_score, first_seen_at, scraped_at')
+      .or(`opportunity_id.eq.${item.opportunity_id},slug.eq.${item.slug}`)
+      .maybeSingle();
+
+    if (fetchError) {
+      logger.error('Error fetching opportunity during GeM merge', fetchError);
+      continue;
+    }
+
     if (existing) {
-      Object.assign(existing, {
+      const updateData = {
         ...item,
         saved: existing.saved,
         match_score: existing.match_score || item.match_score || 0,
         first_seen_at: existing.first_seen_at || existing.scraped_at || now,
         last_seen_at: now,
         scraped_at: existing.scraped_at || now,
-      });
+      };
+      await supabase.from('opportunities').update(updateData).eq('opportunity_id', existing.opportunity_id);
       updated++;
     } else {
-      db.opportunities.push({
+      const newData = {
         ...item,
         scraped_at: now,
         first_seen_at: now,
         last_seen_at: now,
-      });
+      };
+      await supabase.from('opportunities').insert(newData);
       added++;
     }
-  });
+  }
 
   return { added, updated };
 }
 
-function getStoredBusinessOpportunities(db) {
-  const businessTypes = new Set(['Contest', 'Fellowship', 'Other', 'Tender', 'Reverse Auction']);
-  return db.opportunities.filter(o => businessTypes.has(o.type) || o.source === 'gem');
+async function getStoredBusinessOpportunities() {
+  const businessTypes = ['Contest', 'Fellowship', 'Other', 'Tender', 'Reverse Auction'];
+  const { data, error } = await supabase
+    .from('opportunities')
+    .select('*')
+    .or(`type.in.(${businessTypes.join(',')}),source.eq.gem`);
+    
+  if (error) throw error;
+  return data || [];
 }
 
 // GET /api/business-opportunities - live GeM bids with stored fallback
@@ -551,53 +649,63 @@ app.get('/api/business-opportunities', async (req, res) => {
       _gemBidsCache = { fetchedAt: Date.now(), items: gemItems };
     }
 
-    const db = readDB();
-    const mergeResult = mergeGemBidsIntoDB(db, gemItems);
-    cleanExpiredOpportunities(db);
-    writeDB(db);
+    const mergeResult = await mergeGemBidsIntoSupabase(gemItems);
+    await cleanExpiredOpportunities();
 
     res.json({
       source: 'gem',
       refreshed_at: new Date(_gemBidsCache.fetchedAt).toISOString(),
       ...mergeResult,
-      opportunities: getStoredBusinessOpportunities(db),
+      opportunities: await getStoredBusinessOpportunities(),
     });
   } catch (err) {
     console.warn(`GeM business-opportunities refresh failed: ${err.message}`);
-    const db = readDB();
-    res.json({
-      source: 'stored',
-      error: err.message,
-      opportunities: getStoredBusinessOpportunities(db),
-    });
+    try {
+      res.json({
+        source: 'stored',
+        error: err.message,
+        opportunities: await getStoredBusinessOpportunities(),
+      });
+    } catch (dbErr) {
+      res.status(500).json({ error: 'Failed to fetch stored opportunities' });
+    }
   }
 });
 
 // GET /api/opportunities?type=
-app.get('/api/opportunities', (req, res) => {
+app.get('/api/opportunities', async (req, res) => {
   const { type } = req.query;
-  const db = readDB();
-  const cleanup = cleanExpiredOpportunities(db);
-  if (cleanup.removed > 0) writeDB(db);
+  await cleanExpiredOpportunities();
 
-  let opps = db.opportunities;
-  if (type) opps = opps.filter(o => o.type === type);
-  res.json(opps);
+  let query = supabase.from('opportunities').select('*');
+  if (type) query = query.eq('type', type);
+
+  const { data, error } = await query;
+  if (error) {
+    logger.error('Failed to fetch opportunities', error);
+    return res.status(500).json({ error: 'Failed to fetch opportunities' });
+  }
+
+  res.json(data || []);
 });
 
 // GET /api/opportunities/:id/details
 app.get('/api/opportunities/:id/details', async (req, res) => {
-  const db = readDB();
-  const index = db.opportunities.findIndex(o => o.opportunity_id === req.params.id || o.slug === req.params.id);
-  const opp = db.opportunities[index];
+  const id = req.params.id;
+  const { data: opp, error: fetchError } = await supabase
+    .from('opportunities')
+    .select('*')
+    .or(`opportunity_id.eq.${id},slug.eq.${id}`)
+    .maybeSingle();
 
+  if (fetchError) throw fetchError;
   if (!opp) return res.status(404).json({ error: 'Opportunity not found' });
 
   // Return cached formatted data if it exists
   if (opp.formatted_details) {
     if (!opp.external_apply_url && opp.link) {
       opp.external_apply_url = await scrapeApplyLink(opp.link);
-      writeDB(db);
+      await supabase.from('opportunities').update({ external_apply_url: opp.external_apply_url }).eq('opportunity_id', opp.opportunity_id);
     }
     return res.json({ formatted: opp.formatted_details, raw: opp.raw_scraped_text || '--', external_apply_url: opp.external_apply_url || '' });
   }
@@ -607,12 +715,12 @@ app.get('/api/opportunities/:id/details', async (req, res) => {
   try {
     const raw = await scrapeDetails(opp.link);
     // Cache the raw text for future formatting
-    opp.raw_scraped_text = raw;
+    const updateData = { raw_scraped_text: raw };
     if (!opp.external_apply_url) {
-      opp.external_apply_url = await scrapeApplyLink(opp.link);
+      updateData.external_apply_url = await scrapeApplyLink(opp.link);
     }
-    writeDB(db);
-    res.json({ raw, external_apply_url: opp.external_apply_url || '' });
+    await supabase.from('opportunities').update(updateData).eq('opportunity_id', opp.opportunity_id);
+    res.json({ raw, external_apply_url: updateData.external_apply_url || opp.external_apply_url || '' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to scrape details: ' + err.message });
   }
@@ -639,11 +747,14 @@ app.post('/api/ai/format-details', async (req, res) => {
 
     // If ID provided, cache the result
     if (opportunity_id) {
-      const db = readDB();
-      const opp = db.opportunities.find(o => o.opportunity_id === opportunity_id);
-      if (opp) {
-        opp.formatted_details = formatted;
-        writeDB(db);
+      const { error: updateError } = await supabase
+        .from('opportunities')
+        .update({ formatted_details: formatted })
+        .eq('opportunity_id', opportunity_id);
+        
+      if (updateError) {
+        console.error(`AI System: Failed to cache formatted details for ${opportunity_id}:`, updateError);
+      } else {
         console.log(`💾 AI System: Cached formatted details for ${opportunity_id}`);
       }
     }
@@ -656,14 +767,22 @@ app.post('/api/ai/format-details', async (req, res) => {
 });
 
 // GET /api/opportunities/:id
-app.get('/api/opportunities/:id', (req, res) => {
-  const db = readDB();
-  const cleanup = cleanExpiredOpportunities(db);
-  if (cleanup.removed > 0) writeDB(db);
+app.get('/api/opportunities/:id', async (req, res) => {
+  await cleanExpiredOpportunities();
 
-  const opp = db.opportunities.find(o => o.opportunity_id === req.params.id || o.slug === req.params.id);
-  if (!opp) return res.status(404).json({ error: 'Opportunity not found' });
-  res.json(opp);
+  const { data, error } = await supabase
+    .from('opportunities')
+    .select('*')
+    .or(`opportunity_id.eq.${req.params.id},slug.eq.${req.params.id}`)
+    .maybeSingle();
+
+  if (error) {
+    logger.error('Failed to fetch opportunity', error);
+    return res.status(500).json({ error: 'Failed to fetch opportunity' });
+  }
+  
+  if (!data) return res.status(404).json({ error: 'Opportunity not found' });
+  res.json(data);
 });
 
 // ─── SCRAPING BACKGROUND WORKER (PRODUCTION) ─────────────────────────────────
@@ -702,30 +821,48 @@ function isRollingDeadline(deadline) {
   return !normalized || /^(rolling|variable|not specified|timeline based|as per challenge timeline)$/i.test(normalized);
 }
 
-function cleanExpiredOpportunities(db, now = new Date()) {
-  const before = db.opportunities.length;
-  const removedIds = new Set();
+async function cleanExpiredOpportunities(now = new Date()) {
+  try {
+    const { data: opportunities, error } = await supabase
+      .from('opportunities')
+      .select('opportunity_id, deadline');
 
-  db.opportunities = db.opportunities.filter(o => {
-    const expired = isDeadlineExpired(o.deadline, now);
-    if (expired) removedIds.add(o.opportunity_id);
-    return !expired;
-  });
+    if (error) throw error;
 
-  if (removedIds.size > 0) {
-    db.saved_opportunities = (db.saved_opportunities || []).filter(s => !removedIds.has(s.opportunity_id));
-    db.extension_sessions = (db.extension_sessions || []).filter(s => !removedIds.has(s.opportunity_id));
+    const removedIds = [];
+    for (const o of (opportunities || [])) {
+      if (isDeadlineExpired(o.deadline, now)) {
+        removedIds.push(o.opportunity_id);
+      }
+    }
+
+    if (removedIds.length > 0) {
+      logger.info(`Cleaning up ${removedIds.length} expired opportunities`);
+      const { error: deleteError } = await supabase
+        .from('opportunities')
+        .delete()
+        .in('opportunity_id', removedIds);
+      if (deleteError) throw deleteError;
+    }
+
+    return { removed: removedIds.length, removedIds };
+  } catch (err) {
+    logger.error('Failed to cleanup expired opportunities', err);
+    return { removed: 0, removedIds: [] };
   }
-
-  return { removed: before - db.opportunities.length, removedIds: Array.from(removedIds) };
 }
 
 async function revalidateRollingOpportunities(limit = 12) {
-  const db = readDB();
   const now = new Date();
   const staleAfterMs = 24 * 60 * 60 * 1000;
 
-  const candidates = db.opportunities
+  const { data: opportunities, error } = await supabase
+    .from('opportunities')
+    .select('*');
+
+  if (error) throw error;
+
+  const candidates = (opportunities || [])
     .filter(o => o.link && isRollingDeadline(o.deadline))
     .filter(o => !o.rolling_verified_at || now - new Date(o.rolling_verified_at) > staleAfterMs)
     .slice(0, limit);
@@ -734,35 +871,37 @@ async function revalidateRollingOpportunities(limit = 12) {
 
   let checked = 0;
   let updated = 0;
-  const removeIds = new Set();
+  const removeIds = [];
 
   for (const opp of candidates) {
     checked++;
     const details = await scrapeOpportunityDetailData(opp.link);
     const latestDeadline = details?.deadline;
-    opp.rolling_verified_at = now.toISOString();
+    
+    const updateData = { rolling_verified_at: now.toISOString() };
 
     if (latestDeadline && !isRollingDeadline(latestDeadline)) {
-      opp.deadline = latestDeadline;
+      updateData.deadline = latestDeadline;
       updated++;
-      if (isDeadlineExpired(latestDeadline, now)) removeIds.add(opp.opportunity_id);
+      if (isDeadlineExpired(latestDeadline, now)) {
+        removeIds.push(opp.opportunity_id);
+      }
     }
 
-    if (details?.raw_scraped_text) opp.raw_scraped_text = details.raw_scraped_text;
+    if (details?.raw_scraped_text) updateData.raw_scraped_text = details.raw_scraped_text;
     if (details?.external_apply_url && isValidExternalApplyUrl(details.external_apply_url)) {
-      opp.external_apply_url = details.external_apply_url;
+      updateData.external_apply_url = details.external_apply_url;
     }
+    
+    await supabase.from('opportunities').update(updateData).eq('opportunity_id', opp.opportunity_id);
   }
 
-  if (removeIds.size > 0) {
-    db.opportunities = db.opportunities.filter(o => !removeIds.has(o.opportunity_id));
-    db.saved_opportunities = (db.saved_opportunities || []).filter(s => !removeIds.has(s.opportunity_id));
-    db.extension_sessions = (db.extension_sessions || []).filter(s => !removeIds.has(s.opportunity_id));
+  if (removeIds.length > 0) {
+    await supabase.from('opportunities').delete().in('opportunity_id', removeIds);
   }
 
-  cleanExpiredOpportunities(db, now);
-  writeDB(db);
-  return { checked, updated, removed: removeIds.size };
+  await cleanExpiredOpportunities(now);
+  return { checked, updated, removed: removeIds.length };
 }
 
 function calculateLocalMatchScore(profile = {}, opportunity = {}) {
@@ -804,9 +943,9 @@ function isValidExternalApplyUrl(rawUrl) {
 }
 
 async function enrichApplyLinks(items) {
-  const db = readDB();
+  const { data: opportunities } = await supabase.from('opportunities').select('slug, external_apply_url');
   const existingBySlug = new Map();
-  db.opportunities.forEach(o => {
+  opportunities?.forEach(o => {
     if (o.slug) existingBySlug.set(o.slug, o);
   });
 
@@ -866,11 +1005,11 @@ async function enrichDetailData(items) {
   return items;
 }
 
-function selectScrapedOpportunities(items, limit = 10) {
+async function selectScrapedOpportunities(items, limit = 10) {
   if (items.length <= limit) return items;
 
-  const db = readDB();
-  const profile = db.founder_profiles.find(p => p.user_id === 'u1') || db.founder_profiles[0] || {};
+  const { data: profiles } = await supabase.from('founder_profiles').select('*').limit(1);
+  const profile = profiles?.[0] || {};
   const profileSector = (profile.sector || '').toLowerCase();
   const profileStage = (profile.stage || '').toLowerCase();
 
@@ -903,38 +1042,20 @@ function selectScrapedOpportunities(items, limit = 10) {
   return [...profileMatches, ...randomRest].slice(0, limit);
 }
 
-function saveScrapedToDB(newData) {
-  const db = readDB();
+async function saveScrapedToSupabase(newData) {
   const now = new Date();
   const activeNewData = newData.filter(item => !isDeadlineExpired(item.deadline, now));
 
-  // IDs with active user data — never delete these
-
-  // 1. Clean expired scraped entries — keep manual and user-linked ones
-  db.opportunities = db.opportunities.filter(o => {
-    if (!o.opportunity_id.startsWith('opp_')) return true;
-    if (o.external_apply_url && !isValidExternalApplyUrl(o.external_apply_url)) {
-      o.external_apply_url = '';
-    }
-    // Deadline expiry
-    if (isDeadlineExpired(o.deadline, now)) return false;
-
-    // Stale: not seen in 7 days (was 3 — too aggressive for paginated scraping)
-    if (o.last_seen_at) {
-      const diffDays = Math.ceil((now - new Date(o.last_seen_at)) / (1000 * 60 * 60 * 24));
-      if (diffDays > 7) return false;
-    }
-
-    return true;
-  });
-
+  // 1. Clean expired scraped entries in Supabase logic is handled by cleanExpiredOpportunities call before save
+  
+  // 2. Fetch existing slugs/links to decide update vs insert
+  const { data: existingOpps } = await supabase.from('opportunities').select('opportunity_id, slug, link, external_apply_url, saved');
   const existingSlugs = new Map();
-  db.opportunities.forEach(o => {
+  existingOpps?.forEach(o => {
     if (o.slug) existingSlugs.set(o.slug, o);
     if (o.link) existingSlugs.set(o.link, o);
   });
 
-  // 2. Merge: update existing or insert new
   let addedCount = 0;
   let updatedCount = 0;
   let newlyAddedOpps = [];
@@ -944,24 +1065,28 @@ function saveScrapedToDB(newData) {
 
     if (existing) {
       // Refresh metadata on existing entry
-      existing.title = item.title || existing.title;
-      existing.description = item.description || existing.description;
-      existing.provider = item.provider || existing.provider;
-      existing.type = item.type || existing.type;
-      existing.stage = item.stage || existing.stage;
-      existing.sector = item.sector || existing.sector;
-      existing.location = item.location || existing.location;
-      existing.eligibility = item.eligibility || existing.eligibility;
-      existing.benefits = item.benefits || existing.benefits;
-      existing.timeline = item.timeline || existing.timeline;
-      existing.about = item.about || existing.about;
-      existing.raw_scraped_text = item.raw_scraped_text || existing.raw_scraped_text;
-      existing.external_apply_url = isValidExternalApplyUrl(item.external_apply_url)
-        ? item.external_apply_url
-        : (isValidExternalApplyUrl(existing.external_apply_url) ? existing.external_apply_url : '');
-      if (item.amount && item.amount !== 'Variable') existing.amount = item.amount;
-      if (item.deadline && item.deadline !== 'Rolling') existing.deadline = item.deadline;
-      existing.last_seen_at = now.toISOString();
+      const updateData = {
+        title: item.title || existing.title,
+        description: item.description || existing.description,
+        provider: item.provider || existing.provider,
+        type: item.type || existing.type,
+        stage: item.stage || existing.stage,
+        sector: item.sector || existing.sector,
+        location: item.location || existing.location,
+        eligibility: item.eligibility || existing.eligibility,
+        benefits: item.benefits || existing.benefits,
+        timeline: item.timeline || existing.timeline,
+        about: item.about || existing.about,
+        raw_scraped_text: item.raw_scraped_text || existing.raw_scraped_text,
+        external_apply_url: isValidExternalApplyUrl(item.external_apply_url)
+          ? item.external_apply_url
+          : (isValidExternalApplyUrl(existing.external_apply_url) ? existing.external_apply_url : ''),
+        last_seen_at: now.toISOString(),
+      };
+      if (item.amount && item.amount !== 'Variable') updateData.amount = item.amount;
+      if (item.deadline && item.deadline !== 'Rolling') updateData.deadline = item.deadline;
+      
+      await supabase.from('opportunities').update(updateData).eq('opportunity_id', existing.opportunity_id);
       updatedCount++;
     } else {
       // Insert new opportunity
@@ -989,28 +1114,28 @@ function saveScrapedToDB(newData) {
         scraped_at: now.toISOString(),
         last_seen_at: now.toISOString(),
       };
-      db.opportunities.push(opp);
+      await supabase.from('opportunities').insert(opp);
       newlyAddedOpps.push(opp);
-      existingSlugs.set(item.slug, opp);
-      existingSlugs.set(item.link, opp);
       addedCount++;
     }
   }
 
-  // 3. Auto-score new opportunities for all founder profiles using LLM API in the background
-  if (newlyAddedOpps.length > 0 && db.founder_profiles && db.founder_profiles.length > 0) {
-    db.founder_profiles.forEach(profile => {
-      // Fire and forget background scoring via the internal API so we use the LLM without blocking the scraper
-      fetch(`http://localhost:${PORT}/api/ai/match-opportunities`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile, opportunities: newlyAddedOpps })
-      }).catch(err => console.error('Background LLM scoring failed:', err.message));
-    });
+  // 3. Auto-score new opportunities for all founder profiles
+  if (newlyAddedOpps.length > 0) {
+    const { data: profiles } = await supabase.from('founder_profiles').select('*');
+    if (profiles && profiles.length > 0) {
+      profiles.forEach(profile => {
+        fetch(`http://localhost:${PORT}/api/ai/match-opportunities`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ profile, opportunities: newlyAddedOpps })
+        }).catch(err => console.error('Background LLM scoring failed:', err.message));
+      });
+    }
   }
 
-  writeDB(db);
-  return { added: addedCount, updated: updatedCount, total: db.opportunities.length };
+  const { count } = await supabase.from('opportunities').select('*', { count: 'exact', head: true });
+  return { added: addedCount, updated: updatedCount, total: count || 0 };
 }
 
 async function runScraper() {
@@ -1037,17 +1162,17 @@ async function runScraper() {
 
     console.log(`🧹 Cleaned ${cleaned.length} valid opportunities.`);
 
-    const candidatePool = selectScrapedOpportunities(cleaned, 50);
+    const candidatePool = await selectScrapedOpportunities(cleaned, 50);
     console.log(`Selected ${candidatePool.length} candidates for detail enrichment before final 10 active opportunities.`);
 
     // Phase 2.5: Capture full detail-page data and the real external Apply Now URL.
     const enrichedDetails = await enrichDetailData(candidatePool);
     const activeDetailed = enrichedDetails.filter(item => !isDeadlineExpired(item.deadline));
-    const selected = selectScrapedOpportunities(activeDetailed, 10);
+    const selected = await selectScrapedOpportunities(activeDetailed, 10);
     console.log(`Detail-enriched ${enrichedDetails.length} candidates (${activeDetailed.length} active, ${selected.length} selected for refresh).`);
 
     // Phase 3: Merge into database
-    const result = saveScrapedToDB(selected);
+    const result = await saveScrapedToSupabase(selected);
     const rollingCheck = await revalidateRollingOpportunities(50);
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
@@ -1082,16 +1207,16 @@ app.get('/api/trigger-scraper', async (req, res) => {
 });
 
 // Get scraper status without triggering
-app.get('/api/scraper-status', (req, res) => {
-  const db = readDB();
+app.get('/api/scraper-status', async (req, res) => {
+  const { count } = await supabase.from('opportunities').select('*', { count: 'exact', head: true });
   res.json({
     ..._scraperStatus,
-    opportunities_in_db: db.opportunities.length,
+    opportunities_in_db: count || 0,
   });
 });
 
-// Cron: every 2 hours
-cron.schedule('0 */2 * * *', async () => {
+// Cron: every week (Sunday at midnight)
+cron.schedule('0 0 * * 0', async () => {
   console.log('⏰ Auto scraping started by Cron…');
   await runScraper();
 });
@@ -1100,30 +1225,38 @@ cron.schedule('0 */2 * * *', async () => {
 // ─── SAVED OPPORTUNITIES ──────────────────────────────────────────────────────
 
 // GET /api/saved?user_id=
-app.get('/api/saved', (req, res) => {
+// GET /api/saved?user_id=
+app.get('/api/saved', async (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const saved = db.saved_opportunities.filter(s => s.user_id === user_id);
+  const { data: saved, error } = await supabase
+    .from('saved_opportunities')
+    .select('*, opportunity:opportunities(*)')
+    .eq('user_id', user_id);
 
-  // Enrich with opportunity data
-  const enriched = saved.map(s => {
-    const opp = db.opportunities.find(o => o.opportunity_id === s.opportunity_id);
-    return { ...s, opportunity: opp || null };
-  });
+  if (error) {
+    logger.error('Failed to fetch saved opportunities', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 
-  res.json(enriched);
+  res.json(saved || []);
 });
 
 // POST /api/saved
-app.post('/api/saved', (req, res) => {
+// POST /api/saved
+app.post('/api/saved', async (req, res) => {
   const { user_id, opportunity_id } = req.body;
   if (!user_id || !opportunity_id) return res.status(400).json({ error: 'user_id and opportunity_id are required' });
 
-  const db = readDB();
-  const already = db.saved_opportunities.find(s => s.user_id === user_id && s.opportunity_id === opportunity_id);
-  if (already) return res.status(409).json({ error: 'Already saved' });
+  const { data: existing } = await supabase
+    .from('saved_opportunities')
+    .select('saved_id')
+    .eq('user_id', user_id)
+    .eq('opportunity_id', opportunity_id)
+    .maybeSingle();
+
+  if (existing) return res.status(409).json({ error: 'Already saved' });
 
   const saved = {
     saved_id: 's' + uuidv4().slice(0, 6),
@@ -1132,54 +1265,55 @@ app.post('/api/saved', (req, res) => {
     saved_date: new Date().toISOString().slice(0, 10)
   };
 
-  db.saved_opportunities.push(saved);
-  writeDB(db);
+  const { error } = await supabase.from('saved_opportunities').insert(saved);
+  if (error) throw error;
+
   res.status(201).json(saved);
 });
 
 // DELETE /api/saved (by query params)
-app.delete('/api/saved', (req, res) => {
+// DELETE /api/saved (by query params)
+app.delete('/api/saved', async (req, res) => {
   const { user_id, opportunity_id } = req.query;
   if (!user_id || !opportunity_id) return res.status(400).json({ error: 'user_id and opportunity_id are required' });
 
-  const db = readDB();
-  const index = db.saved_opportunities.findIndex(s => s.user_id === user_id && s.opportunity_id === opportunity_id);
-  if (index === -1) return res.status(404).json({ error: 'Saved item not found' });
+  const { error } = await supabase
+    .from('saved_opportunities')
+    .delete()
+    .eq('user_id', user_id)
+    .eq('opportunity_id', opportunity_id);
 
-  db.saved_opportunities.splice(index, 1);
-  writeDB(db);
-
+  if (error) throw error;
   res.json({ message: 'Opportunity unsaved' });
 });
 
 // DELETE /api/saved/:id
-app.delete('/api/saved/:id', (req, res) => {
-  const db = readDB();
-  const idx = db.saved_opportunities.findIndex(s => s.saved_id === req.params.id);
-  if (idx === -1) return res.status(404).json({ error: 'Saved item not found' });
-
-  db.saved_opportunities.splice(idx, 1);
-  writeDB(db);
+// DELETE /api/saved/:id
+app.delete('/api/saved/:id', async (req, res) => {
+  const { error } = await supabase.from('saved_opportunities').delete().eq('saved_id', req.params.id);
+  if (error) throw error;
   res.json({ message: 'Removed from saved' });
 });
 
 // ─── APPLICATIONS ─────────────────────────────────────────────────────────────
 
 // GET /api/applications?user_id=
-app.get('/api/applications', (req, res) => {
+// GET /api/applications?user_id=
+app.get('/api/applications', async (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const apps = db.applications.filter(a => a.user_id === user_id);
+  const { data: apps, error } = await supabase
+    .from('applications')
+    .select('*, opportunity:opportunities(*)')
+    .eq('user_id', user_id);
 
-  // Enrich with opportunity data
-  const enriched = apps.map(a => {
-    const opp = db.opportunities.find(o => o.opportunity_id === a.opportunity_id);
-    return { ...a, opportunity: opp || null };
-  });
+  if (error) {
+    logger.error('Failed to fetch applications', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 
-  res.json(enriched);
+  res.json(apps || []);
 });
 
 
@@ -1187,22 +1321,33 @@ app.get('/api/applications', (req, res) => {
 
 
 // GET /api/applications/:id
-app.get('/api/applications/:id', (req, res) => {
-  const db = readDB();
-  const app_ = db.applications.find(a => a.application_id === req.params.id);
+// GET /api/applications/:id
+app.get('/api/applications/:id', async (req, res) => {
+  const { data: app_, error } = await supabase
+    .from('applications')
+    .select('*, opportunity:opportunities(*)')
+    .eq('application_id', req.params.id)
+    .maybeSingle();
+
+  if (error) throw error;
   if (!app_) return res.status(404).json({ error: 'Application not found' });
 
-  const opp = db.opportunities.find(o => o.opportunity_id === app_.opportunity_id);
-  res.json({ ...app_, opportunity: opp || null });
+  res.json(app_);
 });
 
 // POST /api/applications — create new application
-app.post('/api/applications', (req, res) => {
+// POST /api/applications — create new application
+app.post('/api/applications', async (req, res) => {
   const { user_id, opportunity_id } = req.body;
   if (!user_id || !opportunity_id) return res.status(400).json({ error: 'user_id and opportunity_id are required' });
 
-  const db = readDB();
-  const existing = db.applications.find(a => a.user_id === user_id && a.opportunity_id === opportunity_id);
+  const { data: existing } = await supabase
+    .from('applications')
+    .select('application_id')
+    .eq('user_id', user_id)
+    .eq('opportunity_id', opportunity_id)
+    .maybeSingle();
+
   if (existing) return res.status(409).json({ error: 'Application already exists for this opportunity' });
 
   const appliedDate = todayIsoDate();
@@ -1232,15 +1377,22 @@ app.post('/api/applications', (req, res) => {
     updated_at: new Date().toISOString()
   };
 
-  db.applications.push(application);
-  writeDB(db);
+  const { error } = await supabase.from('applications').insert(application);
+  if (error) throw error;
+
   res.status(201).json(application);
 });
 
 // PUT /api/applications/:id — update status / next step / feedback
-app.put('/api/applications/:id', (req, res) => {
-  const db = readDB();
-  const application = db.applications.find(a => a.application_id === req.params.id);
+// PUT /api/applications/:id — update status / next step / feedback
+app.put('/api/applications/:id', async (req, res) => {
+  const { data: application, error: fetchError } = await supabase
+    .from('applications')
+    .select('*')
+    .eq('application_id', req.params.id)
+    .maybeSingle();
+
+  if (fetchError) throw fetchError;
   if (!application) return res.status(404).json({ error: 'Application not found' });
 
   const { status, next_step, feedback, timeline, stage_details, follow_up_date, priority, owner, portal_status } = req.body;
@@ -1264,35 +1416,49 @@ app.put('/api/applications/:id', (req, res) => {
     }
   }
 
-  if (status && status !== application.status) {
-    application.status = status;
-    application.next_step = getNextStep(status);
-  }
-  if (next_step !== undefined) application.next_step = next_step;
-  if (feedback !== undefined) application.feedback = feedback;
-  if (follow_up_date !== undefined) application.follow_up_date = follow_up_date || null;
-  if (priority !== undefined) application.priority = priority || 'Medium';
-  if (owner !== undefined) application.owner = owner || '';
-  if (portal_status !== undefined) application.portal_status = portal_status || '';
-  application.stage_details = nextStageDetails;
-  application.timeline = buildTimelineFromStageDetails(nextStageDetails);
-  application.updated_at = new Date().toISOString();
+  const updateData = {};
 
-  writeDB(db);
-  res.json(application);
+  if (status && status !== application.status) {
+    updateData.status = status;
+    updateData.next_step = getNextStep(status);
+  }
+  if (next_step !== undefined) updateData.next_step = next_step;
+  if (feedback !== undefined) updateData.feedback = feedback;
+  if (follow_up_date !== undefined) updateData.follow_up_date = follow_up_date || null;
+  if (priority !== undefined) updateData.priority = priority || 'Medium';
+  if (owner !== undefined) updateData.owner = owner || '';
+  if (portal_status !== undefined) updateData.portal_status = portal_status || '';
+  updateData.stage_details = nextStageDetails;
+  updateData.timeline = buildTimelineFromStageDetails(nextStageDetails);
+  updateData.updated_at = new Date().toISOString();
+
+  const { data: updated, error: updateError } = await supabase
+    .from('applications')
+    .update(updateData)
+    .eq('application_id', req.params.id)
+    .select()
+    .single();
+
+  if (updateError) throw updateError;
+  res.json(updated);
 });
 
 // GET /api/applications/deadline-reminders?user_id=
-app.get('/api/applications/deadline-reminders', (req, res) => {
+// GET /api/applications/deadline-reminders?user_id=
+app.get('/api/applications/deadline-reminders', async (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const applications = db.applications.filter(a => a.user_id === user_id);
+  const { data: applications, error } = await supabase
+    .from('applications')
+    .select('*, opportunity:opportunities(*)')
+    .eq('user_id', user_id);
+
+  if (error) throw error;
   const reminders = [];
 
   applications.forEach(app => {
-    const opportunity = db.opportunities.find(o => o.opportunity_id === app.opportunity_id);
+    const opportunity = app.opportunity;
     if (!opportunity || !opportunity.deadline || opportunity.deadline === 'Rolling') return;
 
     const deadlineDate = new Date(opportunity.deadline);
@@ -1318,12 +1484,17 @@ app.get('/api/applications/deadline-reminders', (req, res) => {
 });
 
 // GET /api/applications/analytics?user_id=
-app.get('/api/applications/analytics', (req, res) => {
+// GET /api/applications/analytics?user_id=
+app.get('/api/applications/analytics', async (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const applications = db.applications.filter(a => a.user_id === user_id);
+  const { data: applications, error } = await supabase
+    .from('applications')
+    .select('status, submitted_at')
+    .eq('user_id', user_id);
+
+  if (error) throw error;
 
   const analytics = {
     total_applications: applications.length,
@@ -1408,39 +1579,44 @@ function buildTimelineFromStageDetails(stageDetails = {}) {
 // ─── DRAFTS ───────────────────────────────────────────────────────────────────
 
 // GET /api/drafts?user_id= — all drafts for user
-app.get('/api/drafts', (req, res) => {
+// GET /api/drafts?user_id= — all drafts for user
+app.get('/api/drafts', async (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const drafts = db.drafts.filter(d => d.user_id === user_id);
+  const { data: drafts, error } = await supabase
+    .from('drafts')
+    .select('*, opportunity:opportunities(*)')
+    .eq('user_id', user_id);
 
-  // Enrich with opportunity data
-  const enriched = drafts.map(d => {
-    const opp = db.opportunities.find(o => o.opportunity_id === d.opportunity_id);
-    return { ...d, opportunity: opp || null };
-  });
-
-  res.json(enriched);
+  if (error) throw error;
+  res.json(drafts || []);
 });
 
 // GET /api/drafts/by-opportunity?user_id=&opportunity_id=
-app.get('/api/drafts/by-opportunity', (req, res) => {
+// GET /api/drafts/by-opportunity?user_id=&opportunity_id=
+app.get('/api/drafts/by-opportunity', async (req, res) => {
   const { user_id, opportunity_id } = req.query;
   if (!user_id || !opportunity_id) {
     return res.status(400).json({ error: 'user_id and opportunity_id are required' });
   }
 
-  const db = readDB();
-  const draft = db.drafts.find(d => d.user_id === user_id && d.opportunity_id === opportunity_id);
+  const { data: draft, error } = await supabase
+    .from('drafts')
+    .select('*, opportunity:opportunities(*)')
+    .eq('user_id', user_id)
+    .eq('opportunity_id', opportunity_id)
+    .maybeSingle();
+
+  if (error) throw error;
   if (!draft) return res.status(404).json({ error: 'Draft not found' });
 
-  const opp = findOpportunity(db, opportunity_id);
-  res.json({ ...draft, opportunity: opp || null });
+  res.json(draft);
 });
 
 // POST /api/drafts/bootstrap
-app.post('/api/drafts/bootstrap', (req, res) => {
+// POST /api/drafts/bootstrap
+app.post('/api/drafts/bootstrap', async (req, res) => {
   const {
     user_id,
     opportunity_id,
@@ -1454,75 +1630,97 @@ app.post('/api/drafts/bootstrap', (req, res) => {
     return res.status(400).json({ error: 'user_id and opportunity_id are required' });
   }
 
-  const db = readDB();
-  const opportunity = findOpportunity(db, opportunity_id);
+  const { data: opportunity, error: oppError } = await supabase
+    .from('opportunities')
+    .select('*')
+    .or(`opportunity_id.eq.${opportunity_id},slug.eq.${opportunity_id}`)
+    .maybeSingle();
+
+  if (oppError) throw oppError;
   if (!opportunity) return res.status(404).json({ error: 'Opportunity not found' });
 
   const schemaToUse = form_schema || opportunity.generated_application_schema || inferSchemaFromOpportunity(opportunity);
-  const draft = upsertDraft({
-    db,
+  const draft = await upsertDraft({
     user_id,
-    opportunity_id,
+    opportunity_id: opportunity.opportunity_id,
     schema: schemaToUse,
     source_url,
     schema_source,
     capture_meta
   });
 
-  writeDB(db);
   res.status(201).json({ ...draft, opportunity });
 });
 
 // GET /api/drafts/:id
-app.get('/api/drafts/:id', (req, res) => {
-  const db = readDB();
-  const draft = db.drafts.find(d => d.draft_id === req.params.id);
+// GET /api/drafts/:id
+app.get('/api/drafts/:id', async (req, res) => {
+  const { data: draft, error } = await supabase
+    .from('drafts')
+    .select('*, opportunity:opportunities(*)')
+    .eq('draft_id', req.params.id)
+    .maybeSingle();
+
+  if (error) throw error;
   if (!draft) return res.status(404).json({ error: 'Draft not found' });
 
-  const opp = db.opportunities.find(o => o.opportunity_id === draft.opportunity_id);
-  res.json({ ...draft, opportunity: opp || null });
+  res.json(draft);
 });
 
 // PUT /api/drafts/:id — update draft fields
-app.put('/api/drafts/:id', (req, res) => {
-  const db = readDB();
-  const draft = db.drafts.find(d => d.draft_id === req.params.id);
+// PUT /api/drafts/:id — update draft fields
+app.put('/api/drafts/:id', async (req, res) => {
+  const { data: draft, error: fetchError } = await supabase
+    .from('drafts')
+    .select('*')
+    .eq('draft_id', req.params.id)
+    .maybeSingle();
+
+  if (fetchError) throw fetchError;
   if (!draft) return res.status(404).json({ error: 'Draft not found' });
 
   const { form_fields, required_documents_status, form_schema, source_url, schema_source, capture_meta } = req.body;
 
+  const updateData = {};
+
   if (form_schema) {
-    draft.form_schema = normalizeSchema(form_schema, draft.title || 'Smart Application Draft');
-    draft.form_fields = buildInitialFormFields(draft.form_schema, { ...draft.form_fields, ...(form_fields || {}) });
+    updateData.form_schema = normalizeSchema(form_schema, draft.title || 'Smart Application Draft');
+    updateData.form_fields = buildInitialFormFields(updateData.form_schema, { ...draft.form_fields, ...(form_fields || {}) });
   }
 
   if (form_fields) {
-    Object.assign(draft.form_fields, form_fields);
+    updateData.form_fields = { ...(updateData.form_fields || draft.form_fields), ...form_fields };
   }
 
   if (required_documents_status) {
-    Object.assign(draft.required_documents_status, required_documents_status);
+    updateData.required_documents_status = { ...(updateData.required_documents_status || draft.required_documents_status), ...required_documents_status };
   }
 
-  if (source_url !== undefined) draft.source_url = source_url;
-  if (schema_source !== undefined) draft.schema_source = schema_source;
-  if (capture_meta !== undefined) draft.capture_meta = capture_meta;
+  if (source_url !== undefined) updateData.source_url = source_url;
+  if (schema_source !== undefined) updateData.schema_source = schema_source;
+  if (capture_meta !== undefined) updateData.capture_meta = capture_meta;
 
-  draft.completion = calculateCompletion(draft.form_schema || {}, draft.form_fields || {});
-  draft.last_saved = new Date().toISOString();
-  writeDB(db);
-  res.json(draft);
+  updateData.completion = calculateCompletion(updateData.form_schema || draft.form_schema || {}, updateData.form_fields || draft.form_fields || {});
+  updateData.last_saved = new Date().toISOString();
+
+  const { data: updated, error: updateError } = await supabase
+    .from('drafts')
+    .update(updateData)
+    .eq('draft_id', req.params.id)
+    .select()
+    .single();
+
+  if (updateError) throw updateError;
+  res.json(updated);
 });
 
 // POST /api/extension/session
-app.post('/api/extension/session', (req, res) => {
+// POST /api/extension/session
+app.post('/api/extension/session', async (req, res) => {
   const { user_id, opportunity_id, external_url } = req.body || {};
   if (!user_id || !opportunity_id || !external_url) {
     return res.status(400).json({ error: 'user_id, opportunity_id and external_url are required' });
   }
-
-  const db = readDB();
-  if (!db.extension_sessions) db.extension_sessions = [];
 
   const hostMeta = getHostMetadata(external_url);
   const session = {
@@ -1536,29 +1734,38 @@ app.post('/api/extension/session', (req, res) => {
     updated_at: new Date().toISOString()
   };
 
-  db.extension_sessions = db.extension_sessions
-    .filter(item => item.external_url !== external_url || item.user_id !== user_id || item.opportunity_id !== opportunity_id);
-  db.extension_sessions.unshift(session);
-  db.extension_sessions = db.extension_sessions.slice(0, 25);
+  // Clean old sessions for same url/user/opp
+  await supabase
+    .from('extension_sessions')
+    .delete()
+    .eq('user_id', user_id)
+    .eq('opportunity_id', opportunity_id)
+    .eq('external_url', external_url);
 
-  writeDB(db);
+  const { error } = await supabase.from('extension_sessions').insert(session);
+  if (error) throw error;
+
   res.status(201).json(session);
 });
 
 // GET /api/extension/session?external_url=
-app.get('/api/extension/session', (req, res) => {
+// GET /api/extension/session?external_url=
+app.get('/api/extension/session', async (req, res) => {
   const { external_url, user_id, opportunity_id } = req.query;
   if (!external_url && !(user_id && opportunity_id)) {
     return res.status(400).json({ error: 'external_url or user_id + opportunity_id is required' });
   }
 
-  const db = readDB();
-  const sessions = db.extension_sessions || [];
-  let matches = sessions;
+  let query = supabase.from('extension_sessions').select('*');
 
   if (user_id && opportunity_id) {
-    matches = matches.filter(item => item.user_id === user_id && item.opportunity_id === opportunity_id);
+    query = query.eq('user_id', user_id).eq('opportunity_id', opportunity_id);
   }
+
+  const { data: sessions, error } = await query.order('updated_at', { ascending: false });
+  if (error) throw error;
+
+  let matches = sessions || [];
 
   if (external_url) {
     const targetMeta = getHostMetadata(external_url);
@@ -1569,9 +1776,7 @@ app.get('/api/extension/session', (req, res) => {
     });
   }
 
-  matches.sort((a, b) => new Date(b.updated_at || b.created_at || 0) - new Date(a.updated_at || a.created_at || 0));
   const match = matches[0];
-
   if (!match) return res.status(404).json({ error: 'No staged extension session found for this site' });
   res.json(match);
 });
@@ -1579,12 +1784,18 @@ app.get('/api/extension/session', (req, res) => {
 // ─── USER SETTINGS ────────────────────────────────────────────────────────────
 
 // GET /api/user?user_id=
-app.get('/api/user', (req, res) => {
+// GET /api/user?user_id=
+app.get('/api/user', async (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const user = db.users.find(u => u.user_id === user_id);
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('user_id', user_id)
+    .maybeSingle();
+
+  if (error) throw error;
   if (!user) return res.status(404).json({ error: 'User not found' });
 
   const { password: _, ...safeUser } = user;
@@ -1592,20 +1803,28 @@ app.get('/api/user', (req, res) => {
 });
 
 // PUT /api/user — update user settings
-app.put('/api/user', (req, res) => {
+// PUT /api/user — update user settings
+app.put('/api/user', async (req, res) => {
   const { user_id, ...fields } = req.body;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const db = readDB();
-  const user = db.users.find(u => u.user_id === user_id);
-  if (!user) return res.status(404).json({ error: 'User not found' });
-
   // Allow updating profile fields and settings
   const allowed = ['name', 'email', 'password', 'avatar', 'designation', 'phone', 'notifications', 'billing_email', 'gstin'];
+  const updateData = {};
+  allowed.forEach(k => { if (fields[k] !== undefined) updateData[k] = fields[k]; });
 
-  allowed.forEach(k => { if (fields[k] !== undefined) user[k] = fields[k]; });
+  const { data: user, error } = await supabase
+    .from('users')
+    .update(updateData)
+    .eq('user_id', user_id)
+    .select()
+    .single();
 
-  writeDB(db);
+  if (error) {
+    logger.error('User update error:', error);
+    return res.status(500).json({ error: 'Failed to update user' });
+  }
+
   const { password: _, ...safeUser } = user;
   res.json(safeUser);
 });
@@ -1713,13 +1932,19 @@ app.post('/api/ai/generate-profile', memoryUpload.single('file'), async (req, re
 });
 
 // POST /api/ai/generate-application-schema
+// POST /api/ai/generate-application-schema
 app.post('/api/ai/generate-application-schema', async (req, res) => {
   try {
     const { opportunity_id, source_url = '' } = req.body || {};
     if (!opportunity_id) return res.status(400).json({ error: 'opportunity_id is required' });
 
-    const db = readDB();
-    const opportunity = findOpportunity(db, opportunity_id);
+    const { data: opportunity, error: oppError } = await supabase
+      .from('opportunities')
+      .select('*')
+      .or(`opportunity_id.eq.${opportunity_id},slug.eq.${opportunity_id}`)
+      .maybeSingle();
+
+    if (oppError) throw oppError;
     if (!opportunity) return res.status(404).json({ error: 'Opportunity not found' });
 
     const detailContext = JSON.stringify({
@@ -1788,18 +2013,26 @@ app.post('/api/ai/generate-application-schema', async (req, res) => {
     }
 
     const normalized = normalizeSchema(schema || inferSchemaFromOpportunity(opportunity), `${opportunity.title} Application Draft`);
-    opportunity.generated_application_schema = normalized;
+    
+    // Update opportunity with generated schema
+    await supabase.from('opportunities').update({ generated_application_schema: normalized }).eq('opportunity_id', opportunity.opportunity_id);
 
-    const matchingDrafts = db.drafts.filter(d => d.opportunity_id === opportunity_id);
-    matchingDrafts.forEach(draft => {
-      if (!draft.form_schema || draft.schema_source !== 'extension_capture') {
-        draft.form_schema = normalized;
-        draft.form_fields = buildInitialFormFields(normalized, draft.form_fields || {});
-        draft.completion = calculateCompletion(normalized, draft.form_fields);
+    // Update existing drafts for this opportunity
+    const { data: drafts } = await supabase.from('drafts').select('*').eq('opportunity_id', opportunity.opportunity_id);
+    
+    if (drafts) {
+      for (const draft of drafts) {
+        if (!draft.form_schema || draft.schema_source !== 'extension_capture') {
+          const updateData = {
+            form_schema: normalized,
+            form_fields: buildInitialFormFields(normalized, draft.form_fields || {})
+          };
+          updateData.completion = calculateCompletion(normalized, updateData.form_fields);
+          await supabase.from('drafts').update(updateData).eq('draft_id', draft.draft_id);
+        }
       }
-    });
+    }
 
-    writeDB(db);
     res.json({ result: normalized });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -1878,16 +2111,19 @@ app.post('/api/ai/match-opportunities', async (req, res) => {
     const userId = profile?.user_id || 'anonymous';
     const profileSignature = getProfileSignature(profile || {});
     console.log(`[DEBUG] Calculated signature length: ${profileSignature.length}`);
-    const db = readDB();
-    if (!db.match_scores) db.match_scores = [];
+
+    // Fetch cached scores from Supabase
+    const oppIds = opportunities.map(o => o.opportunity_id);
+    const { data: cachedScores } = await supabase
+      .from('match_scores')
+      .select('*')
+      .eq('user_id', userId)
+      .in('opportunity_id', oppIds);
 
     const cached = [];
     const toScore = [];
     opportunities.forEach(opportunity => {
-      const cachedScore = db.match_scores.find(item =>
-        item.user_id === userId &&
-        item.opportunity_id === opportunity.opportunity_id
-      );
+      const cachedScore = cachedScores?.find(item => item.opportunity_id === opportunity.opportunity_id);
 
       if (cachedScore) {
         cached.push({
@@ -2003,21 +2239,18 @@ app.post('/api/ai/match-opportunities', async (req, res) => {
     });
 
     console.log(`✅ AI delivered scores for ${finalScores.length} items.`);
-    finalScores.forEach(item => {
-      db.match_scores = db.match_scores.filter(score =>
-        !(score.user_id === userId && score.opportunity_id === item.opportunity_id)
-      );
-      db.match_scores.push({
-        user_id: userId,
-        opportunity_id: item.opportunity_id,
-        profile_signature: profileSignature,
-        score: normalizeMatchScore(item.score),
-        reasons: item.reasons || [],
-        scored_at: new Date().toISOString()
-      });
-    });
-    db.match_scores = db.match_scores.slice(-2000);
-    writeDB(db);
+    
+    // Save scores to Supabase
+    const scoresToInsert = finalScores.map(item => ({
+      user_id: userId,
+      opportunity_id: item.opportunity_id,
+      profile_signature: profileSignature,
+      score: normalizeMatchScore(item.score),
+      reasons: item.reasons || [],
+      scored_at: new Date().toISOString()
+    }));
+
+    await supabase.from('match_scores').upsert(scoresToInsert, { onConflict: 'user_id,opportunity_id' });
 
     console.log(`Match scoring returned ${cached.length + finalScores.length} items (${cached.length} cached).`);
     res.json({ result: [...cached, ...finalScores] });
@@ -2546,5 +2779,4 @@ if (fs.existsSync(REACT_BUILD)) {
 // ─── START SERVER ─────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`✅  FundMe server running at http://localhost:${PORT}`);
-  console.log(`    Database: ${DB_PATH}`);
 });
