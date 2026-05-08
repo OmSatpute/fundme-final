@@ -42,10 +42,11 @@ const PRODUCT_CARDS = [
     id: "job-02",
     eyebrow: "Job 02",
     title: "Draft faster with your own context",
-    body: "Saved opportunities and startup profile fields auto-fill high-quality first drafts, and the extension carries those answers into the official portal when it is time to apply.",
+    body: "Generate a high-quality first draft from your startup profile, then Smart Apply captures live portal fields, maps the right answers, and fills the official form for final review.",
     Icon: Sparkles,
     tone: "light",
-    chips: ["80% first draft", "Portal extension fill", "AI writing support"],
+    chips: ["80% first draft", "Smart Apply extension", "Field mapping"],
+    assistantPreview: true,
     stat: "80%",
     statLabel: "first draft filled",
   },
@@ -149,8 +150,8 @@ export default function Landing() {
               </motion.div>
 
               <div className="mt-10 flex items-center gap-6 text-xs text-slate-500">
-                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> No card required</div>
-                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> Free for early-stage</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> No card for first 5 refreshes</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> Premium unlocks unlimited</div>
                 <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-600" /> ISO-grade privacy</div>
               </div>
             </div>
@@ -210,16 +211,22 @@ export default function Landing() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-5 bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950 text-white rounded-2xl border border-emerald-800/80 p-8 lg:p-10 shadow-[0_35px_70px_-30px_rgba(6,78,59,0.7)]">
-            <div className="text-xs uppercase tracking-[0.24em] text-emerald-300 font-semibold">Workflow engine</div>
-            <h3 className="mt-4 font-display text-4xl lg:text-5xl font-bold leading-tight">One command center for funding teams.</h3>
+            <div className="text-xs uppercase tracking-[0.24em] text-emerald-300 font-semibold">AI funding OS</div>
+            <h3 className="mt-4 font-display text-4xl lg:text-5xl font-bold leading-tight">One profile that powers every application.</h3>
             <p className="mt-5 text-emerald-100/90 leading-relaxed">
-              FundMe unifies search, drafting, and pipeline tracking so founders never lose context across tools.
+              FundMe turns founder context into action: ranked opportunities, eligibility checks, portal-ready drafts, Smart Apply form fill, and tracked follow-ups.
             </p>
             <div className="mt-8 grid grid-cols-2 gap-3">
-              <MetricTile number="1,200+" label="Programs watched" />
-              <MetricTile number="3" label="Jobs unified" />
-              <MetricTile number="66" label="Daily matches" />
-              <MetricTile number="1" label="Source of truth" />
+              <MetricTile number="1" label="Reusable startup profile" />
+              <MetricTile number="100" label="Point AI fit score" />
+              <MetricTile number="5" label="AI refreshes included" />
+              <MetricTile number="1" label="Tracked funding pipeline" />
+            </div>
+            <div className="mt-8 rounded-2xl border border-emerald-700/70 bg-emerald-900/35 p-5">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-300 font-bold">Business opportunities</div>
+              <p className="mt-3 text-sm leading-relaxed text-emerald-50/85">
+                Beyond grants, FundMe surfaces revenue paths like government tenders, reverse auctions, corporate pilots, paid trials, and partnership programs matched to the startup profile.
+              </p>
             </div>
           </div>
 
@@ -326,7 +333,7 @@ export default function Landing() {
         </p>
         <Link to="/signup">
           <Button size="lg" className="mt-10 h-14 px-9 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white text-base" data-testid="cta-final">
-            Get started - it&apos;s free <ArrowUpRight size={16} className="ml-2" />
+            Get started <ArrowUpRight size={16} className="ml-2" />
           </Button>
         </Link>
       </section>
@@ -347,7 +354,7 @@ function MetricTile({ number, label }) {
   );
 }
 
-function WorkflowCard({ eyebrow, title, body, Icon, chips, stat, statLabel, tone }) {
+function WorkflowCard({ eyebrow, title, body, Icon, chips, stat, statLabel, tone, assistantPreview }) {
   const toneMap = {
     dark: "bg-emerald-700 text-white border-emerald-600",
     light: "bg-white text-slate-900 border-emerald-100",
@@ -360,7 +367,7 @@ function WorkflowCard({ eyebrow, title, body, Icon, chips, stat, statLabel, tone
       transition={{ type: "spring", stiffness: 320, damping: 28 }}
       className={`rounded-2xl border p-6 md:p-7 ${toneMap[tone]}`}
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div className="flex-1">
           <div className={`inline-flex h-11 w-11 rounded-xl items-center justify-center ${isDark ? "bg-white/10" : "bg-emerald-50"}`}>
             <Icon size={20} className={isDark ? "text-emerald-200" : "text-emerald-700"} />
@@ -381,12 +388,42 @@ function WorkflowCard({ eyebrow, title, body, Icon, chips, stat, statLabel, tone
             ))}
           </div>
         </div>
-        <div className={`min-w-16 text-right border-l pl-4 ${isDark ? "border-white/20" : "border-emerald-200"}`}>
+        <div className={`${assistantPreview ? "w-full sm:w-44" : "w-full sm:w-auto sm:min-w-16"} text-left sm:text-right border-t sm:border-t-0 sm:border-l pt-4 sm:pt-0 sm:pl-4 ${isDark ? "border-white/20" : "border-emerald-200"}`}>
           <div className={`font-display text-5xl font-bold tracking-tighter ${isDark ? "text-white" : "text-emerald-700"}`}>{stat}</div>
           <div className={`text-sm leading-tight mt-1 ${isDark ? "text-emerald-100/80" : "text-slate-500"}`}>{statLabel}</div>
+          {assistantPreview && <SmartApplyPreview />}
         </div>
       </div>
     </motion.div>
+  );
+}
+
+function SmartApplyPreview() {
+  return (
+    <div className="mt-5 sm:ml-auto w-full max-w-[11rem] rounded-xl border border-emerald-100 bg-gradient-to-b from-white to-emerald-50/80 p-3 text-left shadow-[0_18px_35px_-28px_rgba(6,78,59,0.75)]" aria-label="Smart Apply extension preview">
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <div className="text-[7px] uppercase tracking-[0.16em] text-emerald-700 font-bold">FundMe</div>
+          <div className="mt-0.5 text-[10px] font-semibold text-slate-950">Smart Apply Extension</div>
+        </div>
+        <div className="h-7 w-7 rounded-lg bg-emerald-700 text-white flex items-center justify-center">
+          <Sparkles size={13} />
+        </div>
+      </div>
+      <div className="mt-3 rounded-lg border border-emerald-100 bg-white p-2">
+        <div className="h-1.5 w-16 rounded-full bg-slate-200" />
+        <div className="mt-2 h-7 rounded-md border border-slate-200 bg-slate-50" />
+        <div className="mt-1.5 h-7 rounded-md border border-slate-200 bg-slate-50" />
+      </div>
+      <div className="mt-3 space-y-1.5">
+        {["Capture form", "Generate answers", "Fill portal"].map((step) => (
+          <div key={step} className="flex items-center justify-between rounded-md border border-emerald-100 bg-white px-2 py-1.5">
+            <span className="text-[9px] font-semibold text-slate-700">{step}</span>
+            <CheckCircle2 size={11} className="text-emerald-600" />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

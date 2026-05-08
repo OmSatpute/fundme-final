@@ -163,10 +163,26 @@ export default function Settings() {
             <div className="space-y-6">
               <div className="bg-[var(--primary-light)] border border-[var(--primary-light)] p-6 rounded-md">
                 <div className="text-xs uppercase tracking-wider text-[var(--accent)] font-bold">Current plan</div>
-                <div className="mt-2 font-display text-3xl font-bold text-slate-900">Founder · Free</div>
-                <p className="mt-2 text-sm text-slate-600">Unlock unlimited AI drafts, Kanban automations, and priority support.</p>
+                <div className="mt-2 font-display text-3xl font-bold text-slate-900">Starter · 5 AI refreshes</div>
+                <p className="mt-2 text-sm text-slate-600">
+                  Try FundMe with 5 AI refreshes for matching, profile updates, and draft generation. Upgrade when your team needs unlimited Smart Apply workflows.
+                </p>
+                <div className="mt-5 rounded-md border border-emerald-200 bg-white p-4">
+                  <div className="flex items-center justify-between gap-4 text-sm">
+                    <span className="font-semibold text-slate-900">AI refreshes available</span>
+                    <span className="text-[var(--accent)] font-bold">5 / 5</span>
+                  </div>
+                  <div className="mt-3 h-2 rounded-full bg-emerald-100 overflow-hidden">
+                    <div className="h-full w-full bg-[var(--accent)]" />
+                  </div>
+                  <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-600">
+                    <div className="rounded-md bg-slate-50 px-3 py-2">AI match refresh</div>
+                    <div className="rounded-md bg-slate-50 px-3 py-2">AI draft generation</div>
+                    <div className="rounded-md bg-slate-50 px-3 py-2">Smart Apply fill</div>
+                  </div>
+                </div>
                 <Button className="mt-4 rounded-md bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white" data-testid="upgrade-plan">
-                  Upgrade to Growth
+                  Upgrade to Premium
                 </Button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

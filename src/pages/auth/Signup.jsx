@@ -44,7 +44,7 @@ export default function Signup() {
       narrow
       eyebrow="Create your account"
       title={<>Personalised funding starts with your <span className="font-serif-display text-emerald-600">profile</span>.</>}
-      sub="Built for founders. Free to start."
+      sub="Built for founders. Start with 5 AI refreshes."
       footer={<>Already have an account? <Link to="/login" className="text-emerald-600 font-semibold hover:underline">Sign in</Link></>}
     >
       <motion.form
