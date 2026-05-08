@@ -60,11 +60,6 @@ Primary users:
 | Settings | `docs/screenshots/settings.png` | Account, notifications, privacy, and billing settings. |
 | Chrome extension | `docs/screenshots/extension.png` | Popup controls for diagnose, capture, generate, and fill. |
 
-Example image syntax after adding a file:
-
-```md
-![FundMe Dashboard](docs/screenshots/dashboard.png)
-```
 
 ## Product Modules
 
