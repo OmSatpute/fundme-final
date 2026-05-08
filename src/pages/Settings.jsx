@@ -285,22 +285,19 @@ function ToggleRow({ label, desc, checked, onChange, testid }) {
 function PricingModal({ open, onOpenChange }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl border-slate-800 bg-[#1f1f1f] p-0 text-white shadow-2xl sm:rounded-2xl overflow-hidden">
-        <div className="px-6 py-6 sm:px-8 sm:py-7 border-b border-white/10">
+      <DialogContent className="max-w-5xl border-slate-200 bg-white p-0 text-slate-900 shadow-2xl sm:rounded-2xl overflow-hidden">
+        <div className="px-6 py-5 sm:px-8 sm:py-6 border-b border-slate-100 bg-slate-50/50">
           <DialogHeader>
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-200">
-              <Sparkles size={13} /> FundMe plans
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
+              <Sparkles size={12} /> FundMe plans
             </div>
-            <DialogTitle className="mt-4 font-display text-3xl md:text-4xl text-white">
+            <DialogTitle className="mt-3 font-display text-2xl md:text-3xl text-slate-900 tracking-tight">
               Choose how much funding work AI should handle.
             </DialogTitle>
-            <DialogDescription className="max-w-2xl text-slate-300">
-              Start with profile generation and a few drafts, then upgrade as your team runs more applications, scrapes more opportunities, and needs deeper AI insights.
-            </DialogDescription>
           </DialogHeader>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 sm:p-6 max-h-[72vh] overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-100">
           {PRICING_TIERS.map((tier) => (
             <PricingCard key={tier.name} tier={tier} />
           ))}
@@ -311,48 +308,48 @@ function PricingModal({ open, onOpenChange }) {
 }
 
 function PricingCard({ tier }) {
+  const isPlus = tier.name === "Plus";
   return (
-    <div className={`relative flex min-h-[560px] flex-col rounded-2xl border p-5 ${
-      tier.featured
-        ? "border-emerald-400 bg-[#262b27] shadow-[0_0_0_1px_rgba(52,211,153,0.2)]"
-        : "border-white/10 bg-[#202020]"
-    }`}>
+    <div className={`relative flex flex-col p-6 sm:p-8 ${isPlus ? "bg-emerald-50/30" : "bg-white"}`}>
       {tier.badge && (
-        <div className="absolute right-4 top-4 rounded-full bg-emerald-300 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-950">
+        <div className="absolute right-6 top-4 rounded-md bg-emerald-700 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-white shadow-sm">
           {tier.badge}
         </div>
       )}
-      <div className="pr-24">
-        <h3 className="font-display text-3xl font-bold text-white">{tier.name}</h3>
-        <p className="mt-2 min-h-12 text-sm leading-relaxed text-slate-300">{tier.subtitle}</p>
+      <div className="mb-6">
+        <h3 className={`font-display text-xl font-bold ${isPlus ? "text-emerald-900" : "text-slate-900"}`}>{tier.name}</h3>
+        <p className="mt-1 text-sm text-slate-500 leading-tight">{tier.subtitle}</p>
       </div>
 
-      <div className="mt-8">
-        <span className="font-display text-5xl font-bold tracking-tight text-white">{tier.price}</span>
-        <span className="ml-2 text-sm font-medium text-slate-300">{tier.cadence}</span>
+      <div className="mb-8">
+        <div className="flex items-baseline gap-1">
+          <span className={`text-3xl font-bold ${isPlus ? "text-emerald-950" : "text-slate-900"}`}>{tier.price}</span>
+          <span className="text-sm font-medium text-slate-400">{tier.cadence}</span>
+        </div>
+
+        <Button
+          variant={isPlus ? "default" : "outline"}
+          className={`mt-6 w-full font-bold h-10 ${
+            isPlus
+              ? "bg-emerald-700 text-white hover:bg-emerald-800 shadow-lg shadow-emerald-700/20"
+              : "border-slate-200 text-slate-600 hover:bg-slate-50"
+          }`}
+          disabled={tier.name === "Free"}
+        >
+          {tier.cta}
+          {!tier.muted && <ArrowUpRight size={14} className="ml-2" />}
+        </Button>
       </div>
 
-      <Button
-        variant="secondary"
-        className={`mt-6 h-11 w-full rounded-full font-semibold ${
-          tier.featured
-            ? "bg-emerald-300 text-emerald-950 hover:bg-emerald-200"
-            : "bg-white text-slate-950 hover:bg-slate-200"
-        }`}
-      >
-        {tier.cta}
-        {!tier.muted && <ArrowUpRight size={14} className="ml-2" />}
-      </Button>
-
-      <div className="mt-7 border-t border-white/10 pt-6">
-        <div className="text-sm font-semibold text-white">
+      <div className="space-y-3 flex-1">
+        <div className={`text-[10px] font-bold uppercase tracking-widest ${isPlus ? "text-emerald-700" : "text-slate-400"} mb-4`}>
           {tier.name === "Free" ? "Includes:" : tier.name === "Plus" ? "Everything in Free, plus:" : "Everything in Plus, plus:"}
         </div>
-        <ul className="mt-5 space-y-4">
+        <ul className="space-y-3">
           {tier.features.map((feature) => (
-            <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-slate-200">
-              <Check size={16} className="mt-0.5 shrink-0 text-emerald-300" />
-              <span>{feature}</span>
+            <li key={feature} className="flex items-center gap-3">
+              <Check size={14} className={`shrink-0 ${isPlus ? "text-emerald-600" : "text-slate-400"}`} strokeWidth={3} />
+              <span className="text-sm text-slate-600 font-medium leading-tight">{feature}</span>
             </li>
           ))}
         </ul>

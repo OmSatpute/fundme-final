@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ExternalLink, FileText, CheckCircle2, Eye, Loader2, PencilLine, FileEdit, ClipboardList, Lightbulb, FileSearch, RefreshCw } from "lucide-react";
+import { ExternalLink, FileText, CheckCircle2, Eye, Loader2, PencilLine, FileEdit, ClipboardList, Lightbulb, FileSearch, RefreshCw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ExtensionInstallModal } from "@/components/ExtensionInstallModal";
-import { apiAnalyzeDraftProgress, apiListApplications, apiListDrafts, apiTrackApplication, errMsg } from "@/lib/api";
+import { apiAnalyzeDraftProgress, apiListApplications, apiListDrafts, apiTrackApplication, apiDeleteDraft, errMsg } from "@/lib/api";
 import { getApplyLink, stageExtensionContext } from "@/lib/applyFlow";
 import { checkExtensionInstalled } from "@/lib/utils";
 
@@ -161,6 +161,20 @@ export default function Drafts() {
     }
   };
 
+  const handleDeleteDraft = async (draftId) => {
+    if (!window.confirm("Are you sure you want to delete this draft? This cannot be undone.")) return;
+    setBusyId(draftId);
+    try {
+      await apiDeleteDraft(draftId);
+      toast.success("Draft deleted");
+      reload();
+    } catch (e) {
+      toast.error(errMsg(e, "Could not delete draft."));
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   const applyToPortal = async (d, { skipInstallCheck = false } = {}) => {
     const applyLink = getApplyLink(d);
     if (!applyLink) {
@@ -276,7 +290,7 @@ export default function Drafts() {
                     />
                   ) : null}
 
-                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-2">
+                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-5 gap-2">
                     <Button
                       className="h-11 rounded-md bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-medium btn-press disabled:opacity-60"
                       data-testid={`apply-portal-${d.draft_id}`}
@@ -321,6 +335,15 @@ export default function Drafts() {
                         {busyId === d.draft_id ? <Loader2 size={14} className="mr-2 animate-spin" /> : <CheckCircle2 size={14} className="mr-2" />} Mark Applied
                       </Button>
                     )}
+                    <Button
+                      variant="outline"
+                      className="h-11 rounded-md border-rose-100 text-rose-600 hover:bg-rose-50 hover:text-rose-700 btn-press"
+                      data-testid={`delete-${d.draft_id}`}
+                      disabled={busyId === d.draft_id}
+                      onClick={() => handleDeleteDraft(d.draft_id)}
+                    >
+                      {busyId === d.draft_id ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} className="mr-2" />} Remove
+                    </Button>
                   </div>
                 </div>
               </motion.div>

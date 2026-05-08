@@ -188,6 +188,9 @@ export const apiStageExtensionSession = ({ opportunity_id, external_url }) =>
 export const apiUpdateDraft = (draft_id, data) =>
   unwrap(http.put(`/drafts/${draft_id}`, { ...data, user_id: getUserId() }));
 
+export const apiDeleteDraft = (draft_id) =>
+  unwrap(http.delete(`/drafts/${draft_id}?user_id=${encodeURIComponent(getUserId())}`));
+
 export const apiGenerateDraftAnswers = (data) =>
   unwrap(http.post("/ai/generate-draft", { ...data, user_id: getUserId() }));
 
