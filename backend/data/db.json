@@ -44,6 +44,24 @@
       "role": "founder",
       "avatar": "https://ui-avatars.com/api/?name=Om%20Satpute&background=0ea5e9&color=fff&size=32",
       "created_at": "2026-05-08"
+    },
+    {
+      "user_id": "u071f28",
+      "name": "avni ",
+      "email": "avni@gmail.com",
+      "password": "$2b$12$tb9ze5cluJuSKHmU939l7edeVUzYWikBIQ8jqotueARd.42wO09yG",
+      "role": "founder",
+      "avatar": "https://ui-avatars.com/api/?name=avni%20&background=0ea5e9&color=fff&size=32",
+      "created_at": "2026-05-08"
+    },
+    {
+      "user_id": "u56d862",
+      "name": "avni gaur",
+      "email": "avnigaur85@gmail.com",
+      "password": "$2b$12$.eEBLm.d35uxkUYj/HqlS.OOd3UNUvh0GOCjuBfKE2ysgCIppYGHW",
+      "role": "founder",
+      "avatar": "https://ui-avatars.com/api/?name=avni%20gaur&background=0ea5e9&color=fff&size=32",
+      "created_at": "2026-05-08"
     }
   ],
   "founder_profiles": [
@@ -178,6 +196,37 @@
       },
       "founder_name": "Om Satpute",
       "email": "om@bharatfintech.com"
+    },
+    {
+      "founder_id": "f2d4cb8",
+      "user_id": "u56d862",
+      "startup_name": "MediLink",
+      "sector": "HealthTech",
+      "stage": "Growth",
+      "startup_overview": "MediLink is a digital health startup that improves access to affordable healthcare services in underserved regions by combining telemedicine with AI-driven diagnostics, connecting patients with verified doctors and healthcare providers remotely.",
+      "website": "medilink.com",
+      "application_email": "",
+      "problem_statement": "Access to quality healthcare remains a major challenge in rural and semi-urban areas, with patients facing long travel times, high consultation costs, and a shortage of qualified medical professionals, resulting in delayed diagnosis and worsened health outcomes.",
+      "solution_summary": "MediLink provides a unified platform for video consultations, AI-assisted preliminary diagnoses, digital prescriptions, and basic health monitoring tools, leveraging machine learning models to assist doctors in identifying potential risks early and improving treatment accuracy.",
+      "target_customers": "Rural populations, small clinics, community health workers, NGOs, and public health initiatives",
+      "business_model": "Blended revenue model with low-cost basic consultations and monetized premium services, B2B collaborations, and subscription-based services",
+      "team_size": 0,
+      "founded": "",
+      "incorporation": "",
+      "dpiit": "",
+      "location": "",
+      "revenue": "",
+      "traction_summary": "Over 20,000 users onboarded, more than 50,000 remote consultations facilitated, with early feedback indicating improved accessibility and reduced healthcare costs for patients",
+      "documents": {
+        "pitch_deck": null,
+        "financial_projections": null,
+        "letters_of_support": null,
+        "budget_breakdown": null
+      },
+      "profile_completion": {
+        "score": 0,
+        "missing_fields": []
+      }
     }
   ],
   "opportunities": [
@@ -3228,6 +3277,586 @@
       "scraped_at": "2026-05-08T04:09:48.338Z",
       "first_seen_at": "2026-05-08T04:09:48.338Z",
       "last_seen_at": "2026-05-08T04:09:48.338Z"
+    },
+    {
+      "opportunity_id": "gem_9292616",
+      "title": "Custom Bid for Services - Service Contract for Toilets Maintenance, Housekeeping and Horticulture W",
+      "provider": "Ministry of Defence - Department of Defence Production",
+      "description": "Reverse auction GEM/2026/R/664132 on GeM. Quantity: 1. Items: Custom Bid for Services - Service Contract for Toilets Maintenance, Housekeeping and Horticulture Works Contract Labours in LCA-Tejas Division HAL(BC) for a Period of Two Years.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 07 May 2026, 10:00 am. Bid end: 08 May 2026, 10:50 am.",
+      "type": "Reverse Auction",
+      "amount": "High value bid",
+      "deadline": "08 May 2026, 10:50 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9292616",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9292616",
+      "slug": "gem-9292616",
+      "raw_scraped_text": "{\"id\":\"9292616\",\"b_id\":[9292616],\"b_bid_number\":[\"GEM/2026/R/664132\"],\"b_category_name\":[\"Custom Bid for Services - Service Contract for Toilets Maintenance, Housekeeping and Horticulture W\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-07T10:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:50:45Z\"],\"bd_category_name\":[\"Custom Bid for Services - Service Contract for Toilets Maintenance, Housekeeping and Horticulture Works Contract Labours in LCA-Tejas Division HAL(BC) for a Period of Two Years\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7362884\"],\"b_id_parent\":[9129449],\"is_high_value\":[true],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"services_home_cust\"],\"b.b_created_by\":[\"JOHNSON_GUITE\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Defence Production\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9291978",
+      "title": "Textile Boots with Polymeric Sole (Jungle Boots) Conforming to IS 17861",
+      "provider": "Ministry of Home Affairs - Central Armed Police Forces",
+      "description": "Reverse auction GEM/2026/R/664048 on GeM. Quantity: 17934.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 7:00 pm. Bid end: 08 May 2026, 10:52 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:52 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9291978",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9291978",
+      "slug": "gem-9291978",
+      "raw_scraped_text": "{\"id\":\"9291978\",\"b_id\":[9291978],\"b_bid_number\":[\"GEM/2026/R/664048\"],\"b_category_name\":[\"Textile Boots with Polymeric Sole (Jungle Boots) Conforming to IS 17861\"],\"b_total_quantity\":[17934],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T19:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:52:28Z\"],\"bd_category_name\":[\"Textile Boots with Polymeric Sole (Jungle Boots) Conforming to IS 17861\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2025/B/6778906\"],\"b_id_parent\":[8460220],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_appa_foot_boot_te07130015\"],\"b.b_created_by\":[\"gujftrocp\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Home Affairs\"],\"ba_official_details_deptName\":[\"Central Armed Police Forces\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9291451",
+      "title": "Monthly Basis Cab & Taxi Hiring Services - SUV; 2000 km x 320 hours; Local 24*7",
+      "provider": "DEPARTMENT OF HEALTH AND FAMILY WELFARE",
+      "description": "Reverse auction GEM/2026/R/664010 on GeM. Quantity: 2.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 6:00 pm. Bid end: 08 May 2026, 10:52 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:52 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9291451",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9291451",
+      "slug": "gem-9291451",
+      "raw_scraped_text": "{\"id\":\"9291451\",\"b_id\":[9291451],\"b_bid_number\":[\"GEM/2026/R/664010\"],\"b_category_name\":[\"Monthly Basis Cab & Taxi Hiring Services - SUV; 2000 km x 320 hours; Local 24*7\"],\"b_total_quantity\":[2],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T18:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:52:55Z\"],\"bd_category_name\":[\"Monthly Basis Cab & Taxi Hiring Services - SUV; 2000 km x 320 hours; Local 24*7\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7323840\"],\"b_id_parent\":[9083327],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"services_home_ve54336454_mont\"],\"b.b_created_by\":[\"SLMS@16\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_deptName\":[\"DEPARTMENT OF HEALTH AND FAMILY WELFARE\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9286323",
+      "title": "Custom Bid for Services - Hiring of Vehicle Agency for AVFCCL, Namrup Site on as and when required ",
+      "provider": "Ministry of Chemicals and Fertilizers - Department of Fertilizers",
+      "description": "Reverse auction GEM/2026/R/663539 on GeM. Quantity: 1. Items: Custom Bid for Services - Hiring of Vehicle Agency for AVFCCL, Namrup Site on as and when required basis.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 05 May 2026, 6:00 pm. Bid end: 08 May 2026, 10:53 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:53 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9286323",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9286323",
+      "slug": "gem-9286323",
+      "raw_scraped_text": "{\"id\":\"9286323\",\"b_id\":[9286323],\"b_bid_number\":[\"GEM/2026/R/663539\"],\"b_category_name\":[\"Custom Bid for Services - Hiring of Vehicle Agency for AVFCCL, Namrup Site on as and when required \"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-05T18:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:53:15Z\"],\"bd_category_name\":[\"Custom Bid for Services - Hiring of Vehicle Agency for AVFCCL, Namrup Site on as and when required basis\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7343779\"],\"b_id_parent\":[9106859],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"services_home_cust\"],\"b.b_created_by\":[\"ajborah.avfccl\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Chemicals and Fertilizers\"],\"ba_official_details_deptName\":[\"Department of Fertilizers\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9291138",
+      "title": "4.7 MTR RIB ( WITHOUT OBM AND LIFITNG SLING)",
+      "provider": "Ministry of Defence - Department of Defence",
+      "description": "Reverse auction GEM/2026/R/663989 on GeM. Quantity: 1.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 5:00 pm. Bid end: 08 May 2026, 10:53 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:53 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9291138",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9291138",
+      "slug": "gem-9291138",
+      "raw_scraped_text": "{\"id\":\"9291138\",\"b_id\":[9291138],\"b_bid_number\":[\"GEM/2026/R/663989\"],\"b_category_name\":[\"4.7 MTR RIB ( WITHOUT OBM AND LIFITNG SLING)\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T17:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:53:58Z\"],\"bd_category_name\":[\"4.7 MTR RIB ( WITHOUT OBM AND LIFITNG SLING)\"],\"b_is_custom_item\":[1],\"b_bid_number_parent\":[\"GEM/2025/B/7035912\"],\"b_id_parent\":[8753224],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"JASNEETKAUR.1254\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Defence\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9292070",
+      "title": "Lignocaine Hcl 2 percent with Adrenaline 1 80000 30ml Inj,Ivermectin 6mg Tab,Tacrolimus Oint 0 poin",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Reverse auction GEM/2026/R/664056 on GeM. Quantity: 18465.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 7:00 pm. Bid end: 08 May 2026, 10:54 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:54 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9292070",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9292070",
+      "slug": "gem-9292070",
+      "raw_scraped_text": "{\"id\":\"9292070\",\"b_id\":[9292070],\"b_bid_number\":[\"GEM/2026/R/664056\"],\"b_category_name\":[\"Lignocaine Hcl 2 percent with Adrenaline 1 80000 30ml Inj,Ivermectin 6mg Tab,Tacrolimus Oint 0 poin\"],\"b_total_quantity\":[18465],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[43],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[1],\"final_start_date_sort\":[\"2026-05-06T19:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:54:03Z\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7400568\"],\"b_id_parent\":[9173651],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_boq_boql_boql_boq\"],\"b.b_created_by\":[\"mslp2@mh123\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9279292",
+      "title": "Bidirectional Interfacing of Lab Analyzers at AIIMS New Delhi",
+      "provider": "Ministry of Health and Family Welfare - Department of Health and Family Welfare",
+      "description": "Reverse auction GEM/2026/R/662676 on GeM. Quantity: 1.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 02 May 2026, 8:00 pm. Bid end: 08 May 2026, 10:55 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:55 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9279292",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9279292",
+      "slug": "gem-9279292",
+      "raw_scraped_text": "{\"id\":\"9279292\",\"b_id\":[9279292],\"b_bid_number\":[\"GEM/2026/R/662676\"],\"b_category_name\":[\"Bidirectional Interfacing of Lab Analyzers at AIIMS New Delhi\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-02T20:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:55:06Z\"],\"bd_category_name\":[\"Bidirectional Interfacing of Lab Analyzers at AIIMS New Delhi\"],\"b_is_custom_item\":[1],\"b_bid_number_parent\":[\"GEM/2025/B/6194381\"],\"b_id_parent\":[7799833],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"sumitkuhar\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Health and Family Welfare\"],\"ba_official_details_deptName\":[\"Department of Health and Family Welfare\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9285593",
+      "title": "Custom Bid for Services - Custom bid for services-Operation and maintenance of 01 of 35T Forklift a",
+      "provider": "Ministry of Railways - Railways Public Sector Undertakings",
+      "description": "Reverse auction GEM/2026/R/663467 on GeM. Quantity: 1. Items: Custom Bid for Services - Custom bid for services-Operation and maintenance of 01 of 35T Forklift at ICD-Gandhidham.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 05 May 2026, 4:00 pm. Bid end: 08 May 2026, 10:56 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:56 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9285593",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9285593",
+      "slug": "gem-9285593",
+      "raw_scraped_text": "{\"id\":\"9285593\",\"b_id\":[9285593],\"b_bid_number\":[\"GEM/2026/R/663467\"],\"b_category_name\":[\"Custom Bid for Services - Custom bid for services-Operation and maintenance of 01 of 35T Forklift a\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-05T16:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:56:42Z\"],\"bd_category_name\":[\"Custom Bid for Services - Custom bid for services-Operation and maintenance of 01 of 35T Forklift at ICD-Gandhidham\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2025/B/6872363\"],\"b_id_parent\":[8567296],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"services_home_cust\"],\"b.b_created_by\":[\"gurmeet_s\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Railways\"],\"ba_official_details_deptName\":[\"Railways Public Sector Undertakings\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9291497",
+      "title": "Emulsion Explosive Gelatine 25 mm,Emulsion explosive Gelatine 40 mm,Safety Fuse",
+      "provider": "Ministry of Defence - Department of Defence",
+      "description": "Reverse auction GEM/2026/R/664017 on GeM. Quantity: 1032.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 6:00 pm. Bid end: 08 May 2026, 10:57 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:57 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9291497",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9291497",
+      "slug": "gem-9291497",
+      "raw_scraped_text": "{\"id\":\"9291497\",\"b_id\":[9291497],\"b_bid_number\":[\"GEM/2026/R/664017\"],\"b_category_name\":[\"Emulsion Explosive Gelatine 25 mm,Emulsion explosive Gelatine 40 mm,Safety Fuse\"],\"b_total_quantity\":[1032],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[3],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T18:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:57:28Z\"],\"bd_category_name\":[\"Emulsion Explosive Gelatine 25 mm,Emulsion explosive Gelatine 40 mm,Safety Fuse\"],\"b_is_custom_item\":[1],\"b_bid_number_parent\":[\"GEM/2026/B/7476332\"],\"b_id_parent\":[9258467],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"bro-seo765brtf\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Defence\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9276655",
+      "title": "Custom Bid for Services - PROCUREMENT AND INSTALLATION OF WIRELESS BATTERY MONITORING SYSTEM",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Reverse auction GEM/2026/R/662416 on GeM. Quantity: 1.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 01 May 2026, 5:00 pm. Bid end: 08 May 2026, 10:57 am.",
+      "type": "Reverse Auction",
+      "amount": "High value bid",
+      "deadline": "08 May 2026, 10:57 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9276655",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9276655",
+      "slug": "gem-9276655",
+      "raw_scraped_text": "{\"id\":\"9276655\",\"b_id\":[9276655],\"b_bid_number\":[\"GEM/2026/R/662416\"],\"b_category_name\":[\"Custom Bid for Services - PROCUREMENT AND INSTALLATION OF WIRELESS BATTERY MONITORING SYSTEM\"],\"b_total_quantity\":[1],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-01T17:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:57:49Z\"],\"bd_category_name\":[\"Custom Bid for Services - PROCUREMENT AND INSTALLATION OF WIRELESS BATTERY MONITORING SYSTEM\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2025/B/6732607\"],\"b_id_parent\":[8406996],\"is_high_value\":[true],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"services_home_cust\"],\"b.b_created_by\":[\"smbcf.ndmb\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9290508",
+      "title": "25B53C006 N5305-096738 SCREW,25B53C006 N5305-P062567 SS SCREW M8X16, CSK PHILIPS HEAD, DRG NO 1000/",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Reverse auction GEM/2026/R/663957 on GeM. Quantity: 98971. Items: 25B53C006 N5305-096738 SCREW,25B53C006 N5305-P062567 SS SCREW M8X16, CSK PHILIPS HEAD, DRG NO 1000/FAB/ND(MB),25B53C006 N5305-P062572 SS SCREW M10X25, CSK PHILIPS HEAD, DRG NO 1005/FAB/ND(MB),25B53C006 N5305-P062573 SS SCREW M10X30, CSK PHILIPS HEAD, DRG NO 1006/FAB/ND(MB),25B53C006 N5305-P062574 SS SCREW M10X45, CSK PHILIPS HEAD, DRG NO 1008/FAB/ND(MB),25B53C006 N5306-003448 BOLT HEX HD M8 X 40 MM LONG,25B53C006 N5306-003463 BOLT HEX HD M10 X 55 MM LONG,25B53C006 N5306-003534 BOLT MACHINE HEX HD M24X85MM,25B53C006 N5306-004542 BOLT HEX HD M 14 X 76 MM LONG,25B53C006 N5310-000565 NUTS METRIC PRECISION STEEL HEX M8,25B53C006 N5310-246875 SS NUT M 16,25B53C006 NSN5306-720467488 SS BOLT 16 X 95 MM,25B53C006 NSN5310-720471395 SS NUTS SIZE 12X1.75 MM PITCH (NON),25B53C006 N5306-P062187 STAINLESS STEEL BOLT 10 MM X 25 MM (NON MAGNEIC),25B53C006 N5307-000162 MS STUD 20 X 65MM,25B53C006 N5305-P062571 SS SCREW M10 X 16 CSK PHILIPS HEAD DRG NO 1004/FAB/ND/MB),25B53C006 N5305-P062576 SS SCREW M12 X 30 CSK SLOTTED HEAD D.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 4:00 pm. Bid end: 08 May 2026, 10:58 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:58 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9290508",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9290508",
+      "slug": "gem-9290508",
+      "raw_scraped_text": "{\"id\":\"9290508\",\"b_id\":[9290508],\"b_bid_number\":[\"GEM/2026/R/663957\"],\"b_category_name\":[\"25B53C006 N5305-096738 SCREW,25B53C006 N5305-P062567 SS SCREW M8X16, CSK PHILIPS HEAD, DRG NO 1000/\"],\"b_total_quantity\":[98971],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[25],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T16:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:58:07Z\"],\"bd_category_name\":[\"25B53C006 N5305-096738 SCREW,25B53C006 N5305-P062567 SS SCREW M8X16, CSK PHILIPS HEAD, DRG NO 1000/FAB/ND(MB),25B53C006 N5305-P062572 SS SCREW M10X25, CSK PHILIPS HEAD, DRG NO 1005/FAB/ND(MB),25B53C006 N5305-P062573 SS SCREW M10X30, CSK PHILIPS HEAD, DRG NO 1006/FAB/ND(MB),25B53C006 N5305-P062574 SS SCREW M10X45, CSK PHILIPS HEAD, DRG NO 1008/FAB/ND(MB),25B53C006 N5306-003448 BOLT HEX HD M8 X 40 MM LONG,25B53C006 N5306-003463 BOLT HEX HD M10 X 55 MM LONG,25B53C006 N5306-003534 BOLT MACHINE HEX HD M24X85MM,25B53C006 N5306-004542 BOLT HEX HD M 14 X 76 MM LONG,25B53C006 N5310-000565 NUTS METRIC PRECISION STEEL HEX M8,25B53C006 N5310-246875 SS NUT M 16,25B53C006 NSN5306-720467488 SS BOLT 16 X 95 MM,25B53C006 NSN5310-720471395 SS NUTS SIZE 12X1.75 MM PITCH (NON),25B53C006 N5306-P062187 STAINLESS STEEL BOLT 10 MM X 25 MM (NON MAGNEIC),25B53C006 N5307-000162 MS STUD 20 X 65MM,25B53C006 N5305-P062571 SS SCREW M10 X 16 CSK PHILIPS HEAD DRG NO 1004/FAB/ND/MB),25B53C006 N5305-P062576 SS SCREW M12 X 30 CSK SLOTTED HEAD D\"],\"b_is_custom_item\":[1],\"b_bid_number_parent\":[\"GEM/2026/B/7282149\"],\"b_id_parent\":[9035074],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"DCPRONS2\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9292016",
+      "title": "Ramming Mass",
+      "provider": "Ministry of Steel - NMDC STEEL Limited",
+      "description": "Reverse auction GEM/2026/R/664051 on GeM. Quantity: 50.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 7:00 pm. Bid end: 08 May 2026, 10:58 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:58 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9292016",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9292016",
+      "slug": "gem-9292016",
+      "raw_scraped_text": "{\"id\":\"9292016\",\"b_id\":[9292016],\"b_bid_number\":[\"GEM/2026/R/664051\"],\"b_category_name\":[\"Ramming Mass\"],\"b_total_quantity\":[50],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T19:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:58:49Z\"],\"bd_category_name\":[\"Ramming Mass\"],\"b_is_custom_item\":[1],\"b_bid_number_parent\":[\"GEM/2026/B/7339642\"],\"b_id_parent\":[9102050],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"BUYCON105@NSL\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Steel\"],\"ba_official_details_deptName\":[\"NMDC STEEL Limited\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9292203",
+      "title": "Refined Mustard Oil (V4) (Defence)",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Reverse auction GEM/2026/R/664067 on GeM. Quantity: 6153.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 8:00 pm. Bid end: 08 May 2026, 10:59 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:59 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9292203",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9292203",
+      "slug": "gem-9292203",
+      "raw_scraped_text": "{\"id\":\"9292203\",\"b_id\":[9292203],\"b_bid_number\":[\"GEM/2026/R/664067\"],\"b_category_name\":[\"Refined Mustard Oil (V4) (Defence)\"],\"b_total_quantity\":[6153],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T20:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:59:14Z\"],\"bd_category_name\":[\"Refined Mustard Oil (V4) (Defence)\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7455649\"],\"b_id_parent\":[9235554],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_fo61163888_edib_edib_re87880660\"],\"b.b_created_by\":[\"Chauhan_12\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9291859",
+      "title": "MS shuttering plate size 1 pt 0 x 1 pt 20 mtr,MS shuttering plate size 1 pt 0 x 0 pt 20 mtr,MS Pipe",
+      "provider": "Ministry of Defence - Department of Defence",
+      "description": "Reverse auction GEM/2026/R/664041 on GeM. Quantity: 4503. Items: MS shuttering plate size 1 pt 0 x 1 pt 20 mtr,MS shuttering plate size 1 pt 0 x 0 pt 20 mtr,MS Pipe 6 Mtr long 40 NB,Adjustable base plate 400x400 mm and 8 mm thick,MS Joint clamp,Drainage Spout,WABO Strip seal expansion joint system,C Snap mild steel MC 150,ISMB 200 weight 25 pt 40 Kg.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 7:00 pm. Bid end: 08 May 2026, 10:59 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:59 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9291859",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9291859",
+      "slug": "gem-9291859",
+      "raw_scraped_text": "{\"id\":\"9291859\",\"b_id\":[9291859],\"b_bid_number\":[\"GEM/2026/R/664041\"],\"b_category_name\":[\"MS shuttering plate size 1 pt 0 x 1 pt 20 mtr,MS shuttering plate size 1 pt 0 x 0 pt 20 mtr,MS Pipe\"],\"b_total_quantity\":[4503],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[9],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T19:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:59:17Z\"],\"bd_category_name\":[\"MS shuttering plate size 1 pt 0 x 1 pt 20 mtr,MS shuttering plate size 1 pt 0 x 0 pt 20 mtr,MS Pipe 6 Mtr long 40 NB,Adjustable base plate 400x400 mm and 8 mm thick,MS Joint clamp,Drainage Spout,WABO Strip seal expansion joint system,C Snap mild steel MC 150,ISMB 200 weight 25 pt 40 Kg\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7298802\"],\"b_id_parent\":[9053910],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_boq_boql_boql_boq\"],\"b.b_created_by\":[\"bmke3section\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Defence\"],\"bd_details_is_boq\":[true],\"bd_details_new_boq\":[true]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9290830",
+      "title": "SMALL SIZE MUNITION DROP CAPABLE KAMIKAZE FPV DRONES",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Reverse auction GEM/2026/R/663968 on GeM. Quantity: 48.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 5:00 pm. Bid end: 08 May 2026, 10:59 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:59 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9290830",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9290830",
+      "slug": "gem-9290830",
+      "raw_scraped_text": "{\"id\":\"9290830\",\"b_id\":[9290830],\"b_bid_number\":[\"GEM/2026/R/663968\"],\"b_category_name\":[\"SMALL SIZE MUNITION DROP CAPABLE KAMIKAZE FPV DRONES\"],\"b_total_quantity\":[48],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T17:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:59:23Z\"],\"bd_category_name\":[\"SMALL SIZE MUNITION DROP CAPABLE KAMIKAZE FPV DRONES\"],\"b_is_custom_item\":[1],\"b_bid_number_parent\":[\"GEM/2026/B/7247041\"],\"b_id_parent\":[8994892],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"jdtrgair\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9292301",
+      "title": "Goods Transport Service – Per KM Based Service - Defence Store or Vehicle or Equipment; Modular H",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Reverse auction GEM/2026/R/664086 on GeM. Quantity: 30000. Items: Goods Transport Service – Per KM Based Service - Defence Store or Vehicle or Equipment; Modular Hydraulic Trailers with six Axle with flat surface; Modular Hydraulic Trailers with six Axle with flat surface.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 9:00 pm. Bid end: 08 May 2026, 10:59 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:59 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9292301",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9292301",
+      "slug": "gem-9292301",
+      "raw_scraped_text": "{\"id\":\"9292301\",\"b_id\":[9292301],\"b_bid_number\":[\"GEM/2026/R/664086\"],\"b_category_name\":[\"Goods Transport Service – Per KM Based Service - Defence Store or Vehicle or Equipment; Modular H\"],\"b_total_quantity\":[30000],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[1],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T21:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:59:32Z\"],\"bd_category_name\":[\"Goods Transport Service – Per KM Based Service - Defence Store or Vehicle or Equipment; Modular Hydraulic Trailers with six Axle with flat surface; Modular Hydraulic Trailers with six Axle with flat surface\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7368116\"],\"b_id_parent\":[9135550],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"services_home_good_go61253067\"],\"b.b_created_by\":[\"nikhiltiwari.491l@nic.in\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9291494",
+      "title": "Entry and Mid Level Desktop Computer",
+      "provider": "Higher and Technical Education Department Puducherry",
+      "description": "Reverse auction GEM/2026/R/664016 on GeM. Quantity: 94.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 6:00 pm. Bid end: 08 May 2026, 10:59 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:59 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9291494",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9291494",
+      "slug": "gem-9291494",
+      "raw_scraped_text": "{\"id\":\"9291494\",\"b_id\":[9291494],\"b_bid_number\":[\"GEM/2026/R/664016\"],\"b_category_name\":[\"Entry and Mid Level Desktop Computer\"],\"b_total_quantity\":[94],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-06T18:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:59:40Z\"],\"bd_category_name\":[\"Entry and Mid Level Desktop Computer\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7409982\"],\"b_id_parent\":[9184427],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_info_comp_comp_entr\"],\"b.b_created_by\":[\"buycon1.agcwk.py\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_deptName\":[\"Higher and Technical Education Department Puducherry\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9280244",
+      "title": "FORCED OIL LUBRICATION (20 LPM) ALONG WITH SUPER VISION FOR E & C AS PER ITEM NO. 01 OF ANNEXURE 1.",
+      "provider": "Ministry of Heavy Industries and Public Enterprises - Department of Heavy Industry",
+      "description": "Reverse auction GEM/2026/R/662800 on GeM. Quantity: 5.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 03 May 2026, 1:00 pm. Bid end: 08 May 2026, 10:59 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:59 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9280244",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9280244",
+      "slug": "gem-9280244",
+      "raw_scraped_text": "{\"id\":\"9280244\",\"b_id\":[9280244],\"b_bid_number\":[\"GEM/2026/R/662800\"],\"b_category_name\":[\"FORCED OIL LUBRICATION (20 LPM) ALONG WITH SUPER VISION FOR E & C AS PER ITEM NO. 01 OF ANNEXURE 1.\"],\"b_total_quantity\":[5],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[1],\"b_type\":[0],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[0],\"final_start_date_sort\":[\"2026-05-03T13:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:59:48Z\"],\"bd_category_name\":[\"FORCED OIL LUBRICATION (20 LPM) ALONG WITH SUPER VISION FOR E & C AS PER ITEM NO. 01 OF ANNEXURE 1.\"],\"b_is_custom_item\":[1],\"b_bid_number_parent\":[\"GEM/2026/B/7326164\"],\"b_id_parent\":[9085961],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"home_univ_univ_univ_univ\"],\"b.b_created_by\":[\"353_11_02\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Heavy Industries and Public Enterprises\"],\"ba_official_details_deptName\":[\"Department of Heavy Industry\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9289387",
+      "title": "Bus Hiring Service - Short Term - Outstation; 16-18; A.C. Deluxe (ACX); 250,Bus Hiring Service - Sh",
+      "provider": "Ministry of Defence - Department of Military Affairs",
+      "description": "Reverse auction GEM/2026/R/663865 on GeM. Quantity: 4.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 06 May 2026, 2:00 pm. Bid end: 08 May 2026, 10:59 am.",
+      "type": "Reverse Auction",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 10:59 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showradocumentPdf/9289387",
+      "external_apply_url": "https://bidplus.gem.gov.in/showradocumentPdf/9289387",
+      "slug": "gem-9289387",
+      "raw_scraped_text": "{\"id\":\"9289387\",\"b_id\":[9289387],\"b_bid_number\":[\"GEM/2026/R/663865\"],\"b_category_name\":[\"Bus Hiring Service - Short Term - Outstation; 16-18; A.C. Deluxe (ACX); 250,Bus Hiring Service - Sh\"],\"b_total_quantity\":[4],\"b_status\":[1],\"b_bid_type\":[2],\"b_is_bunch\":[4],\"b_type\":[1],\"b_bid_to_ra\":[1],\"b_buyer_status\":[0],\"b_eval_type\":[1],\"final_start_date_sort\":[\"2026-05-06T14:00:00Z\"],\"final_end_date_sort\":[\"2026-05-08T10:59:56Z\"],\"b_is_custom_item\":[0],\"b_bid_number_parent\":[\"GEM/2026/B/7446900\"],\"b_id_parent\":[9225881],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"ra_b_status\":[1],\"b_is_inactive\":[0],\"ra_b_buyer_status\":[2],\"b_cat_id\":[\"services_home_ve54336454_bush,services_home_ve54336454_shor\"],\"b.b_created_by\":[\"slo@caw\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Defence\"],\"ba_official_details_deptName\":[\"Department of Military Affairs\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
+    },
+    {
+      "opportunity_id": "gem_9239045",
+      "title": "Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10",
+      "provider": "Ministry of Coal - COAL INDIA LIMITED",
+      "description": "Tender GEM/2026/B/7458707 on GeM. Quantity: 2. Items: Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 2500km for Kurja UG Mine of SECL Hasdeo Area,Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 2500km for Kurja UG Mine of SECL Hasdeo Area,Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 1200km for Rajnagar RO UG Mine of SECL Hasdeo Area,Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 1200km for Rajnagar RO UG Mine of SECL Hasdeo Area.",
+      "eligibility": "Review the official GeM bid document for seller eligibility, technical specifications, EMD, and compliance requirements.",
+      "benefits": [
+        "Government procurement opportunity",
+        "Official GeM bid document",
+        "Open tender participation"
+      ],
+      "timeline": "Bid start: 20 Apr 2026, 7:04 pm. Bid end: 08 May 2026, 11:00 am.",
+      "type": "Tender",
+      "amount": "As per bid document",
+      "deadline": "08 May 2026, 11:00 am",
+      "location": "India",
+      "sector": "Government Procurement",
+      "stage": "Open Tender",
+      "link": "https://bidplus.gem.gov.in/showbidDocument/9239045",
+      "external_apply_url": "https://bidplus.gem.gov.in/showbidDocument/9239045",
+      "slug": "gem-9239045",
+      "raw_scraped_text": "{\"id\":\"9239045\",\"b_id\":[9239045],\"b_bid_number\":[\"GEM/2026/B/7458707\"],\"b_category_name\":[\"Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10\"],\"b_total_quantity\":[2],\"b_status\":[1],\"b_bid_type\":[1],\"b_is_bunch\":[2],\"b_type\":[1],\"b_bid_to_ra\":[0],\"b_buyer_status\":[0],\"b_eval_type\":[1],\"final_start_date_sort\":[\"2026-04-20T19:04:42Z\"],\"final_end_date_sort\":[\"2026-05-08T11:00:00Z\"],\"bd_category_name\":[\"Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 2500km for Kurja UG Mine of SECL Hasdeo Area,Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 2500km for Kurja UG Mine of SECL Hasdeo Area,Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 1200km for Rajnagar RO UG Mine of SECL Hasdeo Area,Custom Bid for Services - Hiring of 01 no diesel driven Truck having payload capacity minimum of 10 Te with monthly running of 1200km for Rajnagar RO UG Mine of SECL Hasdeo Area\"],\"b_is_custom_item\":[0],\"is_high_value\":[false],\"b_ra_to_bid\":[1],\"b_is_inactive\":[0],\"b_cat_id\":[\"services_home_cust\"],\"b.b_created_by\":[\"mgrenthsd@gmail.com\"],\"ba_is_single_packet\":[0],\"ba_is_global_tendering\":[0],\"is_rc_bid\":[0],\"ba_official_details_minName\":[\"Ministry of Coal\"],\"ba_official_details_deptName\":[\"COAL INDIA LIMITED\"]}",
+      "credibility_source": "Verified via GeM bidplus.gem.gov.in",
+      "match_score": 0,
+      "source": "gem",
+      "scraped_at": "2026-05-08T05:19:21.327Z",
+      "first_seen_at": "2026-05-08T05:19:21.327Z",
+      "last_seen_at": "2026-05-08T05:19:21.327Z"
     }
   ],
   "saved_opportunities": [
@@ -3308,6 +3937,12 @@
       "user_id": "udc3e40",
       "opportunity_id": "opp_b01f80",
       "saved_date": "2026-05-07"
+    },
+    {
+      "saved_id": "s6c9408",
+      "user_id": "uf8791b",
+      "opportunity_id": "opp_1d6edf",
+      "saved_date": "2026-05-08"
     }
   ],
   "applications": [
@@ -7949,7 +8584,7 @@
       "schema_source": "manual",
       "source_url": "https://ihubgujarat.in/srujan?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
       "capture_meta": {},
-      "last_saved": "2026-05-08T03:52:44.100Z"
+      "last_saved": "2026-05-08T05:17:08.301Z"
     },
     {
       "draft_id": "dce4af0",
@@ -8428,14 +9063,14 @@
   ],
   "extension_sessions": [
     {
-      "session_id": "x15e144",
+      "session_id": "xd19e9c",
       "user_id": "uf8791b",
       "opportunity_id": "opp_6765f6",
       "external_url": "https://ihubgujarat.in/srujan?utm_source=startupgrantsindia.com&ref=startupgrantsindia.com",
       "hostname": "ihubgujarat.in",
       "root_domain": "ihubgujarat.in",
-      "created_at": "2026-05-08T04:09:09.140Z",
-      "updated_at": "2026-05-08T04:09:09.140Z"
+      "created_at": "2026-05-08T05:17:08.335Z",
+      "updated_at": "2026-05-08T05:17:08.335Z"
     },
     {
       "session_id": "xe44f41",
@@ -9971,6 +10606,226 @@
         "may have some indirect usefulness for general business operations"
       ],
       "scored_at": "2026-05-08T04:09:49.870Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9292616",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch in sector",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9291978",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch in sector",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9291451",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch in sector",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9286323",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch in sector",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9291138",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch in sector",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9292070",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch in sector",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9279292",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 10,
+      "reasons": [
+        "no clear connection to FinTech",
+        "sector mismatch"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9285593",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 5,
+      "reasons": [
+        "no relevance to FinTech",
+        "not applicable to Bharat Fintech's business"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9291497",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch in sector",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9276655",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 20,
+      "reasons": [
+        "partial relevance to technology sector",
+        "no clear connection to FinTech or Bharat Fintech's business"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9290508",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch",
+        "no relevance to FinTech sector"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9292016",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch",
+        "no relevance to FinTech sector"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9292203",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch",
+        "no relevance to FinTech sector"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9291859",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch",
+        "no relevance to FinTech sector"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9290830",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 0,
+      "reasons": [
+        "clear mismatch",
+        "no relevance to FinTech sector"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9292301",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 10,
+      "reasons": [
+        "no sector fit",
+        "no relevance to FinTech"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9291494",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 20,
+      "reasons": [
+        "generic product",
+        "no direct relevance to Bharat Fintech's business"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9280244",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 5,
+      "reasons": [
+        "clear mismatch",
+        "no connection to FinTech or financial infrastructure"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9289387",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 15,
+      "reasons": [
+        "no sector fit",
+        "no relevance to Bharat Fintech's services"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
+    },
+    {
+      "user_id": "uf8791b",
+      "opportunity_id": "gem_9239045",
+      "profile_signature": "{\"sector\":\"FinTech\",\"stage\":\"Early Revenue\",\"startup_overview\":\"Bharat Fintech is building the next generation of financial infrastructure for Indian SMEs, helping businesses manage cash flow, automate bookkeeping, and access working capital through AI-driven financial intelligence.\",\"problem_statement\":\"Traditional SME financing in India remains fragmented and highly dependent on manual processes, resulting in inefficient cash flow management, poor access to credit, and limited financial visibility.\",\"solution_summary\":\"Bharat Fintech provides an integrated AI-powered operating layer for SMEs that combines automated bookkeeping, invoice intelligence, cash flow forecasting, embedded credit scoring, and lender connectivity.\",\"target_customers\":\"Small and medium enterprises, retail distributors, local manufacturers, service businesses, and informal merchants transitioning to digital systems.\",\"business_model\":\"Hybrid SaaS and embedded-finance business model, with revenue streams including subscription-based financial management tools, transaction processing fees, embedded lending commissions, and API-based integrations for financial partners.\",\"location\":\"Bengaluru, with operations in Tier-2 and Tier-3 markets\"}",
+      "score": 25,
+      "reasons": [
+        "generic service",
+        "some potential indirect use, but not strongly relevant"
+      ],
+      "scored_at": "2026-05-08T05:19:24.264Z"
     }
   ]
 }
