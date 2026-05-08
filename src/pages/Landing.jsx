@@ -238,12 +238,12 @@ export default function Landing() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <ConnectCard Icon={Building2} title="Profile" body="Reusable founder context" />
-          <ConnectCard Icon={Target} title="Explorer" body="Ranked opportunity feed" />
-          <ConnectCard Icon={Briefcase} title="Business" body="Pilots and tenders" />
+          <ConnectCard Icon={Building2} title="Profile" body="AI-generated founder context" />
+          <ConnectCard Icon={Target} title="Explorer" body="AI-ranked opportunity feed" />
+          <ConnectCard Icon={Briefcase} title="Business" body="AI-matched pilots and tenders" />
           <ConnectCard Icon={Sparkles} title="Drafts" body="AI-assisted writing" />
           <ConnectCard Icon={FileText} title="Applications" body="Pipeline visibility" />
-          <ConnectCard Icon={Zap} title="Insights" body="What is moving faster" />
+          <ConnectCard Icon={Zap} title="Insights" body="AI-powered winning signals" />
         </div>
       </section>
 
