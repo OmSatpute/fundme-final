@@ -1430,22 +1430,44 @@ app.delete('/api/saved/:id', async (req, res) => {
 // ─── APPLICATIONS ─────────────────────────────────────────────────────────────
 
 // GET /api/applications?user_id=
-// GET /api/applications?user_id=
 app.get('/api/applications', async (req, res) => {
-  const { user_id } = req.query;
-  if (!user_id) return res.status(400).json({ error: 'user_id is required' });
+  try {
+    const { user_id } = req.query;
+    if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const { data: apps, error } = await supabase
-    .from('applications')
-    .select('*, opportunity:opportunities(*)')
-    .eq('user_id', user_id);
+    const { data: apps, error } = await supabase
+      .from('applications')
+      .select('*')
+      .eq('user_id', user_id);
 
-  if (error) {
-    logger.error('Failed to fetch applications', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    if (error) {
+      logger.error('Failed to fetch applications', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (!apps || apps.length === 0) return res.json([]);
+
+    // Manually fetch opportunity details
+    const oppIds = apps.map(a => a.opportunity_id);
+    const [fundingResult, businessResult] = await Promise.all([
+      supabase.from('funding_opportunities').select('*').in('opportunity_id', oppIds),
+      supabase.from('business_opportunities').select('*').in('opportunity_id', oppIds)
+    ]);
+
+    const allOppsMap = new Map();
+    fundingResult.data?.forEach(o => allOppsMap.set(o.opportunity_id, o));
+    businessResult.data?.forEach(o => allOppsMap.set(o.opportunity_id, o));
+
+    const result = apps.map(a => ({
+      ...a,
+      opportunity: allOppsMap.get(a.opportunity_id) || null
+    }));
+
+    res.json(result);
+  } catch (err) {
+    logger.error('GET /api/applications error:', err);
+    res.status(500).json({ error: 'Failed to fetch applications' });
   }
-
-  res.json(apps || []);
 });
 
 
@@ -1453,18 +1475,26 @@ app.get('/api/applications', async (req, res) => {
 
 
 // GET /api/applications/:id
-// GET /api/applications/:id
 app.get('/api/applications/:id', async (req, res) => {
-  const { data: app_, error } = await supabase
-    .from('applications')
-    .select('*, opportunity:opportunities(*)')
-    .eq('application_id', req.params.id)
-    .maybeSingle();
+  try {
+    const { data: app_, error } = await supabase
+      .from('applications')
+      .select('*')
+      .eq('application_id', req.params.id)
+      .maybeSingle();
 
-  if (error) throw error;
-  if (!app_) return res.status(404).json({ error: 'Application not found' });
+    if (error) throw error;
+    if (!app_) return res.status(404).json({ error: 'Application not found' });
 
-  res.json(app_);
+    const { data: fundingOpp } = await supabase.from('funding_opportunities').select('*').eq('opportunity_id', app_.opportunity_id).maybeSingle();
+    const { data: businessOpp } = await supabase.from('business_opportunities').select('*').eq('opportunity_id', app_.opportunity_id).maybeSingle();
+
+    app_.opportunity = fundingOpp || businessOpp || null;
+    res.json(app_);
+  } catch (err) {
+    logger.error('GET /api/applications/:id error:', err);
+    res.status(500).json({ error: 'Failed to fetch application' });
+  }
 });
 
 // POST /api/applications — create new application
@@ -1710,40 +1740,66 @@ function buildTimelineFromStageDetails(stageDetails = {}) {
 
 // ─── DRAFTS ───────────────────────────────────────────────────────────────────
 
-// GET /api/drafts?user_id= — all drafts for user
-// GET /api/drafts?user_id= — all drafts for user
+// GET /api/drafts?user_id=
 app.get('/api/drafts', async (req, res) => {
-  const { user_id } = req.query;
-  if (!user_id) return res.status(400).json({ error: 'user_id is required' });
+  try {
+    const { user_id } = req.query;
+    if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
-  const { data: drafts, error } = await supabase
-    .from('drafts')
-    .select('*, opportunity:opportunities(*)')
-    .eq('user_id', user_id);
+    const { data: drafts, error } = await supabase
+      .from('drafts')
+      .select('*')
+      .eq('user_id', user_id);
 
-  if (error) throw error;
-  res.json(drafts || []);
+    if (error) throw error;
+    if (!drafts || drafts.length === 0) return res.json([]);
+
+    // Manually fetch opportunity details for each draft
+    const oppIds = drafts.map(d => d.opportunity_id);
+    const [fundingResult, businessResult] = await Promise.all([
+      supabase.from('funding_opportunities').select('*').in('opportunity_id', oppIds),
+      supabase.from('business_opportunities').select('*').in('opportunity_id', oppIds)
+    ]);
+
+    const allOppsMap = new Map();
+    fundingResult.data?.forEach(o => allOppsMap.set(o.opportunity_id, o));
+    businessResult.data?.forEach(o => allOppsMap.set(o.opportunity_id, o));
+
+    const result = drafts.map(d => ({
+      ...d,
+      opportunity: allOppsMap.get(d.opportunity_id) || null
+    }));
+
+    res.json(result);
+  } catch (err) {
+    logger.error('GET /api/drafts error:', err);
+    res.status(500).json({ error: 'Failed to fetch drafts' });
+  }
 });
 
 // GET /api/drafts/by-opportunity?user_id=&opportunity_id=
-// GET /api/drafts/by-opportunity?user_id=&opportunity_id=
 app.get('/api/drafts/by-opportunity', async (req, res) => {
-  const { user_id, opportunity_id } = req.query;
-  if (!user_id || !opportunity_id) {
-    return res.status(400).json({ error: 'user_id and opportunity_id are required' });
+  try {
+    const { user_id, opportunity_id } = req.query;
+    if (!user_id || !opportunity_id) {
+      return res.status(400).json({ error: 'user_id and opportunity_id are required' });
+    }
+
+    const { data: draft, error } = await supabase
+      .from('drafts')
+      .select('*')
+      .eq('user_id', user_id)
+      .eq('opportunity_id', opportunity_id)
+      .maybeSingle();
+
+    if (error) throw error;
+    if (!draft) return res.status(404).json({ error: 'Draft not found' });
+
+    res.json(draft);
+  } catch (err) {
+    logger.error('GET /api/drafts/by-opportunity error:', err);
+    res.status(500).json({ error: 'Failed to fetch draft' });
   }
-
-  const { data: draft, error } = await supabase
-    .from('drafts')
-    .select('*, opportunity:opportunities(*)')
-    .eq('user_id', user_id)
-    .eq('opportunity_id', opportunity_id)
-    .maybeSingle();
-
-  if (error) throw error;
-  if (!draft) return res.status(404).json({ error: 'Draft not found' });
-
-  res.json(draft);
 });
 
 // POST /api/drafts/bootstrap
