@@ -1,8 +1,13 @@
-require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
-const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const dotenv = require('dotenv');
+
+// Load .env from backend or root, but don't crash if missing (Railway uses env vars directly)
+const envPaths = [path.join(__dirname, '.env'), path.join(__dirname, '..', '.env')];
+envPaths.forEach(p => { if (fs.existsSync(p)) dotenv.config({ path: p }); });
+
+const express = require('express');
+const cors = require('cors');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
