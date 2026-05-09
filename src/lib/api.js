@@ -5,7 +5,7 @@ import axios from "axios";
 import { getUserId, clearAuth } from "./auth";
 
 const rawBackend = process.env.REACT_APP_BACKEND_URL || "";
-let BACKEND = (rawBackend === "undefined" ? "" : rawBackend).replace(/\/$/, "");
+let BACKEND = (rawBackend === "undefined" ? "" : rawBackend).replace(/\/+$/, "");
 if (BACKEND && !BACKEND.startsWith("http")) {
   BACKEND = `https://${BACKEND}`;
 }
