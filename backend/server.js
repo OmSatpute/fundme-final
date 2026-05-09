@@ -2352,6 +2352,7 @@ app.post('/api/ai/match-opportunities', async (req, res) => {
       .from('match_scores')
       .select('*')
       .eq('user_id', userId)
+      .eq('profile_signature', profileSignature)
       .in('opportunity_id', oppIds);
 
     const cached = [];

@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AuthShell from "./AuthShell";
 import { toast } from "sonner";
-import { apiSaveProfile, errMsg } from "@/lib/api";
+import { apiSaveProfile, apiGetProfile, errMsg } from "@/lib/api";
+import { getUserId } from "@/lib/auth";
 
 const FALLBACK = {
   startup_name: "",
@@ -46,9 +47,24 @@ export default function OnboardingReview() {
   const update = (k, v) => setProfile((p) => ({ ...p, [k]: v }));
 
   const finish = async () => {
+    const userId = getUserId();
+    if (!userId || userId === 'anonymous') {
+      toast.error("You must be logged in to save your profile.");
+      nav("/login");
+      return;
+    }
+
     setBusy(true);
     try {
-      await apiSaveProfile(profile);
+      const payload = { ...profile };
+      delete payload.id; // Ensure we don't send any stale IDs
+      
+      if (payload.team_size) {
+        const numeric = String(payload.team_size).match(/\d+/);
+        payload.team_size = numeric ? Number(numeric[0]) : 0;
+      }
+      
+      await apiSaveProfile(payload);
       sessionStorage.removeItem("fm_ai_profile");
       toast.success("Profile saved — welcome to FundMe");
       nav("/dashboard", { replace: true });
