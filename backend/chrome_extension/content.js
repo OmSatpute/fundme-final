@@ -1,5 +1,5 @@
 // ─── GUARD: Skip all logic on FundMe's own app pages ────────────────────────
-const _isFundMeAppPage = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(window.location.href);
+const _isFundMeAppPage = /^(https?:\/\/(localhost|127\.0\.0\.1|fundme-self\.vercel\.app|fundme-final-production\.up\.railway\.app)(:\d+)?)/i.test(window.location.href);
 if (_isFundMeAppPage) {
     document.documentElement.dataset.fundmeExtensionInstalled = 'true';
 
@@ -13,7 +13,7 @@ if (_isFundMeAppPage) {
             chrome.storage.local.set({
                 fundmeUserId: user_id,
                 fundmeOpportunityId: opportunity_id,
-                fundmeBaseUrl: baseUrl || 'http://localhost:3000'
+                fundmeBaseUrl: baseUrl || 'https://fundme-final-production.up.railway.app'
             });
         }
     });
@@ -701,7 +701,7 @@ async function checkStagedSession() {
     try {
         const url = window.location.href;
         const settings = await chrome.storage.local.get(['fundmeBaseUrl']);
-        const baseUrl = (settings.fundmeBaseUrl || 'http://localhost:3000').replace(/\/$/, '');
+        const baseUrl = (settings.fundmeBaseUrl || 'https://fundme-final-production.up.railway.app').replace(/\/$/, '');
         const API_BASE = `${baseUrl}/api`;
 
         // Ask the server: "is this URL a known apply link for an active session?"
@@ -848,7 +848,7 @@ async function handleSuccess() {
 
     try {
         const settings = await chrome.storage.local.get(['fundmeBaseUrl']);
-        const baseUrl = (settings.fundmeBaseUrl || 'http://localhost:3000').replace(/\/$/, '');
+        const baseUrl = (settings.fundmeBaseUrl || 'https://fundme-final-production.up.railway.app').replace(/\/$/, '');
         const API_BASE = `${baseUrl}/api`;
 
         const res = await fetch(`${API_BASE}/applications`, {

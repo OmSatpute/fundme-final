@@ -29,7 +29,7 @@ function rememberContext() {
 }
 
 function getBaseUrl() {
-    return (el.baseUrl.value || 'http://localhost:3000').replace(/\/$/, '');
+    return (el.baseUrl.value || 'https://fundme-final-production.up.railway.app').replace(/\/$/, '');
 }
 
 function getApiUrl(pathname) {

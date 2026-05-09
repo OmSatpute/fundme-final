@@ -12,7 +12,9 @@
   "host_permissions": [
     "<all_urls>",
     "http://localhost:3000/*",
-    "http://127.0.0.1:3000/*"
+    "http://127.0.0.1:3000/*",
+    "https://fundme-self.vercel.app/*",
+    "https://fundme-final-production.up.railway.app/*"
   ],
   "action": {
     "default_title": "FundMe Smart Apply",
